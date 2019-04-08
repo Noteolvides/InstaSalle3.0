@@ -6,7 +6,7 @@ class Node<T : Comparable<T>> () {
     var parent: Node<T>? = null
     var rightChild: Node<T>? = null
     var leftChild: Node<T>? = null
-    var factor : Byte = 0
+    var factor : Int = 0
     var data : T? = null
 
     constructor(data: T, parent: Node<T>) : this() {
@@ -33,7 +33,14 @@ class Node<T : Comparable<T>> () {
 
 
 
-    
+
+
+
+
+
+
+
+
 
     fun preOrder(){
         println(this.data)
