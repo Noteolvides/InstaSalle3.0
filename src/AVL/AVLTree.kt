@@ -21,31 +21,41 @@ class AVLTree<T : Comparable<T>>() {
         }
     }
 
-    fun rotateLL(root: Node<T>): Node<T> {
+    private fun rotateLL(root: Node<T>) {
         //Primero cojemos mi hijo izquierdo
-        var leftBranchOfRoot : Node<T> = root.leftChild!!
-        //Cambiamos el padre del nodo raiz al nodo hijo
-        leftBranchOfRoot.parent = root.parent
+        var leftBranchOfRoot: Node<T> = root.leftChild!!
         //Para mantener la estructura del arbol el nodo izquiero de la raiz tiene que tener al nodo derecho del hijo izquiero
         root.leftChild = leftBranchOfRoot.rightChild
         //Finalmente el hijo derecho de subarbol izquiero pasa a ser el hijo derecho por la rotacion
         leftBranchOfRoot.rightChild = root
-        //Para mantener la coerencia ponemos el padre de la raiz a su nuevo padre
-        root.parent = leftBranchOfRoot
+        //Finalmente arreglamos los indices
 
-        //Finalmente tenemos que comprobar los cambios que han podido ocurrir
-
-        if (leftBranchOfRoot.factor == -1){
-            root.factor = 0
-            leftBranchOfRoot.factor = 0
-        }else{
-            root.factor = -1
-            leftBranchOfRoot.factor = 1
-        }
-
-
+        root.factor = 0
+        leftBranchOfRoot.factor = 0
 
     }
 
+    private fun rotateRR(root: Node<T>) {
+        //Primero cojemos mi hijo derecho
+        var leftBranchOfRoot: Node<T> = root.rightChild!!
+        //Para mantener la estructura del arbol el nodo derecho de la raiz tiene que tener al nodo izquier del hijo derecho
+        root.rightChild = leftBranchOfRoot.leftChild
+        //Finalmente el hijo izquiero de subarbol derecho pasa a ser el hijo izquiero por la rotacion
+        leftBranchOfRoot.leftChild = root
+        //Finalmente arreglamos los indices
+        root.factor = 0
+        leftBranchOfRoot.factor = 0
+    }
+
+
+    private fun rotateLR(root: Node<T>) {
+        rotateRR(root.leftChild!!)
+        rotateLL(root)
+    }
+
+    private fun rotateRL(root: Node<T>) {
+        rotateLL(root.rightChild!!)
+        rotateRR(root)
+    }
 
 }
