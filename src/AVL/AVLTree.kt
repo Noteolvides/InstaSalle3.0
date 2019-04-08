@@ -2,24 +2,17 @@ package AVL
 
 fun main(args: Array<String>) {
     var tree: AVLTree<Int> = AVLTree()
+    tree.insert(12)
+    tree.root.inOrder()
+    tree.insert(2)
+    tree.root.inOrder()
+    tree.insert(1)
+    tree.root.inOrder()
+
 }
 
 class AVLTree<T : Comparable<T>>() {
     var root: Node<T> = Node()
-    var data: T? = null
-
-    constructor(data: T) : this() {
-        this.data = data
-    }
-
-    fun addValue(data: T) {
-        if (root.data == null) {
-            root = Node(data)
-            root.data!!
-        } else {
-            root.addNode(Node(data))
-        }
-    }
 
     private fun rotateLL(root: Node<T>) {
         //Primero cojemos mi hijo izquierdo
@@ -58,4 +51,65 @@ class AVLTree<T : Comparable<T>>() {
         rotateRR(root)
     }
 
+
+    fun insert(data: T) {
+        insert(data, root)
+    }
+
+    fun insert(data: T, node: Node<T>): Boolean {
+        if (node.data == null) {
+            node.factor = 0
+            node.data = data
+            return true
+        } else {
+            val cmp = data.compareTo(node.data!!)
+            if (cmp == 0) {
+                println("Error nodo añadido")
+                return false
+            }
+            if (cmp < 0) {
+                if (insert(data, node.leftChild!!)) {
+                    if (node.factor == -1) {
+                        node.factor = 0
+                        return false
+                    }
+                    if (node.factor == 0) {
+                        node.factor = 1
+                        return true
+                    }
+                    if (node.factor == 1) {
+                        if (node.leftChild!!.factor == 1) {
+                            rotateLL(node)
+                        } else {
+                            rotateLR(node)
+                        }
+                        return false
+                    }
+                }
+            }
+            if (cmp > 0) {
+                if (insert(data, node.leftChild!!)) {
+                    if (node.factor == 1) {
+                        node.factor = 0
+                        return false
+                    }
+                    if (node.factor == 0) {
+                        node.factor = -1
+                        return true
+                    }
+                    if (node.factor == -1) {
+                        if (node.rightChild!!.factor == 1) {
+                            rotateRL(node)
+                        } else {
+                            rotateRR(node)
+                        }
+                        return false
+                    }
+                }
+            }
+        }
+        return false
+    }
 }
+
+

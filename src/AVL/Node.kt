@@ -10,6 +10,7 @@ class Node<T : Comparable<T>> () {
 
     constructor(data: T) : this() {
         this.data = data
+        factor = 0
     }
 
     fun addNode(node: Node<T>) : Boolean {
@@ -65,6 +66,8 @@ class Node<T : Comparable<T>> () {
         }
         println(this.data)
     }
+
+
 
 
 }
