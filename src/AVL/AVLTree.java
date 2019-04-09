@@ -1,14 +1,13 @@
 package AVL;
 
+import java.sql.SQLOutput;
+
 public class AVLTree<T extends Comparable<T>> {
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<>();
         for (int i = 0; i < 10; i++) {
             tree.insert((int)(Math.random()*100));
         }
-
-
-        tree.postOrder();
     }
 
     Node<T> root;
@@ -47,21 +46,24 @@ public class AVLTree<T extends Comparable<T>> {
 
     public void insert(T data) {
         Logical act = new Logical();
-        root = insert(data, root,act);
+        try {
+            root = insert(data, root,act);
+        } catch (Exception e) {
+            System.out.println("Eroor al añadir un item");
+        }
     }
     
     //Implementacion de la insercion
 
 
-    private Node<T> insert(T data, Node<T> node, Logical act) {
+    private Node<T> insert(T data, Node<T> node, Logical act) throws Exception {
         if (node == null){
             node = new Node<>(data);
             act.bool = true;
         }else{
             int cmp = data.compareTo(node.data);
             if (cmp == 0) {
-                System.out.println("Error nodo añadido");
-                act.bool = false;
+                throw new Exception("No se pueden introducir nodos repetidos");
             }
             if (cmp < 0) {
                 node.leftChild = insert(data, node.leftChild,act);
