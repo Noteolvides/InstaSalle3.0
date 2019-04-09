@@ -1,110 +1,123 @@
 package AVL;
 
 public class AVLTree<T extends Comparable<T>> {
+    public static void main(String[] args) {
+        AVLTree<Integer> tree = new AVLTree<>();
+        tree.insert(43);
+        tree.insert(19);
+        tree.insert(5);
+        tree.insert(2);
+        tree.preOrder();
+    }
+
     Node<T> root;
 
     //Implementacion de las rotaciones
 
-    private void rotateLL( Node<T> root) {
+    private Node<T> rotateLL(Node<T> root) {
         //Primero cojemos mi hijo izquierdo
         Node<T> leftBranchOfRoot = root.leftChild;
         //Para mantener la estructura del arbol el nodo izquiero de la raiz tiene que tener al nodo derecho del hijo izquiero
         root.leftChild = leftBranchOfRoot.rightChild;
         //Finalmente el hijo derecho de subarbol izquiero pasa a ser el hijo derecho por la rotacion
-        root = leftBranchOfRoot.rightChild;
+        root = leftBranchOfRoot;
         //Finalmente arreglamos los indices
 
         root.factor = 0;
         leftBranchOfRoot.factor = 0;
 
+        return leftBranchOfRoot;
     }
 
-    private void rotateRR(Node<T>  root) {
+    private Node<T> rotateRR(Node<T>  root) {
         //Primero cojemos mi hijo derecho
         Node<T>  rightBranchOfRoot = root.rightChild;
         //Para mantener la estructura del arbol el nodo derecho de la raiz tiene que tener al nodo izquier del hijo derecho
-         root.rightChild = rightBranchOfRoot.leftChild;
+        root.rightChild = rightBranchOfRoot.leftChild;
         //Finalmente el hijo izquiero de subarbol derecho pasa a ser el hijo izquiero por la rotacion
-        root = rightBranchOfRoot.rightChild;
+        root = rightBranchOfRoot;
         //Finalmente arreglamos los indices
         root.factor = 0;
         rightBranchOfRoot.factor = 0;
+
+        return rightBranchOfRoot;
     }
 
 
-    private void rotateLR(Node<T>  root) {
-        rotateRR(root.leftChild);
-        rotateLL(root);
+    private Node<T> rotateLR(Node<T>  root) {
+        root.leftChild = rotateRR(root.leftChild);
+        return rotateLL(root);
     }
 
-    private void rotateRL(Node<T>  root) {
-        rotateLL(root.rightChild);
-        rotateRR(root);
+    private Node<T> rotateRL(Node<T>  root) {
+        root.rightChild = rotateLL(root.rightChild);
+        return rotateRR(root);
     }
 
 
     public void insert(T data) {
-        Boolean act = Boolean.FALSE;
-        insert(data, root,act);
+        Logical act = new Logical();
+        root = insert(data, root,act);
     }
     
     //Implementacion de la insercion
 
 
-    private void insert(T data,Node<T> node,Boolean act) {
+    private Node<T> insert(T data, Node<T> node, Logical act) {
         if (node == null){
             node = new Node<>(data);
-            act = true;
+            act.bool = true;
         }else{
             int cmp = data.compareTo(node.data);
             if (cmp == 0) {
                 System.out.println("Error nodo añadido");
-                act = false;
+                act.bool = false;
             }
             boolean flag;
             if (cmp < 0) {
-                insert(data, node.leftChild,act);
-                if (act) {
+                node.leftChild = insert(data, node.leftChild,act);
+                if (act.bool) {
                     if (node.factor == -1) {
                         node.factor = 0;
-                        act = false;
+                        act.bool = false;
                     }
-                    if (node.factor == 0) {
+                    else if (node.factor == 0) {
                         node.factor = 1;
-                        act = true;
+                        act.bool = true;
                     }
-                    if (node.factor == 1) {
+                    else if (node.factor == 1) {
                         if (node.leftChild.factor == 1) {
-                            rotateLL(node);
+                            node = rotateLL(node);
                         } else {
-                            rotateLR(node);
+                            node = rotateLR(node);
                         }
-                        act = false;
+                        act.bool = false;
                     }
                 }
             }
             if (cmp > 0) {
-                insert(data, node.rightChild,act);
-                if (act) {
+                node.rightChild = insert(data, node.rightChild,act);
+                if (act.bool) {
                     if (node.factor == 1) {
                         node.factor = 0;
-                        act = false;
+                        act.bool = false;
                     }
-                    if (node.factor == 0) {
+                    else if (node.factor == 0) {
                         node.factor = -1;
-                        act = true;
+                        act.bool = true;
                     }
-                    if (node.factor == -1) {
+                    else if (node.factor == -1) {
                         if (node.rightChild.factor == 1) {
-                            rotateRL(node);
+                            node = rotateRL(node);
                         } else {
-                            rotateRR(node);
+                            node = rotateRR(node);
                         }
-                        act = false;
+                        act.bool = false;
                     }
                 }
             }
         }
+        return node;
     }
 
     //TODO : Implementacion de la eliminacion
@@ -154,5 +167,9 @@ public class AVLTree<T extends Comparable<T>> {
         if (node.rightChild != null){
             postOrderPriv(node.rightChild);
         }
+    }
+
+    private class Logical {
+        Boolean bool = false;
     }
 }
