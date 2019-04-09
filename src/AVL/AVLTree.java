@@ -1,15 +1,30 @@
 package AVL;
 
-import java.sql.SQLOutput;
+
+import com.google.gson.Gson;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class AVLTree<T extends Comparable<T>> {
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100 ; i++) {
             tree.insert((int)(Math.random()*100));
         }
-    }
+        view view = new view(tree.root);
+        /*
+        Gson gson = new Gson();
+        try {
+            FileWriter fw = new FileWriter("newTree.json");
+            gson.toJson(tree.root, fw);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
 
+    }
     Node<T> root;
 
     //Implementacion de las rotaciones
