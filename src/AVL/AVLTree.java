@@ -3,11 +3,12 @@ package AVL;
 public class AVLTree<T extends Comparable<T>> {
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<>();
-        tree.insert(43);
-        tree.insert(19);
-        tree.insert(5);
-        tree.insert(2);
-        tree.preOrder();
+        for (int i = 0; i < 10; i++) {
+            tree.insert((int)(Math.random()*100));
+        }
+
+
+        tree.postOrder();
     }
 
     Node<T> root;
@@ -15,31 +16,20 @@ public class AVLTree<T extends Comparable<T>> {
     //Implementacion de las rotaciones
 
     private Node<T> rotateLL(Node<T> root) {
-        //Primero cojemos mi hijo izquierdo
         Node<T> leftBranchOfRoot = root.leftChild;
-        //Para mantener la estructura del arbol el nodo izquiero de la raiz tiene que tener al nodo derecho del hijo izquiero
         root.leftChild = leftBranchOfRoot.rightChild;
-        //Finalmente el hijo derecho de subarbol izquiero pasa a ser el hijo derecho por la rotacion
-        root = leftBranchOfRoot;
-        //Finalmente arreglamos los indices
-
-        root.factor = 0;
+        leftBranchOfRoot.rightChild = root;
         leftBranchOfRoot.factor = 0;
-
+        root.factor = 0;
         return leftBranchOfRoot;
     }
 
     private Node<T> rotateRR(Node<T>  root) {
-        //Primero cojemos mi hijo derecho
-        Node<T>  rightBranchOfRoot = root.rightChild;
-        //Para mantener la estructura del arbol el nodo derecho de la raiz tiene que tener al nodo izquier del hijo derecho
+        Node<T> rightBranchOfRoot = root.rightChild;
         root.rightChild = rightBranchOfRoot.leftChild;
-        //Finalmente el hijo izquiero de subarbol derecho pasa a ser el hijo izquiero por la rotacion
-        root = rightBranchOfRoot;
-        //Finalmente arreglamos los indices
-        root.factor = 0;
+        rightBranchOfRoot.leftChild = root;
         rightBranchOfRoot.factor = 0;
-
+        root.factor = 0;
         return rightBranchOfRoot;
     }
 
@@ -73,7 +63,6 @@ public class AVLTree<T extends Comparable<T>> {
                 System.out.println("Error nodo añadido");
                 act.bool = false;
             }
-            boolean flag;
             if (cmp < 0) {
                 node.leftChild = insert(data, node.leftChild,act);
                 if (act.bool) {
