@@ -3,28 +3,33 @@ package AVL;
 
 import com.google.gson.Gson;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AVLTree<T extends Comparable<T>> {
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<>();
-        for (int i = 0; i < 100 ; i++) {
-            tree.insert((int)(Math.random()*100));
-        }
-        view view = new view(tree.root);
+        ArrayList<Integer> insertioTime = new ArrayList<Integer>();
         /*
-        Gson gson = new Gson();
-        try {
-            FileWriter fw = new FileWriter("newTree.json");
-            gson.toJson(tree.root, fw);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 5; i++) {
+            int randomInt = (int)(Math.random()*100);
+            tree.insert(randomInt);
+            insertioTime.add(randomInt);
         }
-        */
-
+      */
+        tree.insert(77);
+        tree.insert(78);
+        tree.insert(53);
+        tree.insert(31);
+        tree.insert(86);
+        visualize(tree,insertioTime);
     }
+
+
+
     Node<T> root;
 
     //Implementacion de las rotaciones
@@ -177,5 +182,35 @@ public class AVLTree<T extends Comparable<T>> {
 
     private class Logical {
         Boolean bool = false;
+    }
+
+    private static void visualize(AVLTree<Integer> tree,ArrayList insertioTime) {
+        Gson gson = new Gson();
+        try {
+            FileWriter fw = new FileWriter("Visualizador/VisualizadorDeArbolAVL/index.html");
+            String treeString = gson.toJson(tree.root);
+            fw.write("<!DOCTYPE html>\n" +
+                    "<html lang=\"\">\n" +
+                    "  <head>\n" +
+                    "    <meta charset=\"utf-8\">\n" +
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                    "    <title>p5.js example</title>\n" +
+                    "    <style> body {padding: 0; margin: 0;} </style>\n" +
+                    "    <script src=\"../p5.min.js\"></script>\n" +
+                    "    <script src=\"../addons/p5.dom.min.js\"></script>\n" +
+                    "    <script src=\"../addons/p5.sound.min.js\"></script>\n" +
+                    "    <script src=\"sketch.js\"></script>\n" +
+                    "    <p id=\"tree\" >"+treeString+"</p>\n" +
+                    "    <p id=\"insertioTime\" >"+insertioTime.toString()+"</p>\n" +
+                    "  </head>\n" +
+                    "  <body>\n" +
+                    "  </body>\n" +
+                    "</html>");
+            fw.close();
+            File file = new File("Visualizador/VisualizadorDeArbolAVL/index.html");
+            Desktop.getDesktop().browse(file.toURI());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

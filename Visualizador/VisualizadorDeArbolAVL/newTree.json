@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js example</title>
+    <style> body {padding: 0; margin: 0;} </style>
+    <script src="../p5.min.js"></script>
+    <script src="../addons/p5.dom.min.js"></script>
+    <script src="../addons/p5.sound.min.js"></script>
+    <script src="sketch.js"></script>
+    <p id="tree" >{"leftChild":{"leftChild":{"rightChild":{"factor":0,"data":27},"factor":-1,"data":9},"rightChild":{"rightChild":{"factor":0,"data":54},"factor":-1,"data":37},"factor":0,"data":29},"rightChild":{"leftChild":{"factor":0,"data":73},"rightChild":{"leftChild":{"factor":0,"data":94},"factor":1,"data":99},"factor":-1,"data":74},"factor":0,"data":68}</p>
+  </head>
+  <body>
+  </body>
+</html>
