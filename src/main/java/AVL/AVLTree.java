@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class AVLTree<T extends Comparable<T>> {
     public static void main(String[] args) {
-        AVLTree<Integer> tree = new AVLTree<>();
+        AVLTree<Integer> tree = new AVLTree<Integer>();
         ArrayList<Integer> insertioTime = new ArrayList<Integer>();
         /*
         for (int i = 0; i < 5; i++) {
@@ -78,7 +78,7 @@ public class AVLTree<T extends Comparable<T>> {
 
     private Node<T> insert(T data, Node<T> node, Logical act) throws Exception {
         if (node == null){
-            node = new Node<>(data);
+            node = new Node<T>(data);
             act.bool = true;
         }else{
             int cmp = data.compareTo(node.data);
@@ -187,7 +187,7 @@ public class AVLTree<T extends Comparable<T>> {
     private static void visualize(AVLTree<Integer> tree,ArrayList insertioTime) {
         Gson gson = new Gson();
         try {
-            FileWriter fw = new FileWriter("Visualizador/VisualizadorDeArbolAVL/index.html");
+            FileWriter fw = new FileWriter("src/main/Visualizador/VisualizadorDeArbolAVL/index.html");
             String treeString = gson.toJson(tree.root);
             fw.write("<!DOCTYPE html>\n" +
                     "<html lang=\"\">\n" +
@@ -207,7 +207,7 @@ public class AVLTree<T extends Comparable<T>> {
                     "  </body>\n" +
                     "</html>");
             fw.close();
-            File file = new File("Visualizador/VisualizadorDeArbolAVL/index.html");
+            File file = new File("src/main/Visualizador/VisualizadorDeArbolAVL/index.html");
             Desktop.getDesktop().browse(file.toURI());
         } catch (IOException e) {
             e.printStackTrace();
