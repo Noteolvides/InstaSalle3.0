@@ -7,8 +7,8 @@ public class List<E> {
     private int size;
 
     public List() {
-        this.head = new Node<E>(null);
-        this.tail = head;
+        this.head = null;
+        this.tail = null;
         this.size = 0;
     }
 
@@ -39,7 +39,17 @@ public class List<E> {
     }
 
     public E get(E element) {
-        return element;
+        E found = null;
+        Node<E> actual = head;
+        if (!isEmpty()) {
+            while (actual.next != null && actual != tail && found == null) {
+                if (actual.element == element) {
+                    found = element;
+                }
+                actual = actual.next;
+            }
+        }
+        return found;
     }
 
     public int size(){
