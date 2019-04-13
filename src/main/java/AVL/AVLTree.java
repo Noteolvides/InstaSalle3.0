@@ -14,12 +14,12 @@ public class AVLTree<T extends Comparable<T>> {
         AVLTree<Integer> tree = new AVLTree<Integer>();
         ArrayList<Integer> insertioTime = new ArrayList<Integer>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             int randomInt = (int)(Math.random()*100);
             tree.insert(randomInt);
             insertioTime.add(randomInt);
         }
-
+        System.out.println(tree.balanced(tree.root));
         visualize(tree,insertioTime);
     }
 
@@ -174,6 +174,33 @@ public class AVLTree<T extends Comparable<T>> {
 
     //TODO : Implementacion de la eliminacion
 
+
+
+    //TODO : Implementacion checkBalanceo
+
+    public boolean balanced(Node<T> node){
+        int leftHeight;
+
+        int rightHeight;
+
+        if (node == null){
+            return true;
+        }
+
+        leftHeight = height(node.leftChild);
+        rightHeight = height(node.rightChild);
+
+        return Math.abs(leftHeight - rightHeight) <= 1 && balanced(node.leftChild) && balanced(node.rightChild);
+
+    }
+
+    public int height(Node<T> node)
+    {
+        if (node == null)
+            return 0;
+
+        return 1 + Math.max(height(node.leftChild), height(node.rightChild));
+    }
 
 
     // Implementacion de Visualizaciones
