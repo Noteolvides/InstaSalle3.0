@@ -1,23 +1,31 @@
 package Graphs;
 
 public class Graphs {
-    private List<List<Node>> adjacencyList;
+    private List<List<Vertex>> adjacencyList;
     
     public static void main(String[] args) {
 
     }
 
-    public void insert(Node newnode) {
+    public void insertVertex (Vertex newvertex) {
 
     }
 
-    public void remove (Node node) {
+    public void insertEdge (Vertex v1, Vertex v2) {
+
+    }
+
+    public void removeVertex (Vertex vertex) {
+
+    }
+
+    public void removeEdge (Vertex v1, Vertex v2) {
 
     }
 
     public void visualize() {
 
     }
-    //List<List<Node>> graph;
+    //List<List<Vertex>> graph;
     //directed graph implemented via Adjacency list
 }
