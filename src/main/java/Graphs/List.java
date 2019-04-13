@@ -13,7 +13,14 @@ public class List<E> {
     }
 
     public void add(E element) {
-        tail = tail.next = new Node<E>(element);
+        Node<E> aux = tail;
+        if (!isEmpty()) {
+            tail = new Node<E>(element);
+            aux.next = tail;
+        } else {
+            tail = new Node<E>(element);
+            head = tail;
+        }
         size++;
     }
 
@@ -21,11 +28,12 @@ public class List<E> {
         boolean done = false;
         Node<E> prev = head;
         Node<E> actual = head;
-        if (isEmpty()) {
-            while (actual.next != null && actual != tail) {
+        if (!isEmpty()) {
+            while (actual.next != null && actual != tail && !done) {
                 if (actual.element == element) {
                     prev.next = actual.next;
                     size--;
+                    done = true;
                 }
                 prev = actual;
                 actual = actual.next;
