@@ -14,10 +14,28 @@ public class List<E> {
 
     public void add(E element) {
         tail = tail.next = new Node<E>(element);
+        size++;
     }
 
-    public void remove(E element) {
+    public boolean remove(E element) {
+        boolean done = false;
+        Node<E> prev = head;
+        Node<E> actual = head;
+        if (isEmpty()) {
+            while (actual.next != null && actual != tail) {
+                if (actual.element == element) {
+                    prev.next = actual.next;
+                    size--;
+                }
+                prev = actual;
+                actual = actual.next;
+            }
+        }
+        return done;
+    }
 
+    private boolean isEmpty() {
+        return head == null;
     }
 
     public E get(E element) {
