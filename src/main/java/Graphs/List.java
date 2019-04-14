@@ -50,7 +50,7 @@ public class List<E> {
         E found = null;
         Node<E> actual = head;
         if (!isEmpty()) {
-            while (actual.next != null && actual != tail && found == null) {
+            while (actual != null && found == null) {
                 if (actual.element == element) {
                     found = element;
                 }
