@@ -65,3 +65,5 @@ target/
 hs_err_pid*
 
 Visualizador/VisualizadorDeArbolAVL/index\.html
+
+src/Apuntes\.txt

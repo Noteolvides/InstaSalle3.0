@@ -1,0 +1,27 @@
+ranque-Query(RTNode current, Rectangle q, set resul){
+    if current is leaf then
+        for each in current do // i< current
+            if object insetsect/in q then
+            result <- object
+    endfor
+    else
+        for each entry e in current do
+        if e.MBR intersect with q then
+            ranque_querry(e.son_ptr,q,resul)
+        fi
+        endfor
+    fi
+enfunction
+
+
+
+struct : Rtree Inner Node
+    entries : arrays[1..M] of entry
+    m : Integer
+endStruct
+
+struct
+    MBR : ?
+    son-son_ptr : RTNode
+endStruct
+

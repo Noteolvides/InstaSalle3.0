@@ -17,16 +17,17 @@ function preOrder(nodeAct, nuevo, anterior) {
     textSize(12)
     text(nodeAct.data, nuevo, (level * offsetY) + 5);
 
+    var vector = Math.abs(anterior - nuevo);
     if (nodeAct.leftChild != undefined) {
-        level++
-        preOrder(nodeAct.leftChild, Math.abs((anterior - nuevo) / 2 - nuevo), nuevo);
-        level--;
-    }
-    if (nodeAct.rightChild != undefined) {
-        level++;
-        preOrder(nodeAct.rightChild, Math.abs((anterior - nuevo) / 2 + nuevo), nuevo);
-        level--;
-    }
+            level++
+            preOrder(nodeAct.leftChild, Math.abs((vector / 2) - nuevo), nuevo);
+            level--;
+        }
+        if (nodeAct.rightChild != undefined) {
+            level++;
+            preOrder(nodeAct.rightChild, Math.abs((vector / 2) + nuevo), nuevo);
+            level--;
+        }
 
 }
 
