@@ -17,11 +17,11 @@ public class Graphs {
     }
 
     public void removeVertex (Vertex vertex) {
-
+        adjacencyList.remove(vertex);
     }
 
     public void removeEdge (Vertex v1, Vertex v2) {
-
+        adjacencyList.get(v1).relations.remove(v2);
     }
 
     public void visualize() {
