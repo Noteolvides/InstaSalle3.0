@@ -15,32 +15,35 @@ public class AVLTree<T extends Comparable<T>> {
         ArrayList<Integer> insertioTime = new ArrayList<Integer>();
 
         for (int i = 0; i < 100; i++) {
-            int randomInt = (int)(Math.random()*100);
+            int randomInt = (int) (Math.random() * 100);
             tree.insert(randomInt);
             insertioTime.add(randomInt);
         }
-        visualize(tree,insertioTime);
+        visualize(tree, insertioTime);
     }
-
 
 
     Node<T> root;
 
+    private class Logical {
+        Boolean bool = false;
+    }
+
     //Implementacion de la busqueda
 
-    public boolean search(T element){
-        return searchInside(root,element);
+    public boolean search(T element) {
+        return searchInside(root, element);
     }
 
     private boolean searchInside(Node<T> node, T element) {
-        if (node.data == element){
+        if (node.data == element) {
             return true;
         }
-        if (node.leftChild != null){
-            return searchInside(node.leftChild,element);
+        if (node.leftChild != null) {
+            return searchInside(node.leftChild, element);
         }
-        if (node.rightChild != null){
-            return searchInside(node.rightChild,element);
+        if (node.rightChild != null) {
+            return searchInside(node.rightChild, element);
         }
         return false;
     }
@@ -57,7 +60,7 @@ public class AVLTree<T extends Comparable<T>> {
         return leftBranchOfRoot;
     }
 
-    private Node<T> rotateRR(Node<T>  root) {
+    private Node<T> rotateRR(Node<T> root) {
         Node<T> rightBranchOfRoot = root.rightChild;
         root.rightChild = rightBranchOfRoot.leftChild;
         rightBranchOfRoot.leftChild = root;
@@ -67,7 +70,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
 
-    private Node<T> rotateLR(Node<T>  root) {
+    private Node<T> rotateLR(Node<T> root) {
         Node<T> leftBranchOfRoot = root.leftChild;
         Node<T> leftBranchOfRootRightBranch = leftBranchOfRoot.rightChild;
         root.leftChild = leftBranchOfRootRightBranch.rightChild;
@@ -76,21 +79,21 @@ public class AVLTree<T extends Comparable<T>> {
         leftBranchOfRoot.rightChild = leftBranchOfRootRightBranch.leftChild;
         leftBranchOfRootRightBranch.leftChild = leftBranchOfRoot;
 
-        if(leftBranchOfRootRightBranch.factor == -1){
+        if (leftBranchOfRootRightBranch.factor == -1) {
             leftBranchOfRoot.factor = +1;
-        }else{
+        } else {
             leftBranchOfRoot.factor = 0;
         }
-        if (leftBranchOfRootRightBranch.factor == +1){
+        if (leftBranchOfRootRightBranch.factor == +1) {
             root.factor = -1;
-        }else{
+        } else {
             root.factor = 0;
         }
         leftBranchOfRootRightBranch.factor = 0;
         return leftBranchOfRootRightBranch;
     }
 
-    private Node<T> rotateRL(Node<T>  root) {
+    private Node<T> rotateRL(Node<T> root) {
         Node<T> rightBranchOfRoot = root.rightChild;
         Node<T> rightBranchOfRootLeftBranch = rightBranchOfRoot.leftChild;
         root.rightChild = rightBranchOfRootLeftBranch.leftChild;
@@ -99,14 +102,14 @@ public class AVLTree<T extends Comparable<T>> {
         rightBranchOfRoot.leftChild = rightBranchOfRootLeftBranch.rightChild;
         rightBranchOfRootLeftBranch.rightChild = rightBranchOfRoot;
 
-        if(rightBranchOfRootLeftBranch.factor == -1){
+        if (rightBranchOfRootLeftBranch.factor == -1) {
             root.factor = 1;
-        }else{
+        } else {
             root.factor = 0;
         }
-        if (rightBranchOfRootLeftBranch.factor == 1){
+        if (rightBranchOfRootLeftBranch.factor == 1) {
             rightBranchOfRoot.factor = -1;
-        }else{
+        } else {
             rightBranchOfRoot.factor = 0;
         }
         rightBranchOfRootLeftBranch.factor = 0;
@@ -117,7 +120,7 @@ public class AVLTree<T extends Comparable<T>> {
     public void insert(T data) {
         Logical act = new Logical();
         try {
-            root = insert(data, root,act);
+            root = insert(data, root, act);
         } catch (Exception e) {
             System.out.println("Eroor al añadir un item");
         }
@@ -127,26 +130,24 @@ public class AVLTree<T extends Comparable<T>> {
 
 
     private Node<T> insert(T data, Node<T> node, Logical act) throws Exception {
-        if (node == null){
+        if (node == null) {
             node = new Node<T>(data);
             act.bool = true;
-        }else{
+        } else {
             int cmp = data.compareTo(node.data);
             if (cmp == 0) {
                 throw new Exception("No se pueden introducir nodos repetidos");
             }
             if (cmp < 0) {
-                node.leftChild = insert(data, node.leftChild,act);
+                node.leftChild = insert(data, node.leftChild, act);
                 if (act.bool) {
                     if (node.factor == -1) {
                         node.factor = 0;
                         act.bool = false;
-                    }
-                    else if (node.factor == 0) {
+                    } else if (node.factor == 0) {
                         node.factor = 1;
                         act.bool = true;
-                    }
-                    else if (node.factor == 1) {
+                    } else if (node.factor == 1) {
                         if (node.leftChild.factor == 1) {
                             node = rotateLL(node);
                         } else {
@@ -157,17 +158,15 @@ public class AVLTree<T extends Comparable<T>> {
                 }
             }
             if (cmp > 0) {
-                node.rightChild = insert(data, node.rightChild,act);
+                node.rightChild = insert(data, node.rightChild, act);
                 if (act.bool) {
                     if (node.factor == 1) {
                         node.factor = 0;
                         act.bool = false;
-                    }
-                    else if (node.factor == 0) {
+                    } else if (node.factor == 0) {
                         node.factor = -1;
                         act.bool = true;
-                    }
-                    else if (node.factor == -1) {
+                    } else if (node.factor == -1) {
                         if (node.rightChild.factor == 1) {
                             node = rotateRL(node);
                         } else {
@@ -183,15 +182,67 @@ public class AVLTree<T extends Comparable<T>> {
 
     //TODO : Implementacion de la eliminacion
 
+    private Node<T> balanceLeftBranch(Node<T> node, Logical changeOfHeight) {
+        switch (node.factor) {
+            case +1:
+                node.factor = 0;
+                changeOfHeight.bool = true;
+                break;
+            case 0:
+                node.factor = -1;
+                changeOfHeight.bool = false;
+                break;
+            case -1:
+                if (node.rightChild.factor <= 0) {
+                    if (node.rightChild.factor == 0) {
+                        changeOfHeight.bool = false;
+                    }else{
+                        changeOfHeight.bool = true;
+                    }
+                    node = rotateRR(node);
+                } else {
+                    node = rotateRL(node);
+                }
+                break;
+        }
+        return node;
+    }
 
-    //TODO : Implementacion checkBalanceo
+    private Node<T> balanceRightBranch(Node<T> node, Logical changeOfHeight) {
+        switch (node.factor) {
+            case -1:
+                node.factor = 0;
+                changeOfHeight.bool = true;
+                break;
+            case 0:
+                node.factor = 1;
+                changeOfHeight.bool = false;
+                break;
+            case +1:
+                if (node.leftChild.factor >= 0) {
+                    if (node.leftChild.factor == 0) {
+                        changeOfHeight.bool = false;
+                    }else{
+                        changeOfHeight.bool = true;
+                    }
+                    node = rotateLL(node);
+                } else {
+                    node = rotateLR(node);
+                }
+                break;
+        }
+        return node;
+    }
 
-    public boolean balanced(Node<T> node){
+
+    //Implementacion checkBalanceo
+
+    public boolean balanced(Node<T> node) {
         int leftHeight;
 
         int rightHeight;
 
-        if (node == null){
+        if (node == null) {
             return true;
         }
 
@@ -202,8 +253,7 @@ public class AVLTree<T extends Comparable<T>> {
 
     }
 
-    public int height(Node<T> node)
-    {
+    public int height(Node<T> node) {
         if (node == null)
             return 0;
 
@@ -214,53 +264,49 @@ public class AVLTree<T extends Comparable<T>> {
     // Implementacion de Visualizaciones
 
 
-    public void preOrder(){
+    public void preOrder() {
         preOrderPriv(root);
     }
 
-    private void preOrderPriv(Node<T> node){
+    private void preOrderPriv(Node<T> node) {
         System.out.println(node.data);
-        if (node.leftChild != null){
+        if (node.leftChild != null) {
             preOrderPriv(node.leftChild);
         }
-        if (node.rightChild != null){
+        if (node.rightChild != null) {
             preOrderPriv(node.rightChild);
         }
     }
 
-    public void inOrder(){
+    public void inOrder() {
         inOrderPriv(root);
     }
 
-    private void inOrderPriv(Node<T> node){
+    private void inOrderPriv(Node<T> node) {
         System.out.println(node.data);
-        if (node.leftChild != null){
+        if (node.leftChild != null) {
             inOrderPriv(node.leftChild);
         }
-        if (node.rightChild != null){
+        if (node.rightChild != null) {
             inOrderPriv(node.rightChild);
         }
     }
 
-    public void postOrder(){
+    public void postOrder() {
         postOrderPriv(root);
     }
 
-    private void postOrderPriv(Node<T> node){
+    private void postOrderPriv(Node<T> node) {
         System.out.println(node.data);
-        if (node.leftChild != null){
+        if (node.leftChild != null) {
             postOrderPriv(node.leftChild);
         }
-        if (node.rightChild != null){
+        if (node.rightChild != null) {
             postOrderPriv(node.rightChild);
         }
     }
 
-    private class Logical {
-        Boolean bool = false;
-    }
-
-    private static void visualize(AVLTree<Integer> tree,ArrayList insertioTime) {
+    private static void visualize(AVLTree<Integer> tree, ArrayList insertioTime) {
         Gson gson = new Gson();
         try {
             FileWriter fw = new FileWriter("src/main/Visualizador/VisualizadorDeArbolAVL/index.html");
@@ -276,8 +322,8 @@ public class AVLTree<T extends Comparable<T>> {
                     "    <script src=\"../addons/p5.dom.min.js\"></script>\n" +
                     "    <script src=\"../addons/p5.sound.min.js\"></script>\n" +
                     "    <script src=\"sketch.js\"></script>\n" +
-                    "    <p id=\"tree\" >"+treeString+"</p>\n" +
-                    "    <p id=\"insertioTime\" >"+insertioTime.toString()+"</p>\n" +
+                    "    <p id=\"tree\" >" + treeString + "</p>\n" +
+                    "    <p id=\"insertioTime\" >" + insertioTime.toString() + "</p>\n" +
                     "  </head>\n" +
                     "  <body>\n" +
                     "  </body>\n" +
