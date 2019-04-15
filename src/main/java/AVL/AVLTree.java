@@ -14,18 +14,37 @@ public class AVLTree<T extends Comparable<T>> {
         AVLTree<Integer> tree = new AVLTree<Integer>();
         ArrayList<Integer> insertioTime = new ArrayList<Integer>();
 
-        for (int i = 0; i < 1000000; i++) {
-            int randomInt = (int)(Math.random()*1000000);
+        for (int i = 0; i < 100; i++) {
+            int randomInt = (int)(Math.random()*100);
             tree.insert(randomInt);
             insertioTime.add(randomInt);
         }
-        System.out.println(tree.balanced(tree.root));
         visualize(tree,insertioTime);
     }
 
 
 
     Node<T> root;
+
+    //Implementacion de la busqueda
+
+    public boolean search(T element){
+        return searchInside(root,element);
+    }
+
+    private boolean searchInside(Node<T> node, T element) {
+        if (node.data == element){
+            return true;
+        }
+        if (node.leftChild != null){
+            return searchInside(node.leftChild,element);
+        }
+        if (node.rightChild != null){
+            return searchInside(node.rightChild,element);
+        }
+        return false;
+    }
+
 
     //Implementacion de las rotaciones
 
