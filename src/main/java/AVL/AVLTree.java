@@ -16,9 +16,26 @@ public class AVLTree<T extends Comparable<T>> {
 
         for (int i = 0; i < 100; i++) {
             int randomInt = (int) (Math.random() * 100);
-            tree.insert(randomInt);
-            insertioTime.add(randomInt);
+            tree.insert(i);
+            insertioTime.add(i);
         }
+        for (int i = 50; i < 100; i++) {
+            try {
+                tree.delete(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(tree.balanced(tree.root));
+        }
+        for (int i = 0; i < 50; i++) {
+            try {
+                tree.delete(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(tree.balanced(tree.root));
+        }
+
         visualize(tree, insertioTime);
     }
 
@@ -181,6 +198,62 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     //TODO : Implementacion de la eliminacion
+    public void delete(T element) throws Exception {
+        deleteInside(root, element, new Logical());
+    }
+
+    private Node<T> deleteInside(Node<T> node, T element, Logical changeOfHeight) throws Exception {
+        int cmp;
+        if (node == null) {
+            throw new Exception("Item not Found");
+        } else {
+            cmp = element.compareTo(node.data);
+        }
+        if (cmp < 0) {
+            node.leftChild = deleteInside(node.leftChild, element, changeOfHeight);
+            if (changeOfHeight.bool) {
+                node = balanceLeftBranch(root, changeOfHeight);
+            }
+        }
+        if (cmp > 0) {
+            node.rightChild = deleteInside(node.rightChild, element, changeOfHeight);
+            if (changeOfHeight.bool) {
+                node = balanceRightBranch(root, changeOfHeight);
+            }
+        }
+        if (cmp == 0) {
+            Node<T> delete = node;
+            if (delete.leftChild == null) {
+                node = delete.rightChild;
+            } else if (delete.rightChild == null) {
+                node = delete.leftChild;
+            } else {
+                node.leftChild = replaze(node, node.leftChild, changeOfHeight);
+                if (changeOfHeight.bool) {
+                    node = balanceLeftBranch(node, changeOfHeight);
+                }
+            }
+            delete = null;
+        }
+        return node;
+    }
+
+
+    private Node<T> replaze(Node<T> node, Node<T> actual, Logical changeOfHeight) {
+        if (actual.rightChild != null) {
+            actual.rightChild = replaze(node, actual.rightChild, changeOfHeight);
+            if (changeOfHeight.bool) {
+                actual = balanceLeftBranch(actual, changeOfHeight);
+            }
+        } else {
+            node.data = actual.data;
+            node = actual;
+            actual = actual.leftChild;
+            node = null;
+            changeOfHeight.bool = true;
+        }
+        return actual;
+    }
 
     private Node<T> balanceLeftBranch(Node<T> node, Logical changeOfHeight) {
         switch (node.factor) {
@@ -196,7 +269,7 @@ public class AVLTree<T extends Comparable<T>> {
                 if (node.rightChild.factor <= 0) {
                     if (node.rightChild.factor == 0) {
                         changeOfHeight.bool = false;
-                    }else{
+                    } else {
                         changeOfHeight.bool = true;
                     }
                     node = rotateRR(node);
@@ -222,7 +295,7 @@ public class AVLTree<T extends Comparable<T>> {
                 if (node.leftChild.factor >= 0) {
                     if (node.leftChild.factor == 0) {
                         changeOfHeight.bool = false;
-                    }else{
+                    } else {
                         changeOfHeight.bool = true;
                     }
                     node = rotateLL(node);
