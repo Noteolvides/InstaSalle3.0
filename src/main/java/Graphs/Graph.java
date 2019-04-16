@@ -1,17 +1,13 @@
 package Graphs;
 
-public class Graphs {
+public class Graph {
     private List<Vertex> adjacencyList;
-    
-    public static void main(String[] args) {
-        List<Vertex> adjList = new List<Vertex>();
-        adjList.add(new Vertex("neil", "20/4/2019"));
-        adjList.add(new Vertex("alex", "13/5/2019"));
-        adjList.get(new Vertex("neil", "20/4/2019")).relations.add(new Vertex("alex", "13/5/2019"));
+
+    public Graph() {
+        adjacencyList = new List<Vertex>();
     }
 
     public void insertVertex (Vertex newvertex) {
-        newvertex.relations = new List<Vertex>();
         adjacencyList.add(newvertex);
     }
 
