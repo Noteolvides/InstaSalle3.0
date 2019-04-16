@@ -30,7 +30,7 @@ public class List<E> {
         Node<E> actual = head;
         if (!isEmpty()) {
             while (actual.next != null && actual != tail && !done) {
-                if (actual.element == element) {
+                if (actual.element.equals(element)) {
                     prev.next = actual.next;
                     size--;
                     done = true;
@@ -51,7 +51,7 @@ public class List<E> {
         Node<E> actual = head;
         if (!isEmpty()) {
             while (actual != null && found == null) {
-                if (actual.element == element) {
+                if (actual.element.equals(element)) {
                     found = element;
                 }
                 actual = actual.next;

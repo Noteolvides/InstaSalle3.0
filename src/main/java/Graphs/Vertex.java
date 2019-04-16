@@ -8,5 +8,6 @@ public class Vertex {
     public Vertex(String username, String creation) {
         this.username = username;
         this.creation = creation;
+        this.relations = new List<Vertex>();
     }
 }
