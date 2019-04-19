@@ -17,6 +17,13 @@ public class Graph {
 
     public void removeVertex (Vertex vertex) {
         adjacencyList.remove(vertex); // TODO: 2019-04-19 revisar que tots el edges que es comunicaven amb aquest siguin eliminats
+        for (int i = 0; i < adjacencyList.size(); i++) {
+            for (int j = 0; j < adjacencyList.get(i).relations.size(); j++) {
+                if (adjacencyList.get(i).relations.get(j).equals(vertex)){
+                    adjacencyList.get(i).relations.remove(vertex);
+                }
+            }
+        }
     }
 
     public void removeEdge (Vertex v1, Vertex v2) {
