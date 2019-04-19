@@ -23,4 +23,12 @@ public class Vertex {
             return username.equals(v.username) && creation.equals(v.creation);
         }
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public List<Vertex> getRelations() {
+        return relations;
+    }
 }
