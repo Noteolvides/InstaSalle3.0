@@ -52,7 +52,7 @@ public class List<E> {
         if (!isEmpty()) {
             while (actual != null && found == null) {
                 if (actual.element.equals(element)) {
-                    found = element;
+                    found = actual.element;
                 }
                 actual = actual.next;
             }
@@ -62,5 +62,21 @@ public class List<E> {
 
     public int size(){
          return size;
+    }
+
+    public E get(int index) {
+        int jumps = 0;
+        E found = null;
+        Node<E> actual = head;
+        if (!isEmpty()) {
+            while (actual != null && found == null) {
+                if (jumps == index) {
+                    found = actual.element;
+                }
+                jumps++;
+                actual = actual.next;
+            }
+        }
+        return found;
     }
 }
