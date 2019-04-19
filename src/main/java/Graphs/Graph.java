@@ -16,7 +16,7 @@ public class Graph {
     }
 
     public void removeVertex (Vertex vertex) {
-        adjacencyList.remove(vertex);
+        adjacencyList.remove(vertex); // TODO: 2019-04-19 revisar que tots el edges que es comunicaven amb aquest siguin eliminats
     }
 
     public void removeEdge (Vertex v1, Vertex v2) {
