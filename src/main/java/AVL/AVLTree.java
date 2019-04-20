@@ -30,6 +30,7 @@ public class AVLTree<T extends Comparable<T>> {
                 if (i > 46){
                     visualize(tree, insertioTime);
                     tree.delete(i);
+                    visualize(tree, insertioTime);
                     System.out.println(2);
                 }
             } catch (Exception e) {
