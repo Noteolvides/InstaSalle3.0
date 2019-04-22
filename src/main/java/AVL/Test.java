@@ -37,7 +37,12 @@ public class Test extends PApplet {
 	public void draw(){
 		clear();
 		background(51);
-		preOrder(tree.root, (dimensionx / 2), dimensiony);
+		if (tree.root != null ){
+			preOrder(tree.root, (dimensionx / 2), dimensiony);
+		}else{
+			fill(255);
+			text ("No hay mas nodos", width/2, height/2);
+		}
 
 		switch (state) {
 			case 0:
@@ -71,6 +76,8 @@ public class Test extends PApplet {
 		ellipse(nuevo, level * offsetY, 30,30);
 		textAlign(CENTER);
 		textSize(12);
+		fill(255,0,0);
+		text(nodeAct.factor, nuevo+10, (level * offsetY)-4);
 		fill(0);
 		text(nodeAct.data.toString(), nuevo, (level * offsetY) + 5);
 

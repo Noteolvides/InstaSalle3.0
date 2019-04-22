@@ -10,39 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class AVLTree<T extends Comparable<T>> {
-    public static void main(String[] args) throws Exception {
-        AVLTree<Integer> tree = new AVLTree<Integer>();
-        ArrayList<Integer> insertioTime = new ArrayList<Integer>();
-
-        for (int i = 0; i < 100; i++) {
-            int randomInt = (int) (Math.random() * 100);
-            tree.insert(i);
-            insertioTime.add(i);
-        }
-        System.out.println(tree.balanced(tree.root));
-
-        for (int i = 0; i < 100; i++) {
-            try {
-                if (i <= 46){
-                    tree.delete(i);
-                    System.out.println(tree.balanced(tree.root));
-                }
-                if (i > 46){
-                    visualize(tree, insertioTime);
-                    tree.delete(i);
-                    visualize(tree, insertioTime);
-                    System.out.println(2);
-                }
-            } catch (Exception e) {
-                System.out.println(i);
-                e.printStackTrace();
-            }
-        }
-        visualize(tree, insertioTime);
-
-    }
-
-
     Node<T> root;
 
     private class Logical {
@@ -212,7 +179,7 @@ public class AVLTree<T extends Comparable<T>> {
 
     //TODO : Implementacion de la eliminacion
     public void delete(T element) throws Exception {
-        deleteInside(root, element, new Logical());
+        root = deleteInside(root, element, new Logical());
     }
 
     private Node<T> deleteInside(Node<T> node, T element, Logical changeOfHeight) throws Exception {
