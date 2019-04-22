@@ -28,9 +28,6 @@ public class Test extends PApplet {
 			int randomInt = (int) (Math.random() * 100);
 			tree.insert(randomInt);
 		}
-		System.out.println("Done");
-		preOrder(tree.root, (dimensionx / 2), dimensiony);
-
 
 	}
 
@@ -38,21 +35,21 @@ public class Test extends PApplet {
 		clear();
 		background(51);
 		if (tree.root != null ){
-			preOrder(tree.root, (dimensionx / 2), dimensiony);
+			preOrder(tree.root, (width / 2), width);
 		}else{
 			fill(255);
-			text ("No hay mas nodos", width/2, height/2);
+			text ("No hay mas nodos", width/2, width/2);
 		}
 
 		switch (state) {
 			case 0:
 				fill(255);
-				text ("Inserta el nodo a eliminar \n"+result, 133, 333);
+				text ("Inserta el nodo a eliminar \n"+result, 133, 50);
 				break;
 
 			case 1:
 				fill(255, 2, 2);
-				text ("Gracias Eliminar el nodo \n"+result, 133, 633);
+				text ("Gracias Eliminar el nodo \n"+result, 133, 100);
 				try {
 
 					tree.delete(Integer.parseInt(result));
