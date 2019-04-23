@@ -24,10 +24,6 @@ public class Test extends PApplet {
 	public void setup(){
 		background(51);
 		frameRate(30);
-		for (int i = 0; i < 10; i++) {
-			int randomInt = (int) (Math.random() * 100);
-			tree.insert(randomInt);
-		}
 
 	}
 
@@ -44,7 +40,7 @@ public class Test extends PApplet {
 		switch (state) {
 			case 0:
 				fill(255);
-				text ("Inserta el nodo a eliminar \n"+result, 133, 50);
+				text ("Inserta o elimina nodo \n"+result, 133, 50);
 				break;
 
 			case 1:
@@ -57,8 +53,9 @@ public class Test extends PApplet {
 
 					state = 0;
 				} catch (Exception e) {
-					System.out.println("Error al eliminar el nodo que querias");
+					tree.insert(Integer.parseInt(result));
 					state = 0;
+					result = "";
 				}
 				break;
 		}
