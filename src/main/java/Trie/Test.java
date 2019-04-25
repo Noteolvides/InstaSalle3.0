@@ -14,7 +14,28 @@ public class Test extends PApplet {
 	TrieTree tree = new TrieTree();
 	int state = 0;
 	String result = "";
-	ArrayList<Integer> howManyInLevel = new ArrayList<Integer>();
+	int[] howManyInLevel;
+	int maxLevel;
+
+	private void checkMaxLevel(Node<Character> node,int level){
+		level++;
+		for (Character c : node.children.keySet()) {
+			checkMaxLevel(node.children.get(c),level);
+		}
+		if (level >= maxLevel){
+			maxLevel = level;
+			howManyInLevel = new int[level];
+		}
+	}
+
+	private void checkHowMany(Node<Character> node,int level){
+		howManyInLevel[level] += node.children.size();
+		level++;
+		for (Character c : node.children.keySet()) {
+			checkHowMany(node.children.get(c),level);
+		}
+	}
+
 
 	public static void main(String... args) {
 		PApplet.main("Trie.Test", args);
@@ -30,13 +51,7 @@ public class Test extends PApplet {
 
 	}
 
-	private void checkHowMany(Node<Character> node,int level){
-		howManyInLevel.add(level,node.children.size());
-		level++;
-		for (Character c : node.children.keySet()) {
-			checkHowMany(node.children.get(c),level);
-		}
-	}
+
 
 
 	private void draw2(Node<Character> node, Point previus, Point ant, Point next) {
@@ -91,13 +106,12 @@ public class Test extends PApplet {
 				break;
 
 			case 1:
-				if (tree.root != null){
-					checkHowMany(tree.root,0);
-				}
 				fill(255, 2, 2);
 				text("Gracias Eliminar el nodo \n" + result, 133, 100);
 				tree.insert(result);
 				result = "";
+				checkMaxLevel(tree.root,0);
+				checkHowMany(tree.root,0);
 				state = 0;
 
 		}
@@ -136,8 +150,10 @@ public class Test extends PApplet {
 	public void keyPressed() {
 		if (key == ENTER || key == RETURN) {
 			state++;
-			if (howManyInLevel.size() > 0){
-				System.out.println(howManyInLevel);
+			if (howManyInLevel != null && howManyInLevel.length > 0){
+				for (int i = 0; i < howManyInLevel.length; i++) {
+					System.out.println(howManyInLevel[i]);
+				}
 			}
 		} else if (key == BACKSPACE) {
 			if (result.length() > 0) {
