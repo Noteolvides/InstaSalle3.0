@@ -2,9 +2,6 @@ package Trie;
 
 import processing.core.PApplet;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class Test extends PApplet {
 	private final int dimensionx = 1200;
 	private final int dimensiony = 700;
@@ -14,6 +11,7 @@ public class Test extends PApplet {
 	TrieTree tree = new TrieTree();
 	int state = 0;
 	String result = "";
+	int[] howManyInLevelTotal;
 	int[] howManyInLevel;
 	int maxLevel;
 
@@ -24,12 +22,13 @@ public class Test extends PApplet {
 		}
 		if (level >= maxLevel){
 			maxLevel = level;
+			howManyInLevelTotal = new int[level];
 			howManyInLevel = new int[level];
 		}
 	}
 
 	private void checkHowMany(Node<Character> node,int level){
-		howManyInLevel[level] += node.children.size();
+		howManyInLevelTotal[level] += node.children.size();
 		level++;
 		for (Character c : node.children.keySet()) {
 			checkHowMany(node.children.get(c),level);
@@ -54,45 +53,12 @@ public class Test extends PApplet {
 
 
 
-	private void draw2(Node<Character> node, Point previus, Point ant, Point next) {
-		int cuantos = 0;
-		for (Character c : node.children.keySet()) {
-			cuantos += node.children.get(c).children.size();
-		}
-		int i = 1;
-		for (Character c : node.children.keySet()) {
-			int dif;
-			Point newPrevius = null,newAnt,newNext;
-			dif = ant.x - previus.x;
-			newAnt = new Point(dif/(cuantos+1) * i, (int) (ant.getY()+offsetY));
-			if (i == 1){
-				newPrevius = new Point((int)previus.getX()-30,(int)previus.getY()+offsetY);
-			}
-			if (i > 1){
-				newPrevius = new Point(dif/(cuantos+1) * (i-1), (int) (ant.getY()+offsetY));
-			}
-			if (i == cuantos){
-				newNext = new Point((int)next.getX()-30,(int)next.getY()+offsetY);
-			}else{
-				newNext = new Point(dif/(cuantos+1) * (i+1), (int) (ant.getY()+offsetY));
-			}
-			i++;
-			line((int)ant.getX(),(int) ant.getY(),(int) newAnt.getX(),(int) newAnt.getY());
-			fill(255, node.isWord ? 0 : 255, node.isWord ? 0 : 255);
-			ellipse((int)newAnt.getX(),(int)newAnt.getY(), circuloSize, circuloSize);
-			textAlign(CENTER);
-			textSize(12);
-			fill(0);
-			text(node.children.get(c).data, (int)newAnt.getX(), (int)newAnt.getY());
-			draw2(node.children.get(c),newPrevius,newAnt,newNext);
-		}
-
-	}
 
 	public void draw() {
 		clear();
 		background(51);
 		if (tree.root != null) {
+			howManyInLevel = new int[maxLevel];
 			drawNodes(tree.root, width/2,width);
 		} else {
 			fill(255);
@@ -118,7 +84,7 @@ public class Test extends PApplet {
 
 	}
 
-	private void drawNodes(Node<Character> node, int nuevo, int anterior) {
+	private void drawNodes(Node<Character> node, int nuevo,int anterior) {
 		if (level != 1) {
 			line(nuevo, level * (offsetY + 2), anterior, (level - 1) * (offsetY + 2));
 		}
@@ -136,12 +102,11 @@ public class Test extends PApplet {
 		text(value, nuevo, (level * offsetY) + 5);
 
 		if (node.children.size() > 0) {
-			int i = 1;
-
 			for (Character c : node.children.keySet()) {
 				level++;
-				drawNodes(node.children.get(c), (width / (node.children.size() + 1)) * i, nuevo);
-				i++;
+				howManyInLevel[level-2] = howManyInLevel[level-2] + 1;
+				int nuevoP = (width / (howManyInLevelTotal[level-2] + 1) ) * howManyInLevel[level-2];
+				drawNodes(node.children.get(c),nuevoP , nuevo);
 				level--;
 			}
 		}
@@ -150,11 +115,6 @@ public class Test extends PApplet {
 	public void keyPressed() {
 		if (key == ENTER || key == RETURN) {
 			state++;
-			if (howManyInLevel != null && howManyInLevel.length > 0){
-				for (int i = 0; i < howManyInLevel.length; i++) {
-					System.out.println(howManyInLevel[i]);
-				}
-			}
 		} else if (key == BACKSPACE) {
 			if (result.length() > 0) {
 				StringBuilder aux = new StringBuilder(result);
