@@ -3,9 +3,9 @@ package Trie;
 import processing.core.PApplet;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Test extends PApplet {
-
 	private final int dimensionx = 1200;
 	private final int dimensiony = 700;
 	int level = 1;
@@ -14,7 +14,7 @@ public class Test extends PApplet {
 	TrieTree tree = new TrieTree();
 	int state = 0;
 	String result = "";
-
+	ArrayList<Integer> howManyInLevel = new ArrayList<Integer>();
 
 	public static void main(String... args) {
 		PApplet.main("Trie.Test", args);
@@ -29,6 +29,15 @@ public class Test extends PApplet {
 		frameRate(30);
 
 	}
+
+	private void checkHowMany(Node<Character> node,int level){
+		howManyInLevel.add(level,node.children.size());
+		level++;
+		for (Character c : node.children.keySet()) {
+			checkHowMany(node.children.get(c),level);
+		}
+	}
+
 
 	private void draw2(Node<Character> node, Point previus, Point ant, Point next) {
 		int cuantos = 0;
@@ -69,7 +78,7 @@ public class Test extends PApplet {
 		clear();
 		background(51);
 		if (tree.root != null) {
-			draw2(tree.root, new Point(0,0),new Point(width-100,offsetY),new Point(dimensionx,0));
+			drawNodes(tree.root, width/2,width);
 		} else {
 			fill(255);
 			text("No hay mas nodos", width / 2, width / 2);
@@ -82,11 +91,15 @@ public class Test extends PApplet {
 				break;
 
 			case 1:
+				if (tree.root != null){
+					checkHowMany(tree.root,0);
+				}
 				fill(255, 2, 2);
 				text("Gracias Eliminar el nodo \n" + result, 133, 100);
 				tree.insert(result);
 				result = "";
 				state = 0;
+
 		}
 
 	}
@@ -123,6 +136,9 @@ public class Test extends PApplet {
 	public void keyPressed() {
 		if (key == ENTER || key == RETURN) {
 			state++;
+			if (howManyInLevel.size() > 0){
+				System.out.println(howManyInLevel);
+			}
 		} else if (key == BACKSPACE) {
 			if (result.length() > 0) {
 				StringBuilder aux = new StringBuilder(result);
@@ -131,5 +147,4 @@ public class Test extends PApplet {
 		} else
 			result = result + key;
 	}
-
 }
