@@ -1,7 +1,7 @@
 package Graphs.visualización;
 
 
-import Graphs.List;
+import List.List;
 import Graphs.Vertex;
 
 import java.awt.*;
