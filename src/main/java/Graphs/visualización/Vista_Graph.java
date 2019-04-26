@@ -1,11 +1,10 @@
 package Graphs.visualización;
 
 
-import Graphs.List;
+import List.List;
 import Graphs.Vertex;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 import static java.lang.Math.*;
 
@@ -47,7 +46,7 @@ public class Vista_Graph extends Canvas {
 
     }
 
-    private void line_draw(String origen, String destino, Circulo[] circulos, List usus ,Graphics g) {
+    private void line_draw(String origen, String destino, Circulo[] circulos, List usus , Graphics g) {
         int inicio = 0;
         int fin = 0;
 

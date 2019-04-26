@@ -1,7 +1,7 @@
 package Graphs;
 
 
-import java.util.Comparator;
+import List.List;
 
 public class Vertex {
     String username;

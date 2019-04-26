@@ -1,5 +1,7 @@
 package Graphs;
 
+import List.List;
+
 public class Graph {
     private List<Vertex> adjacencyList;
 

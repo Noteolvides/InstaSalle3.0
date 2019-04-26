@@ -1,4 +1,4 @@
-package Graphs;
+package List;
 
 public class List<E> {
     // TODO: 2019-04-12 Hacer lista de c de apuntes de primero 
