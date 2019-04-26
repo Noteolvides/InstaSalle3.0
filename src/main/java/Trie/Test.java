@@ -2,6 +2,8 @@ package Trie;
 
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+
 public class Test extends PApplet {
 	private final int dimensionx = 1200;
 	private final int dimensiony = 700;
@@ -14,6 +16,7 @@ public class Test extends PApplet {
 	int[] howManyInLevelTotal;
 	int[] howManyInLevel;
 	int maxLevel;
+	ArrayList<String> words = new ArrayList<String>();
 
 	private void checkMaxLevel(Node<Character> node,int level){
 		level++;
@@ -74,7 +77,13 @@ public class Test extends PApplet {
 			case 1:
 				fill(255, 2, 2);
 				text("Gracias Eliminar el nodo \n" + result, 133, 100);
-				tree.insert(result);
+				if (!words.contains(result)){
+					tree.insert(result);
+				}else{
+					
+				}
+				words.add(result);
+
 				result = "";
 				checkMaxLevel(tree.root,0);
 				checkHowMany(tree.root,0);

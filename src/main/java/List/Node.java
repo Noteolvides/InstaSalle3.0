@@ -1,4 +1,4 @@
-package Graphs;
+package List;
 
 class Node<E> {
     E element;

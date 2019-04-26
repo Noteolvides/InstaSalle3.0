@@ -1,5 +1,7 @@
 package Graphs;
 
+import List.List;
+
 public class Graph {
     private List<Vertex> adjacencyList;
 
@@ -35,4 +37,12 @@ public class Graph {
     }
     //List<List<Vertex>> graph;
     //directed graph implemented via Adjacency list
+
+    public List<Vertex> getAdjacencyList() {
+        return adjacencyList;
+    }
+
+    public void setAdjacencyList(List<Vertex> adjacencyList) {
+        this.adjacencyList = adjacencyList;
+    }
 }
