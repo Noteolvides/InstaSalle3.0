@@ -3,17 +3,21 @@ package HashTable;
 
 import List.List;
 
+class Table {
+    List<String> list;
+}
+
 public class HashTable<K,E> {
-    private List[] hashTable;
+    private Table[] hashTable;
     private int size;
 
-    public HashTable(int lenght) {
-        hashTable = new List[lenght];
+    public HashTable(int length) {
+        hashTable = new Table[length];
         for (int i = 0; i < hashTable.length; i++) {
-            hashTable[i] = new List<E>();
+            hashTable[i] = new Table();
         }
 
-        if (lenght < 2999) {
+        if (length < 2999) {
             size = 2999;
         } else {
             size = 10069;
@@ -38,5 +42,25 @@ public class HashTable<K,E> {
         return key;
     }
 
+    public void insert(E element) {
+        int index = hashCode(getKey(element));
+        hashTable[index].list.add((String)element);
+    }
+
+    public String search(E element) {
+        String found = null;
+        int index = hashCode(getKey(element));
+        for (int i = 0; i < hashTable[index].list.size() && found == null; i++) {
+            if (hashTable[index].list.get(i).equals(element.toString())) {
+                found = hashTable[index].list.get(i);
+            }
+        }
+        return found;
+    }
+
+    public void delete(E element) {
+        int index = hashCode(getKey(element));
+        hashTable[index].list.remove(element.toString());
+    }
 
 }
