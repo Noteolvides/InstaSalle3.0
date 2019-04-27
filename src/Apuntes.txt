@@ -4,7 +4,7 @@ ranque-Query(RTNode current, Rectangle q, set resul){
             if object insetsect/in q then
             result <- object
     endfor
-    else
+    else    
         for each entry e in current do
         if e.MBR intersect with q then
             ranque_querry(e.son_ptr,q,resul)

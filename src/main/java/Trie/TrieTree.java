@@ -53,4 +53,75 @@ public class TrieTree {
 			return node.children.get(c).isWord;
 		}
 	}
+
+	public boolean delete(String phrase){
+		//Si root es null, no hay nada en el árbol y por tanto es fallido
+		if(root == null){
+			return(false);
+		}
+		//Se llama al delete. Dependiendo del resultado (int) será exitoso o no
+		int result = deleteinside(phrase,0,root);
+		//Si result es 1, será una operación fallida
+		if(result == 1){
+			System.out.println("Delete fallido");
+			return (false);
+		}
+		//En caso contrario, result será 4 y será una operación exitosa
+		System.out.println("Delete exitoso");
+		return (true);
+	}
+
+	private int deleteinside(String phrase, int i, Node<Character> node) {
+		int j;
+		boolean found = false;
+		int casenum = 0;
+
+		//Se comprueva que el nodo sea final de palabra
+		if(node.isWord){
+			if(node.data == phrase.charAt(i)){
+				//Si lo es, se comprueva si alguna palabra depende de esta letra
+				if(node.children.size() == 0){
+					//Si no tiene hijos, se quita la flag se devuelve un 2
+					node.isWord = false;
+					return(2);
+				}else{
+					//Si tiene hijos, se quita la flag y se devuelve un 4
+					node.isWord = false;
+					return(4);
+				}
+			}
+		}else{
+			//
+			for(j =0; j < node.children.size(); j++){
+				if(node.children.get(j).data == phrase.charAt(i)){
+					found =true;
+					casenum = deleteinside(phrase, i+1, node.children.get(j));
+					break;
+				}
+			}
+		}
+		if(j < node.children.size()){
+			casenum = 1;
+		}
+		switch (casenum){
+			case 1:
+				return(1);
+			case 2:
+				node.children.put(node.children.get(j).data, null);
+				if(node.isWord){
+					return(2);
+				}else{
+					return(4);
+				}
+			/*case 3:
+				node.isWord = false;
+				return(4);
+			break;*/
+			case 4:
+				//Success
+				return(4);
+		}
+
+		return(1);
+	}
 }
