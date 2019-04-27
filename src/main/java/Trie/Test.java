@@ -79,16 +79,17 @@ public class Test extends PApplet {
 				text("Gracias Eliminar el nodo \n" + result, 133, 100);
 				if (!words.contains(result)){
 					tree.insert(result);
+					words.add(result);
 				}else{
-					
+					tree.delete(result);
+					words.remove(result);
 				}
-				words.add(result);
-
-				result = "";
-				checkMaxLevel(tree.root,0);
-				checkHowMany(tree.root,0);
-				state = 0;
-
+				if(tree.root != null){
+					result = "";
+					checkMaxLevel(tree.root,0);
+					checkHowMany(tree.root,0);
+					state = 0;
+				}
 		}
 
 	}

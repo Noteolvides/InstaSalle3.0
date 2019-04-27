@@ -72,13 +72,13 @@ public class TrieTree {
 	}
 
 	private int deleteinside(String phrase, int i, Node<Character> node) {
-		int j;
+		int j = 0;
 		boolean found = false;
 		int casenum = 0;
 
 		//Se comprueva que el nodo sea final de palabra
 		if(node.isWord){
-			if(node.data == phrase.charAt(i)){
+			if(node.data == phrase.charAt(i-1)){
 				//Si lo es, se comprueva si alguna palabra depende de esta letra
 				if(node.children.size() == 0){
 					//Si no tiene hijos, se quita la flag se devuelve un 2
@@ -86,37 +86,46 @@ public class TrieTree {
 					return(2);
 				}else{
 					//Si tiene hijos, se quita la flag y se devuelve un 4
-					node.isWord = false;
-					return(4);
+					if(phrase.charAt(phrase.length()-1) == node.data){
+						node.isWord = false;
+						return(4);
+					}else{
+						casenum = deleteinside(phrase, i+1, node.children.get(phrase.charAt(i)));
+					}
 				}
 			}
 		}else{
-			//
-			for(j =0; j < node.children.size(); j++){
-				if(node.children.get(j).data == phrase.charAt(i)){
+				if(node.children.get(phrase.charAt(i)).data == phrase.charAt(i)){
 					found =true;
-					casenum = deleteinside(phrase, i+1, node.children.get(j));
-					break;
+					casenum = deleteinside(phrase, i+1, node.children.get(phrase.charAt(i)));
 				}
-			}
+
 		}
-		if(j < node.children.size()){
-			casenum = 1;
+		if(node == root){
+			casenum = 3;
 		}
 		switch (casenum){
 			case 1:
 				return(1);
 			case 2:
-				node.children.put(node.children.get(j).data, null);
-				if(node.isWord){
-					return(2);
+				if(!node.children.get(phrase.charAt(i)).isWord){
+					if(node.children.size() <= 1){
+						node.children.remove(node.children.get(phrase.charAt(i)).data);
+						return(2);
+					}else {
+						if((node.children.size() > 1) && (!node.children.get(phrase.charAt(i)).isWord)){
+							node.children.remove(phrase.charAt(i));
+						}
+						return (4);
+					}
 				}else{
 					return(4);
 				}
-			/*case 3:
-				node.isWord = false;
+			case 3:
+				if((node.children.get(phrase.charAt(i)).children.size() == 0)&&(!node.children.get(phrase.charAt(i)).isWord)){
+					node.children.remove(node.children.get(phrase.charAt(i)).data);
+				}
 				return(4);
-			break;*/
 			case 4:
 				//Success
 				return(4);
