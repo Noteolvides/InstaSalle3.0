@@ -11,11 +11,11 @@ import static java.lang.Math.*;
 
 public class Vista_Graph extends Canvas {
     private Circulo[] circulos;
-    private Graphs.List usus;
+    private List usus;
     private float HEIGHT = 700;
     private float WIDTH = 700;
 
-    public Vista_Graph(Graphs.List usus){
+    public Vista_Graph(List usus){
         int n_nodes = usus.size(); //Número de nodos del graph
         circulos = new Circulo[n_nodes];
         int divisor = 1; //Multiplicador que se aplicarà al divisor de pi de circle_draw
