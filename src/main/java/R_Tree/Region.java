@@ -20,7 +20,6 @@ public class Region <T extends Comparable> {
 
 	public Region(T data,int dimension){
 		this.isLeaf = false;
-		this.data = data;
 		subRegions = new Region[dimension];
 	}
 }
