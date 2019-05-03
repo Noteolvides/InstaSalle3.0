@@ -7,18 +7,22 @@ public class Region <T extends Comparable> {
 	Boolean isLeaf;
 	T pointsLeaf[];
 
-	public Region(T data) {
+	int max;
+	int min;
+	int area;
+
+	public Region() {
 		isLeaf = false;
 		subRegions = new Region[2];
 	}
 
-	public Region(T data,int dimension,Class<T> c){
+	public Region(int dimension,Class<T> c){
 		this.isLeaf = true;
 		@SuppressWarnings("unchecked")
 		final T[] a = (T[]) Array.newInstance(c, dimension);
 	}
 
-	public Region(T data,int dimension){
+	public Region(int dimension){
 		this.isLeaf = false;
 		subRegions = new Region[dimension];
 	}
