@@ -20,10 +20,24 @@ public class GenerateUser {
         Gson gson = new Gson();
         String jsonString = "";
 
+        Random rdm = new Random();
         for (int i = 0; i < numUsers; i++) {
             Date date = new Date();
             users.add(new User(createName(), date.toString()));
         }
+        for (int i = 0; i < users.size(); i++) {
+            int arraysize = rdm.nextInt(users.size());
+            String[] userrelation = new String[arraysize];
+            for (int j = 0; j < arraysize; j++) {
+                int rdmuser = rdm.nextInt(users.size());
+                while (rdmuser == i || inRelation(userrelation, users.get(rdmuser).username)) {
+                    rdmuser = rdm.nextInt(users.size());
+                }
+                userrelation[j] = users.get(rdmuser).username;
+            }
+            users.get(i).setToFollow(userrelation);
+        }
+
         for (int i = 0; i < users.size(); i++) {
             jsonString += gson.toJson(users.get(i)) + "\n";
         }
@@ -46,4 +60,12 @@ public class GenerateUser {
         return name;
     }
 
+    private static boolean inRelation(String[] userrelation, String rdmuser) {
+        for (String user : userrelation) {
+            if (rdmuser.equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
