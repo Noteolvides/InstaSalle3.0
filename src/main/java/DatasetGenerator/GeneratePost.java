@@ -20,7 +20,7 @@ public class GeneratePost {
         List<Post> posts = new List<Post>();
 
         Gson gson = new Gson();
-        String jsonString = "";
+        StringBuilder jsonString = new StringBuilder();
 
         Random rdm = new Random();
 
@@ -31,23 +31,23 @@ public class GeneratePost {
                 likedBy[j] = createName();
             }
             Long[] location = new Long[2];
-            location[0] = rdm.nextLong();
-            location[1] = rdm.nextLong();
+            location[0] = (long) rdm.nextInt((1200) + 1);
+            location[1] = (long) rdm.nextInt((700) + 1);
             arraysize = rdm.nextInt(numUsers);
             String[] hashtags = new String[arraysize];
             for (int j = 0; j < arraysize; j++){
                 hashtags[j] = createName();
             }
-            posts.add(new Post(i, likedBy, new Date().toString(), createName(), location, hashtags));
+            posts.add(new Post(i, likedBy, new Date().toString(), createName(), (Long[]) location, hashtags));
         }
 
         for (int i = 0; i < posts.size(); i++) {
-            jsonString += gson.toJson(posts.get(i)) + "\n";
+            jsonString.append(gson.toJson(posts.get(i))).append("\n");
         }
         try {
             System.out.println(jsonString);
             FileWriter fw = new FileWriter("datasetPosts" + numPosts + ".txt");
-            fw.write(jsonString);
+            fw.write(jsonString.toString());
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,10 +56,10 @@ public class GeneratePost {
 
     private static String createName() {
         Random rdm = new Random();
-        String name = "";
+        StringBuilder name = new StringBuilder();
         for (int i = 0; i < rdm.nextInt(10); i++) {
-            name += (char) (rdm.nextInt(26) + 'a');
+            name.append((char) (rdm.nextInt(26) + 'a'));
         }
-        return name;
+        return name.toString();
     }
 }
