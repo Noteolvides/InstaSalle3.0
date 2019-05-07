@@ -1,14 +1,14 @@
 package R_Tree;
 
-import java.lang.reflect.Array;
+import Data.Post;
 
-public class Region <T extends Comparable> {
+public class Region {
 	Region subRegions [];
 	Boolean isLeaf;
-	T pointsLeaf[];
+	Post pointsLeaf[];
 
-	int max;
-	int min;
+	Point max;
+	Point min;
 	int area;
 
 	public Region() {
@@ -16,10 +16,10 @@ public class Region <T extends Comparable> {
 		subRegions = new Region[2];
 	}
 
-	public Region(int dimension,Class<T> c){
+	public Region(Post post){
 		this.isLeaf = true;
-		@SuppressWarnings("unchecked")
-		final T[] a = (T[]) Array.newInstance(c, dimension);
+		pointsLeaf = new Post[2];
+		pointsLeaf[0] = post;
 	}
 
 	public Region(int dimension){

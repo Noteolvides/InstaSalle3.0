@@ -8,6 +8,9 @@ public class Post {
     public Long[] location;
     public String[] hashtags;
 
+    public Post() {
+    }
+
     public Post(int id, String[] likedBy, String publishedWhen, String publishedBy, Long[] location, String[] hashtags) {
         this.id = id;
         this.likedBy = likedBy;
