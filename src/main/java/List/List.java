@@ -29,7 +29,7 @@ public class List<E> {
         Node<E> prev = head;
         Node<E> actual = head;
         if (!isEmpty()) {
-            while (actual.next != null && actual != tail && !done) {
+            while (actual != null /*&& actual != tail*/ && !done) {
                 if (actual.element.equals(element)) {
                     prev.next = actual.next;
                     size--;
