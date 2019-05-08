@@ -65,4 +65,11 @@ public class HashTable<K,E> {
         hashTable[index].list.remove(element.toString());
     }
 
+    public void visualize() {
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                System.out.println(hashTable[i].list.get(j));
+            }
+        }
+    }
 }
