@@ -12,23 +12,25 @@ public class HashTable<K,E> {
     private int size;
 
     public HashTable(int length) {
-        hashTable = new Table[length];
-        for (int i = 0; i < hashTable.length; i++) {
-            hashTable[i] = new Table();
-        }
-
         if (length < 2999) {
             size = 2999;
         } else {
             size = 10069;
         }
+        hashTable = new Table[size];
+        for (int i = 0; i < hashTable.length; i++) {
+            hashTable[i] = new Table();
+            hashTable[i].list = new List<String>();
+        }
+
+
     }
 
-    public int hashCode(int key) {
+    private int hashCode(int key) {
         return key % size;
     }
 
-    public int getKey(E element) {
+    private int getKey(E element) {
         int key = 0;
         if (element instanceof String) {
             char[] toCharArray = ((String) element).toCharArray();
