@@ -26,4 +26,11 @@ public class Region {
 		this.isLeaf = false;
 		subRegions = new Region[dimension];
 	}
+
+	public void add(Object o) {
+	}
+
+	public boolean isfull() {
+		return(true);
+	}
 }
