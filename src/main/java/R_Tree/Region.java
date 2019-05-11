@@ -32,7 +32,12 @@ public class Region {
 		subRegions = new Region[dimension];
 	}
 
+	//Todo Implement add
 	public void add(Object o) {
 	}
 
+	//Todo implement newArea
+	public int newArea(Object overflowR) {
+		return(1);
+	}
 }
