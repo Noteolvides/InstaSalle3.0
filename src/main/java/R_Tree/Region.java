@@ -4,6 +4,9 @@ import Data.Post;
 
 public class Region {
 	Region subRegions [];
+	boolean isSubRegion;
+	Region superRegion;
+	Region fatherNode;
 	Boolean isLeaf;
 	Post pointsLeaf[];
 
