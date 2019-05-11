@@ -10,10 +10,12 @@ public class Region {
 	Point max;
 	Point min;
 	int area;
+	boolean isfull;
 
 	public Region() {
 		isLeaf = false;
 		subRegions = new Region[2];
+		isfull = false;
 	}
 
 	public Region(Post post){
@@ -30,7 +32,4 @@ public class Region {
 	public void add(Object o) {
 	}
 
-	public boolean isfull() {
-		return(true);
-	}
 }
