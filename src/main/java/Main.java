@@ -44,6 +44,43 @@ public class Main {
                 break;
         }
 
+        System.out.println("1. Visualitzar");
+        System.out.println("2. Inserir informació");
+        System.out.println("3. Esborrar informació");
+        System.out.println("4. Cercar informació");
+        option = sc.nextInt();
+        switch (option) {
+            case 1:
+                System.out.println("Visualització de l'estructura" +
+                        "Quina estructura dessitja visualitzar?" +
+                        "\t1. Trie" +
+                        "\t2. R-Tree" +
+                        "\t3. AVL Tree" +
+                        "\t4.Taula de Hash" +
+                        "5. Graph");
+
+                break;
+            case 2:
+                System.out.println("Inserció d'informació" +
+                        "Quin tipus d'informació vol inserir?" +
+                        "\t1. Nou Uusuari" +
+                        "\t2.Nou Post");
+
+                break;
+            case 3:
+                System.out.println("Esborrar informació" +
+                        "Quin tipus de informació vol esborrar?" +
+                        "\t1. Nou Uusuari" +
+                        "\t2.Nou Post");
+                break;
+            case 4:
+                System.out.println("Cercar informació" +
+                        "Quin tipus de informació vol cercar" +
+                        "\t1. Usuari" +
+                        "\t2. Post" +
+                        "\t3. Segons hashtag" +
+                        "\t4.Segons ubicació");
+                break;
         }
     }
 }
