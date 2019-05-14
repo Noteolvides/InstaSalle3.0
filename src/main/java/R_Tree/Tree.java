@@ -18,7 +18,7 @@ public class Tree {
 
 		//Búsqueda dle mejor nodo región en el que colocar el punto
 		//Todo implementar la búsqueda del mejor nodo
-		aux = bestNodeSearch(this, actual, root);
+		aux = bestNodeSearch(root, o);
 
 		//comprovación de si está o no llena la mejor región
 		if(!aux.isfull){
@@ -32,8 +32,22 @@ public class Tree {
 		}
 	}
 
-	private Region bestNodeSearch(Tree tree, Region actual, Region root) {
-		return(new Region());
+	private Region bestNodeSearch(Region actual, Object o) {
+		Region regions[] = actual.subRegions;
+		Region best = null;
+		Post newNode = (Post) o;
+		for (Region region : regions) {
+			if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
+			&& region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
+				best = region;
+			}
+		}
+		if (best != null) {
+			if (best.subRegions != null) {
+				best = bestNodeSearch(best, o);
+			}
+		}
+		return best;
 	}
 
 	private void regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
