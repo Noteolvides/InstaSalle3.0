@@ -21,7 +21,6 @@ public class Tree {
 		aux = bestNodeSearch(this, actual, root);
 
 		//comprovación de si está o no llena la mejor región
-		//Todo implementar isFull
 		if(!aux.isfull){
 			//si no lo está, añadimos el objeto
 			//Todo implementar add

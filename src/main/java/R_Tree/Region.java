@@ -3,7 +3,7 @@ package R_Tree;
 import Data.Post;
 
 public class Region {
-	Region subRegions [];
+	Region subRegions[];
 	boolean isSubRegion;
 	Region superRegion;
 	Region fatherNode;
@@ -31,9 +31,14 @@ public class Region {
 		this.isLeaf = false;
 		subRegions = new Region[dimension];
 	}
-
-	//Todo Implement add
+	
 	public void add(Object o) {
+		if (pointsLeaf[0] == null) {
+			pointsLeaf[0] = (Post) o;
+		} else {
+			pointsLeaf[1] = (Post) o;
+		}
+
 	}
 
 	//Todo implement newArea
