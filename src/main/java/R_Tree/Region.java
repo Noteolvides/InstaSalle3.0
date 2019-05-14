@@ -33,12 +33,20 @@ public class Region {
 	}
 	
 	public void add(Object o) {
-		if (pointsLeaf[0] == null) {
-			pointsLeaf[0] = (Post) o;
+		if (isLeaf) {
+			if (pointsLeaf[0] == null) {
+				pointsLeaf[0] = (Post) o;
+			} else {
+				pointsLeaf[1] = (Post) o;
+			}
 		} else {
-			pointsLeaf[1] = (Post) o;
+			Region newSubRegion = new Region((Post) o);
+			if (subRegions[0] == null) {
+				subRegions[0] = newSubRegion;
+			} else {
+				subRegions[1] = newSubRegion;
+			}
 		}
-
 	}
 
 	//Todo implement newArea
