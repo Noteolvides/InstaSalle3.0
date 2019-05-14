@@ -17,6 +17,17 @@ public class Test extends PApplet {
 	Random rd = new Random();
 
 	public static void main(String... args){
+		Tree tree = new Tree();
+		Post post = new Post();
+		post.location = new Long[]{(long)100,(long)180};
+		Post post1 = new Post();
+		post1.location = new Long[]{(long)200,(long)300};
+		Post post2 = new Post();
+		post2.location = new Long[]{(long)100,(long)60};
+		tree.root = new Region();
+		tree.root.subRegions[0] = new Region(post);
+		tree.root.subRegions[1] = new Region(post1);
+		tree.root = tree.insertion(post2, tree.root);
 		PApplet.main("R_Tree.Test",args);
 	}
 
