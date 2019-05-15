@@ -1,8 +1,11 @@
 package Data;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     public String username;
     public String creation;
+    @SerializedName("to_follow")
     public String[] toFollow;
 
     public User(String username, String creation) {
