@@ -39,16 +39,16 @@ public class Tree {
 	private Region bestNodeSearch(Region actual, Object o) {
 		Region regions[] = actual.subRegions;
 		Region best = actual;
-		Long diff = Long.MAX_VALUE;
+		Double diff = Double.MAX_VALUE;
 		Post newNode = (Post) o;
 		if (!actual.isLeaf) {
 			for (Region region : regions) {
 				if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
 						&& region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
 					best = region;
-					diff = 0L;
+					diff = 0D;
 				} else {
-					if (diff != 0L) {
+					if (diff != 0D) {
 						Point auxmax = new Point(region.max.x, region.max.y);
 						Point auxmin = new Point(region.min.x, region.min.y);
 						if (newNode.location[0] < auxmin.x) {
@@ -63,7 +63,7 @@ public class Tree {
 						if (newNode.location[1] > auxmax.y) {
 							auxmax.y = newNode.location[1];
 						}
-						Long newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
+						Double newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
 						if (newdiff < diff) {
 							diff = newdiff;
 							best = region;
@@ -81,16 +81,16 @@ public class Tree {
 	private void regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
 		Region region1 = new Region();
 		Region region2 = new Region();
-		long[] minpoint = new long[]{split.min.x, split.min.y};
-		long[] maxpoint = new long[]{split.max.x, split.max.y};
+		double[] minpoint = new double[]{split.min.x, split.min.y};
+		double[] maxpoint = new double[]{split.max.x, split.max.y};
 
 		if(regionsplit){
 			//Región más pequeña
 			Region min = new Region();
-			min.min = new Point(Long.MAX_VALUE, Long.MAX_VALUE);
+			min.min = new Point(Double.MAX_VALUE, Double.MAX_VALUE);
 			//Región más grande
 			Region max = new Region();
-			max.max = new Point(Long.MIN_VALUE, Long.MIN_VALUE);
+			max.max = new Point(Double.MIN_VALUE, Double.MIN_VALUE);
 
 			//Se busca la región más cercana y lejana desde el punto de vista del 0,0
 			//Para encontrar las regiones más alejadas entre ellas

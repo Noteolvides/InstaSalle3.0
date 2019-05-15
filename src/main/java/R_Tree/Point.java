@@ -1,10 +1,10 @@
 package R_Tree;
 
 public class Point {
-	Long x;
-	Long y;
+	Double x;
+	Double y;
 
-	public Point(Long x, Long y) {
+	public Point(Double x, Double y) {
 		this.x = x;
 		this.y = y;
 	}
