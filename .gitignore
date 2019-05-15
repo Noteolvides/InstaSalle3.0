@@ -67,3 +67,7 @@ hs_err_pid*
 Visualizador/VisualizadorDeArbolAVL/index\.html
 
 src/Apuntes\.txt
+datasets/large/*
+datasets/medium/*
+datasets/small/*
+datasets/generated/*

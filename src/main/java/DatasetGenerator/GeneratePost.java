@@ -46,7 +46,7 @@ public class GeneratePost {
         }
         try {
             System.out.println(jsonString);
-            FileWriter fw = new FileWriter("datasetPosts" + numPosts + ".txt");
+            FileWriter fw = new FileWriter("datasets/generated/datasetPosts" + numPosts + ".txt");
             fw.write(jsonString.toString());
             fw.close();
         } catch (IOException e) {
