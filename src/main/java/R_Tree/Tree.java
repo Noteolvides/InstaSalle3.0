@@ -68,8 +68,16 @@ public class Tree {
 					}
 				}
 			}
+			//TODO comprovar también max y min para OverflowR
+
+			//Fin de este TODO
 			region1.add(min);
 			region2.add(max);
+			//TODO añadir region1 y region2 a una región como subregiones.
+
+			//Fin del TODO
+
+			//TODO cambiar el condicional y subir el for
 			if(!split.superRegion.isfull){
 				//bucle para encontrar dónde poner cada región
 				for(int i = 0; i < split.superRegion.subRegions.length; i++){
@@ -83,6 +91,7 @@ public class Tree {
 				}
 
 				//Insertamos la región de overflow
+				//TODO comprovar si la región de overflow es max o min
 				if(region1.newArea(overflowR) < region2.newArea(overflowR)){
 					region1.add(overflowR);
 				}else{
@@ -112,6 +121,9 @@ public class Tree {
 					}
 				}
 			}
+			//TODO Hacer la comprovación con el punto que he de añadir (OverflowP)
+
+			//Fin del TODO
 
 			//En caso que haya sitio para las nuevas regiones, se ponen
 			if(!split.superRegion.isfull){
@@ -120,7 +132,7 @@ public class Tree {
 					if(split.superRegion.subRegions[i] == split){
 						split.superRegion.subRegions[i] = region1;
 					}
-					if(split.superRegion.subRegions[i] == new Region()){
+					if(split.superRegion.subRegions[i] == null){
 						split.superRegion.subRegions[i] = region2;
 					}
 				}
@@ -131,7 +143,14 @@ public class Tree {
 						this.insertion(split.pointsLeaf[i], split.superRegion);
 					}
 				}
+
+				//TODO añadir el punto OverflowP
+
+				//Fin del TODO
 			}else{
+				//TODO asignar overflowR
+
+				//Fin del TODO
 				regionSplit(split.superRegion, this, overflowP, overflowR, true);
 			}
 
