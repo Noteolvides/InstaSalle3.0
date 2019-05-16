@@ -20,14 +20,14 @@ public class Region {
 
 	public Region() {
 		isLeaf = false;
-		subRegions = new Region[2];
+		subRegions = new Region[BTREEDIMENSION];
 		isfull = false;
 		childPos = 0;
 	}
 
 	public Region(Post post){
 		this.isLeaf = true;
-		pointsLeaf = new Post[2];
+		pointsLeaf = new Post[BTREEDIMENSION];
 		childPos = 0;
 		pointsLeaf[childPos] = post;
 		childPos++;
