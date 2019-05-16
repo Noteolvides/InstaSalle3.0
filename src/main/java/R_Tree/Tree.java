@@ -145,38 +145,63 @@ public class Tree {
 		}else{
 			//Búsqueda de los dos posts más distanciados, es decir, aquellos que forman la MBR
 			//max y min dentro de la región.
-			for (int i = 0; i < split.pointsLeaf.length; i++){
+			for (int i = 0; i < split.childPos; i++){
 				//Comprovación para el punto mínimo
-				if(split.pointsLeaf[i].location[0].equals(minpoint[0])){
-					if (split.pointsLeaf[i].location[1].equals(minpoint[1])){
+				if(split.pointsLeaf[i].location[0] <= minpoint[0]){
+					if (split.pointsLeaf[i].location[1] <= minpoint[1]){
 						Post postadd = split.pointsLeaf[i];
 						region1.add(postadd);
 					}
 				}
 
 				//Comprovación para el punto máximo
-				if(split.pointsLeaf[i].location[0].equals(maxpoint[0])){
-					if (split.pointsLeaf[i].location[1].equals(maxpoint[1])){
+				if(split.pointsLeaf[i].location[0] >= maxpoint[0]){
+					if (split.pointsLeaf[i].location[1] >= maxpoint[1]){
 						Post postadd = split.pointsLeaf[i];
 						region2.add(postadd);
 					}
 				}
 			}
-			//TODO Hacer la comprovación con el punto que he de añadir (OverflowP)
+			//Comprovación con el punto que he de añadir (OverflowP)
 
-			//Fin del TODO
+			//Comprovación para el punto mínimo con overflowP
+			if(overflowP.location[0] <= minpoint[0]){
+				if (overflowP.location[1] <= minpoint[1]){
+					Post postadd = split.pointsLeaf[split.childPos];
+					region1.add(postadd);
+				}
+			}
 
+			//Comprovación para el punto máximo con OverflowP
+			if(overflowP.location[0] >= maxpoint[0]){
+				if (overflowP.location[1] >= maxpoint[1]){
+					Post postadd = split.pointsLeaf[split.childPos];
+					region2.add(postadd);
+				}
+			}
+
+			Region aux = (Region) split.clone();
 			//En caso que haya sitio para las nuevas regiones, se ponen
 			if(!split.superRegion.isfull){
 				//Búsqueda e inserción de ambas regiones
-				for(int i = 0; i < split.superRegion.subRegions.length; i++){
-					if(split.superRegion.subRegions[i] == split){
-						split.superRegion.subRegions[i] = region1;
-					}
-					if(split.superRegion.subRegions[i] == null){
-						split.superRegion.subRegions[i] = region2;
+				split = region1;
+				split.superRegion.add(region2);
+
+				//Redistribución de los puntos en las nuevas regiones
+				for(int i = 0; i < aux.pointsLeaf.length; i++){
+					if((!aux.pointsLeaf[i].equals(region1.pointsLeaf[0]))||((!aux.pointsLeaf[i].equals(region2.pointsLeaf[0])))){
+						this.insertion(aux.pointsLeaf[i], split.superRegion);
 					}
 				}
+
+				//TODO añadir el punto OverflowP
+				this.insertion(overflowP, split.superRegion);
+				//Fin del TODO
+			}else{
+				//TODO asignar overflowR
+
+				//Fin del TODO
+				regionSplit(split.superRegion, this, overflowP, overflowR, true);
 
 				//Redistribución de los puntos en las nuevas regiones
 				for(int i = 0; i < split.pointsLeaf.length; i++){
@@ -184,23 +209,8 @@ public class Tree {
 						this.insertion(split.pointsLeaf[i], split.superRegion);
 					}
 				}
-
-				//TODO añadir el punto OverflowP
-
-				//Fin del TODO
-			}else{
-				//TODO asignar overflowR
-
-				//Fin del TODO
-				regionSplit(split.superRegion, this, overflowP, overflowR, true);
 			}
 
-			//Redistribución de los puntos en las nuevas regiones
-			for(int i = 0; i < split.pointsLeaf.length; i++){
-				if((!split.pointsLeaf[i].equals(region1.pointsLeaf[0]))||((!split.pointsLeaf[i].equals(region2.pointsLeaf[0])))){
-					this.insertion(split.pointsLeaf[i], split.superRegion);
-				}
-			}
 		}
 	}
 

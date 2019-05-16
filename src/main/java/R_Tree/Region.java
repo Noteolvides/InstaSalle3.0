@@ -4,7 +4,7 @@ import Data.Post;
 
 import static R_Tree.Tree.BTREEDIMENSION;
 
-public class Region {
+public class Region implements Cloneable {
 	Region subRegions[];
 	boolean isSubRegion;
 	Region superRegion;
@@ -76,4 +76,14 @@ public class Region {
 	public int newArea(Object overflowR) {
 		return(1);
 	}
+
+	public Object clone(){
+		try {
+			return(super.clone());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return(null);
+		}
+	}
 }
+
