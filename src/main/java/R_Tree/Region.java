@@ -56,11 +56,7 @@ public class Region {
 			}
 		} else {
 			Region newSubRegion = new Region(post);
-			if (subRegions[0] == null) {
-				subRegions[0] = newSubRegion;
-			} else {
-				subRegions[1] = newSubRegion;
-			}
+			add(newSubRegion);
 		}
 	}
 
@@ -69,6 +65,7 @@ public class Region {
 			subRegions[0] = region;
 		} else {
 			subRegions[1] = region;
+			isfull = true;
 		}
 	}
 
