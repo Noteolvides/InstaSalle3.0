@@ -26,7 +26,7 @@ public class Tree {
 			if (!aux.isfull) {
 				//si no lo está, añadimos el objeto
 				//Todo implementar add
-				aux.add(o);
+				aux.add((Post) o);
 			} else {
 				//En caso que no lo esté, hacemos split
 				//Todo Implementar regionSplit

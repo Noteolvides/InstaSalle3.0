@@ -64,6 +64,14 @@ public class Region {
 		}
 	}
 
+	public void add(Region region) {
+		if (subRegions[0] == null) {
+			subRegions[0] = region;
+		} else {
+			subRegions[1] = region;
+		}
+	}
+
 	//Todo implement newArea
 	public int newArea(Object overflowR) {
 		return(1);
