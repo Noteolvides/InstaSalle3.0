@@ -167,7 +167,7 @@ public class Tree {
 			//Comprovación para el punto mínimo con overflowP
 			if(overflowP.location[0] <= minpoint[0]){
 				if (overflowP.location[1] <= minpoint[1]){
-					Post postadd = split.pointsLeaf[split.childPos];
+					Post postadd = split.pointsLeaf[split.childPos-1];
 					region1.add(postadd);
 				}
 			}
@@ -175,7 +175,7 @@ public class Tree {
 			//Comprovación para el punto máximo con OverflowP
 			if(overflowP.location[0] >= maxpoint[0]){
 				if (overflowP.location[1] >= maxpoint[1]){
-					Post postadd = split.pointsLeaf[split.childPos];
+					Post postadd = split.pointsLeaf[split.childPos-1];
 					region2.add(postadd);
 				}
 			}

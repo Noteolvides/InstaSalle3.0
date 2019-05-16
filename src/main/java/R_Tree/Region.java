@@ -43,6 +43,7 @@ public class Region implements Cloneable {
 	public void add(Post post) {
 		if (isLeaf) {
 			pointsLeaf[childPos] = post;
+			childPos++;
 			if (childPos == BTREEDIMENSION) {
 				this.isfull = true;
 			}
