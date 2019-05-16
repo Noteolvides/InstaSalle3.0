@@ -8,48 +8,89 @@ public class Tree {
 
 
 	public Tree() {
-		this.root = new Region(BTREEDIMENSION);
 	}
 
 
 	//Todo Insercion
-	public void insertion(Object o, Region actual){
+	public Region insertion(Object o, Region actual){
 		Region aux;
 
-		//Búsqueda dle mejor nodo región en el que colocar el punto
-		//Todo implementar la búsqueda del mejor nodo
-		aux = bestNodeSearch(this, actual, root);
+		if (actual == null) {
+			actual = new Region((Post) o);
+		} else {
+			//Búsqueda dle mejor nodo región en el que colocar el punto
+			//Todo implementar la búsqueda del mejor nodo
+			aux = bestNodeSearch(root, o);
 
-		//comprovación de si está o no llena la mejor región
-		//Todo implementar isFull
-		if(!aux.isfull){
-			//si no lo está, añadimos el objeto
-			//Todo implementar add
-			aux.add(o);
-		}else{
-			//En caso que no lo esté, hacemos split
-			//Todo Implementar regionSplit
-			regionSplit(aux, this, (Post) o, new Region(), false);
+			//comprovación de si está o no llena la mejor región
+			if (!aux.isfull) {
+				//si no lo está, añadimos el objeto
+				//Todo implementar add
+				aux.add((Post) o);
+			} else {
+				//En caso que no lo esté, hacemos split
+				//Todo Implementar regionSplit
+				regionSplit(aux, this, (Post) o, new Region(), false);
+			}
 		}
+		return actual;
 	}
 
-	private Region bestNodeSearch(Tree tree, Region actual, Region root) {
-		return(new Region());
+	private Region bestNodeSearch(Region actual, Object o) {
+		Region regions[] = actual.subRegions;
+		Region best = actual;
+		Double diff = Double.MAX_VALUE;
+		Post newNode = (Post) o;
+		if (!actual.isLeaf) {
+			for (Region region : regions) {
+				if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
+						&& region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
+					best = region;
+					diff = 0D;
+				} else {
+					if (diff != 0D) {
+						Point auxmax = new Point(region.max.x, region.max.y);
+						Point auxmin = new Point(region.min.x, region.min.y);
+						if (newNode.location[0] < auxmin.x) {
+							auxmin.x = newNode.location[0];
+						}
+						if (newNode.location[1] < auxmin.y) {
+							auxmin.y = newNode.location[1];
+						}
+						if (newNode.location[0] > auxmax.x) {
+							auxmax.x = newNode.location[0];
+						}
+						if (newNode.location[1] > auxmax.y) {
+							auxmax.y = newNode.location[1];
+						}
+						Double newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
+						if (newdiff < diff) {
+							diff = newdiff;
+							best = region;
+						}
+					}
+				}
+			}
+			if (best.subRegions != null) {
+				best = bestNodeSearch(best, o);
+			}
+		}
+		return best;
 	}
 
 	private void regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
 		Region region1 = new Region();
 		Region region2 = new Region();
-		long[] minpoint = new long[]{split.min.x, split.min.y};
-		long[] maxpoint = new long[]{split.max.x, split.max.y};
+		double[] minpoint = new double[]{split.min.x, split.min.y};
+		double[] maxpoint = new double[]{split.max.x, split.max.y};
 
 		if(regionsplit){
 			//Región más pequeña
 			Region min = new Region();
-			min.min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
+			min.min = new Point(Double.MAX_VALUE, Double.MAX_VALUE);
 			//Región más grande
 			Region max = new Region();
-			max.max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+			max.max = new Point(Double.MIN_VALUE, Double.MIN_VALUE);
 
 			//Se busca la región más cercana y lejana desde el punto de vista del 0,0
 			//Para encontrar las regiones más alejadas entre ellas

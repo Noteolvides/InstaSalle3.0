@@ -43,7 +43,7 @@ public class GenerateUser {
         }
         try {
             System.out.println(jsonString);
-            FileWriter fw = new FileWriter("datasetUsers_" + numUsers + ".txt");
+            FileWriter fw = new FileWriter("datasets/generated/datasetUsers_" + numUsers + ".txt");
             fw.write(jsonString);
             fw.close();
         } catch (IOException e) {

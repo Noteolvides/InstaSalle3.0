@@ -30,15 +30,15 @@ public class GeneratePost {
             for (int j = 0; j < arraysize; j++){
                 likedBy[j] = createName();
             }
-            Long[] location = new Long[2];
-            location[0] = (long) rdm.nextInt((1200) + 1);
-            location[1] = (long) rdm.nextInt((700) + 1);
+            Double[] location = new Double[2];
+            location[0] = (double) rdm.nextInt((1200) + 1);
+            location[1] = (double) rdm.nextInt((700) + 1);
             arraysize = rdm.nextInt(numUsers);
             String[] hashtags = new String[arraysize];
             for (int j = 0; j < arraysize; j++){
                 hashtags[j] = createName();
             }
-            posts.add(new Post(i, likedBy, new Date().toString(), createName(), (Long[]) location, hashtags));
+            posts.add(new Post(i, likedBy, rdm.nextInt(), createName(), (Double[]) location, hashtags));
         }
 
         for (int i = 0; i < posts.size(); i++) {
@@ -46,7 +46,7 @@ public class GeneratePost {
         }
         try {
             System.out.println(jsonString);
-            FileWriter fw = new FileWriter("datasetPosts" + numPosts + ".txt");
+            FileWriter fw = new FileWriter("datasets/generated/datasetPosts" + numPosts + ".txt");
             fw.write(jsonString.toString());
             fw.close();
         } catch (IOException e) {
