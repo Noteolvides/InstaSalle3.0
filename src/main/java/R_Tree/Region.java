@@ -2,6 +2,8 @@ package R_Tree;
 
 import Data.Post;
 
+import static R_Tree.Tree.BTREEDIMENSION;
+
 public class Region {
 	Region subRegions[];
 	boolean isSubRegion;
@@ -14,17 +16,21 @@ public class Region {
 	Point min;
 	int area;
 	boolean isfull;
+	int childPos;
 
 	public Region() {
 		isLeaf = false;
 		subRegions = new Region[2];
 		isfull = false;
+		childPos = 0;
 	}
 
 	public Region(Post post){
 		this.isLeaf = true;
 		pointsLeaf = new Post[2];
-		pointsLeaf[0] = post;
+		childPos = 0;
+		pointsLeaf[childPos] = post;
+		childPos++;
 		this.min = new Point(post.location[0],post.location[1]);
 		this.max = new Point(post.location[0],post.location[1]);
 	}
@@ -36,10 +42,8 @@ public class Region {
 	
 	public void add(Post post) {
 		if (isLeaf) {
-			if (pointsLeaf[0] == null) {
-				pointsLeaf[0] = post;
-			} else {
-				pointsLeaf[1] = post;
+			pointsLeaf[childPos] = post;
+			if (childPos == BTREEDIMENSION) {
 				this.isfull = true;
 			}
 			if (post.location[0] < min.x) {
@@ -61,10 +65,9 @@ public class Region {
 	}
 
 	public void add(Region region) {
-		if (subRegions[0] == null) {
-			subRegions[0] = region;
-		} else {
-			subRegions[1] = region;
+		subRegions[childPos] = region;
+		childPos++;
+		if (childPos == BTREEDIMENSION) {
 			isfull = true;
 		}
 	}
