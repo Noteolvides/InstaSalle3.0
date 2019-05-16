@@ -59,8 +59,8 @@ public class Test extends PApplet {
 		if (region.isLeaf){
 			for (int i = 0; i < region.pointsLeaf.length; i++) {
 				if (region.pointsLeaf[i] != null){
-					x = Math.toIntExact(Double.doubleToLongBits(region.pointsLeaf[i].location[0]));
-					y = Math.toIntExact(Double.doubleToLongBits(region.pointsLeaf[i].location[1]));
+					x = region.pointsLeaf[i].location[0].intValue();
+					y = region.pointsLeaf[i].location[1].intValue();
 					strokeWeight(3);
 					stroke(rColor,gColor,bColor);
 					point(x,y);
