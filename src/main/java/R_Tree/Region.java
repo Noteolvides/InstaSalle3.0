@@ -34,28 +34,28 @@ public class Region {
 		subRegions = new Region[dimension];
 	}
 	
-	public void add(Object o) {
+	public void add(Post post) {
 		if (isLeaf) {
 			if (pointsLeaf[0] == null) {
-				pointsLeaf[0] = (Post) o;
+				pointsLeaf[0] = post;
 			} else {
-				pointsLeaf[1] = (Post) o;
+				pointsLeaf[1] = post;
 				this.isfull = true;
 			}
-			if (((Post) o).location[0] < min.x) {
-				min.x = ((Post) o).location[0];
+			if (post.location[0] < min.x) {
+				min.x = post.location[0];
 			}
-			if (((Post) o).location[1] < min.y) {
-				min.y = ((Post) o).location[1];
+			if (post.location[1] < min.y) {
+				min.y = post.location[1];
 			}
-			if (((Post) o).location[0] > max.x) {
-				max.x = ((Post) o).location[0];
+			if (post.location[0] > max.x) {
+				max.x = post.location[0];
 			}
-			if (((Post) o).location[1] > max.y) {
-				max.y = ((Post) o).location[1];
+			if (post.location[1] > max.y) {
+				max.y = post.location[1];
 			}
 		} else {
-			Region newSubRegion = new Region((Post) o);
+			Region newSubRegion = new Region(post);
 			if (subRegions[0] == null) {
 				subRegions[0] = newSubRegion;
 			} else {
