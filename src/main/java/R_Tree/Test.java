@@ -24,9 +24,12 @@ public class Test extends PApplet {
 		post1.location = new Double[]{(double)200,(double)300};
 		Post post2 = new Post();
 		post2.location = new Double[]{(double)100,(double)60};
-		tree.root = new Region();
-		tree.root.subRegions[0] = new Region(post);
-		tree.root.subRegions[1] = new Region(post1);
+		Post post3 = new Post();
+		post3.location = new Double[]{(double)280,(double)200};
+		Post post4 = new Post();
+		post4.location = new Double[]{(double)90,(double)20};
+		tree.root = tree.insertion(post, tree.root);
+		tree.root = tree.insertion(post1, tree.root);
 		tree.root = tree.insertion(post2, tree.root);
 		PApplet.main("R_Tree.Test",args);
 	}
