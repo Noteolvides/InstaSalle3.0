@@ -67,6 +67,7 @@ public class Region implements Cloneable {
 
 	public void add(Region region) {
 		subRegions[childPos] = region;
+		subRegions[childPos].superRegion = this;
 		childPos++;
 		if (childPos == BTREEDIMENSION) {
 			isfull = true;
