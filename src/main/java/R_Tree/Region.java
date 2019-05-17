@@ -23,6 +23,7 @@ public class Region implements Cloneable {
 		subRegions = new Region[BTREEDIMENSION];
 		isfull = false;
 		childPos = 0;
+		superRegion = this;
 	}
 
 	public Region(Post post){
@@ -33,11 +34,13 @@ public class Region implements Cloneable {
 		childPos++;
 		this.min = new Point(post.location[0],post.location[1]);
 		this.max = new Point(post.location[0],post.location[1]);
+		superRegion = this;
 	}
 
 	public Region(int dimension){
 		this.isLeaf = false;
 		subRegions = new Region[dimension];
+		superRegion = this;
 	}
 	
 	public void add(Post post) {
