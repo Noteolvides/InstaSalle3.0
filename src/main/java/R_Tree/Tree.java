@@ -182,7 +182,7 @@ public class Tree {
 
 			Region aux = (Region) split.clone();
 			//En caso que haya sitio para las nuevas regiones, se ponen
-			if(!split.superRegion.isfull){
+			if(split.superRegion == null || !split.superRegion.isfull){
 				//Búsqueda e inserción de ambas regiones
 				split = region1;
 				split.superRegion.add(region2);
