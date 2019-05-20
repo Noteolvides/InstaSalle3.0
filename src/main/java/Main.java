@@ -20,7 +20,14 @@ public class Main {
         String avltreepath;
         String hashpath;
         String graphpath;
+        /*Trie triedata;
+        RTree rtreedata;
+        AVLTree avldata;
+        Hash hashdata;
+        Graph graphdata;*/
+
         Scanner sc = new Scanner(System.in);
+        Gson gson = new Gson();
         System.out.println("Importació de fitxers\n" +
                 "1. Exportació de fitxers en format usuaris i post\n" +
                 "2. Exportació de fitxers en format totes les estructures\n" +
@@ -34,7 +41,7 @@ public class Main {
                 System.out.println("Especifiqui ruta del fitxer a importar corresponent a posts");
                 System.out.println("> ");
                 postspath = sc.next();
-                Gson gson = new Gson();
+
                 long startTime = System.currentTimeMillis();
                 users = gson.fromJson(new FileReader(userspath), User[].class);
                 posts = gson.fromJson(new FileReader(postspath), Post[].class);
@@ -60,6 +67,17 @@ public class Main {
                 System.out.println("Especifiqui ruta del fitxer a importar corresponent a Graph\n");
                 System.out.println("> ");
                 graphpath = sc.next();
+                startTime = System.currentTimeMillis();
+                /*triedata = gson.fromJson(new FileReader(triepath), Trie[].class);
+                rtreedata = gson.fromJson(new FileReader(rtreepath), RTree[].class);
+                avldata = gson.fromJson(new FileReader(avltreepath), AVLTree[].class);
+                hashdata = gson.fromJson(new FileReader(hashpath), Hash[].class);
+                graphdata = gson.fromJson(new FileReader(graphpath), Graph[].class);
+                endTime = System.currentTimeMillis();
+                elements = triedata.length + rtreedata.length + avltreedata.length + hashdata.length + graphdata.length;
+                time = (endTime - startTime);
+                System.out.println("Exportacio realitzada amb èxit!\n" +
+                        elements + " elements exportats en " + time + "ms\n");*/
                 break;
         }
 
