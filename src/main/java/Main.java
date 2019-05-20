@@ -23,15 +23,15 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("Importació de fitxers\n" +
                 "1. Exportació de fitxers en format usuaris i post\n" +
-                "2. Exportació de fitxers en format totes les estructures" +
+                "2. Exportació de fitxers en format totes les estructures\n" +
                 "> ");
         int option = sc.nextInt();
         switch (option) {
             case 1:
-                System.out.println("Especifiqui ruta del fitxer a importar corresponent a usuaris\n");
+                System.out.println("Especifiqui ruta del fitxer a importar corresponent a usuaris");
                 System.out.println("> ");
                 userspath = sc.next();
-                System.out.println("Especifiqui ruta del fitxer a importar corresponent a posts\n");
+                System.out.println("Especifiqui ruta del fitxer a importar corresponent a posts");
                 System.out.println("> ");
                 postspath = sc.next();
                 Gson gson = new Gson();
@@ -41,8 +41,8 @@ public class Main {
                 long endTime = System.currentTimeMillis();
                 int elements = users.length + posts.length;
                 long time = (endTime - startTime);
-                System.out.println("Exportacio realitzada amb èxit!" +
-                         elements + " elements exportats en " + time + "ms");
+                System.out.println("Exportacio realitzada amb èxit!\n" +
+                         elements + " elements exportats en " + time + "ms\n");
                 break;
             case 2:
                 System.out.println("Especifiqui ruta del fitxer a importar corresponent a Tries\n");
@@ -71,12 +71,12 @@ public class Main {
         switch (option) {
             case 1:
                 System.out.println("Visualització de l'estructura\n" +
-                        "Quina estructura dessitja visualitzar?" +
-                        "\t1. Trie" +
-                        "\t2. R-Tree" +
-                        "\t3. AVL Tree" +
-                        "\t4. Taula de Hash" +
-                        "\t5. Graph");
+                        "Quina estructura dessitja visualitzar?\n" +
+                        "\t1. Trie\n" +
+                        "\t2. R-Tree\n" +
+                        "\t3. AVL Tree\n" +
+                        "\t4. Taula de Hash\n" +
+                        "\t5. Graph\n");
                 switch (sc.nextInt()) {
                     case 1:
                         break;
@@ -90,23 +90,23 @@ public class Main {
                 break;
             case 2:
                 System.out.println("Inserció d'informació\n" +
-                        "Quin tipus d'informació vol inserir?" +
-                        "\t1. Nou Uusuari" +
-                        "\t2. Nou Post");
+                        "Quin tipus d'informació vol inserir?\n" +
+                        "\t1. Nou Uusuari\n" +
+                        "\t2. Nou Post\n");
                 break;
             case 3:
-                System.out.println("Esborrar informació" +
-                        "Quin tipus de informació vol esborrar?" +
-                        "\t1. Nou Usuari" +
-                        "\t2. Nou Post");
+                System.out.println("Esborrar informació\n" +
+                        "Quin tipus de informació vol esborrar?\n" +
+                        "\t1. Nou Usuari\n" +
+                        "\t2. Nou Post\n");
                 break;
             case 4:
-                System.out.println("Cercar informació" +
-                        "Quin tipus de informació vol cercar" +
-                        "\t1. Usuari" +
-                        "\t2. Post" +
-                        "\t3. Segons hashtag" +
-                        "\t4. Segons ubicació");
+                System.out.println("Cercar informació\n" +
+                        "Quin tipus de informació vol cercar\n" +
+                        "\t1. Usuari\n" +
+                        "\t2. Post\n" +
+                        "\t3. Segons hashtag\n" +
+                        "\t4. Segons ubicació\n");
                 break;
         }
     }
