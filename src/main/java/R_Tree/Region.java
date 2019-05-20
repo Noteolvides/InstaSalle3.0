@@ -18,12 +18,24 @@ public class Region implements Cloneable {
 	boolean isfull;
 	boolean isRegionFull;
 	int childPos;
+	int childRegionPos;
+
+	public Region(double height,double witdh){
+		max = new Point(height,witdh);
+		min = new Point(0d,0d);
+		subRegions = new Region[BTREEDIMENSION];
+		childPos = 0;
+		childRegionPos = 0;
+		isfull = false;
+		isRegionFull = false;
+		superRegion = null;
+	}
 
 	public Region() {
 		isLeaf = false;
-		subRegions = new Region[BTREEDIMENSION];
 		isfull = false;
 		childPos = 0;
+		childRegionPos = 0;
 		superRegion = this;
 	}
 
@@ -31,6 +43,7 @@ public class Region implements Cloneable {
 		this.isLeaf = true;
 		pointsLeaf = new Post[BTREEDIMENSION];
 		childPos = 0;
+		childRegionPos = 0;
 		pointsLeaf[childPos] = post;
 		childPos++;
 		this.min = new Point(post.location[0],post.location[1]);
@@ -70,10 +83,11 @@ public class Region implements Cloneable {
 	}
 
 	public void add(Region region) {
-		subRegions[childPos] = region;
-		subRegions[childPos].superRegion = this;
-		childPos++;
-		if (childPos == BTREEDIMENSION) {
+
+		subRegions[childRegionPos] = region;
+		subRegions[childRegionPos].superRegion = this;
+		childRegionPos++;
+		if (childRegionPos == BTREEDIMENSION) {
 			isRegionFull = true;
 		}
 	}

@@ -4,7 +4,7 @@ import Data.Post;
 
 public class Tree {
 	final static int BTREEDIMENSION = 2;
-	Region root;
+	Region root = new Region();
 
 
 	public Tree() {
@@ -15,8 +15,8 @@ public class Tree {
 	public Region insertion(Object o, Region actual){
 		Region aux;
 
-		if (actual == null) {
-			actual = new Region((Post) o);
+		if (actual.childRegionPos == 0){
+			actual.add(new Region((Post) o));
 		} else {
 			//Búsqueda dle mejor nodo región en el que colocar el punto
 			//Todo implementar la búsqueda del mejor nodo
@@ -81,8 +81,8 @@ public class Tree {
 	private void regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
 		Region region1 = new Region();
 		Region region2 = new Region();
-		double[] minpoint = new double[]{split.min.x, split.min.y};
-		double[] maxpoint = new double[]{split.max.x, split.max.y};
+		Double[] minpoint = new Double[]{split.min.x, split.min.y};
+		Double[] maxpoint = new Double[]{split.max.x, split.max.y};
 
 		if(regionsplit){
 			//Región más pequeña
@@ -145,47 +145,51 @@ public class Tree {
 		}else{
 			//Búsqueda de los dos posts más distanciados, es decir, aquellos que forman la MBR
 			//max y min dentro de la región.
+			Post min=null;
+			Post max = null;
 			for (int i = 0; i < split.childPos; i++){
 				//Comprovación para el punto mínimo
 				if(split.pointsLeaf[i].location[0] <= minpoint[0]){
 					if (split.pointsLeaf[i].location[1] <= minpoint[1]){
-						Post postadd = split.pointsLeaf[i];
-						region1.add(postadd);
+						minpoint = split.pointsLeaf[i].location;
+						min = split.pointsLeaf[i];
 					}
 				}
 
 				//Comprovación para el punto máximo
 				if(split.pointsLeaf[i].location[0] >= maxpoint[0]){
 					if (split.pointsLeaf[i].location[1] >= maxpoint[1]){
-						Post postadd = split.pointsLeaf[i];
-						region2.add(postadd);
+						maxpoint = split.pointsLeaf[i].location;
+						max = split.pointsLeaf[i];
 					}
 				}
 			}
+
 			//Comprovación con el punto que he de añadir (OverflowP)
 
 			//Comprovación para el punto mínimo con overflowP
 			if(overflowP.location[0] <= minpoint[0]){
 				if (overflowP.location[1] <= minpoint[1]){
-					Post postadd = split.pointsLeaf[split.childPos-1];
-					region1.add(postadd);
+					min = overflowP;
 				}
 			}
 
 			//Comprovación para el punto máximo con OverflowP
 			if(overflowP.location[0] >= maxpoint[0]){
 				if (overflowP.location[1] >= maxpoint[1]){
-					Post postadd = split.pointsLeaf[split.childPos-1];
-					region2.add(postadd);
+					max = overflowP;
 				}
 			}
 
+			region1 = new Region(min);
+			region2 = new Region(max);
+
 			Region aux = (Region) split.clone();
 			//En caso que haya sitio para las nuevas regiones, se ponen
-			if(split.superRegion == null || !split.superRegion.isfull){
+			if(!(split.isRegionFull)){
 				//Búsqueda e inserción de ambas regiones
-				split = region1;
 				split.superRegion.add(region2);
+				split = region1;
 
 				//Redistribución de los puntos en las nuevas regiones
 				for(int i = 0; i < aux.pointsLeaf.length; i++){
@@ -199,9 +203,8 @@ public class Tree {
 				//Fin del TODO
 			}else{
 				//TODO asignar overflowR
-
-				//Fin del TODO
 				regionSplit(split.superRegion, this, overflowP, overflowR, true);
+				//Fin del TODO
 
 				//Redistribución de los puntos en las nuevas regiones
 				for(int i = 0; i < split.pointsLeaf.length; i++){
