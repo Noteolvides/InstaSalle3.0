@@ -1,6 +1,9 @@
+import AVL.AVLTree;
 import Data.Post;
 import Data.User;
-import Trie.Test;
+import Graphs.Graph;
+import HashTable.HashTable;
+import R_Tree.Tree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
 
@@ -20,11 +23,11 @@ public class Main {
         String avltreepath;
         String hashpath;
         String graphpath;
-        /*Trie triedata;
-        RTree rtreedata;
-        AVLTree avldata;
-        Hash hashdata;
-        Graph graphdata;*/
+        TrieTree[] triedata;
+        Tree[] rtreedata;
+        AVLTree[] avldata;
+        HashTable[] hashdata;
+        Graph[] graphdata;
 
         Scanner sc = new Scanner(System.in);
         Gson gson = new Gson();
@@ -68,16 +71,16 @@ public class Main {
                 System.out.println("> ");
                 graphpath = sc.next();
                 startTime = System.currentTimeMillis();
-                /*triedata = gson.fromJson(new FileReader(triepath), Trie[].class);
-                rtreedata = gson.fromJson(new FileReader(rtreepath), RTree[].class);
+                triedata = gson.fromJson(new FileReader(triepath), TrieTree[].class);
+                rtreedata = gson.fromJson(new FileReader(rtreepath), Tree[].class);
                 avldata = gson.fromJson(new FileReader(avltreepath), AVLTree[].class);
-                hashdata = gson.fromJson(new FileReader(hashpath), Hash[].class);
+                hashdata = gson.fromJson(new FileReader(hashpath), HashTable[].class);
                 graphdata = gson.fromJson(new FileReader(graphpath), Graph[].class);
                 endTime = System.currentTimeMillis();
-                elements = triedata.length + rtreedata.length + avltreedata.length + hashdata.length + graphdata.length;
+                elements = triedata.length + rtreedata.length + avldata.length + hashdata.length + graphdata.length;
                 time = (endTime - startTime);
                 System.out.println("Exportacio realitzada amb èxit!\n" +
-                        elements + " elements exportats en " + time + "ms\n");*/
+                        elements + " elements exportats en " + time + "ms\n");
                 break;
         }
 
