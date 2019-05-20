@@ -16,6 +16,7 @@ public class Region implements Cloneable {
 	Point min;
 	int area;
 	boolean isfull;
+	boolean isRegionFull;
 	int childPos;
 
 	public Region() {
@@ -73,7 +74,7 @@ public class Region implements Cloneable {
 		subRegions[childPos].superRegion = this;
 		childPos++;
 		if (childPos == BTREEDIMENSION) {
-			isfull = true;
+			isRegionFull = true;
 		}
 	}
 
