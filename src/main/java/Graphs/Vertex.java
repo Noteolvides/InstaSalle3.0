@@ -5,10 +5,10 @@ import List.List;
 
 public class Vertex {
     String username;
-    String creation;
+    long creation;
     List<Vertex> relations;
 
-    public Vertex(String username, String creation) {
+    public Vertex(String username, long creation) {
         this.username = username;
         this.creation = creation;
         this.relations = new List<Vertex>();
@@ -20,7 +20,7 @@ public class Vertex {
             return false;
         } else {
             Vertex v = (Vertex) obj;
-            return username.equals(v.username) && creation.equals(v.creation);
+            return username.equals(v.username) && creation == v.creation;
         }
     }
 

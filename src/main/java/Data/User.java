@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
     public String username;
-    public String creation;
+    public long creation;
     @SerializedName("to_follow")
     public String[] toFollow;
 
-    public User(String username, String creation) {
+    public User(String username, long creation) {
         this.username = username;
         this.creation = creation;
     }
 
-    public User(String username, String creation, String[] toFollow) {
+    public User(String username, long creation, String[] toFollow) {
         this.username = username;
         this.creation = creation;
         this.toFollow = toFollow;

@@ -1,10 +1,6 @@
 package Graphs;
 
 import List.List;
-import com.google.gson.Gson;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Graph {
     private List<Vertex> adjacencyList;
@@ -48,23 +44,5 @@ public class Graph {
 
     public void setAdjacencyList(List<Vertex> adjacencyList) {
         this.adjacencyList = adjacencyList;
-    }
-
-    public static void main (String[] args) throws IOException {
-        Graph graph = new Graph();
-        graph.insertVertex(new Vertex("n", "6"));
-        graph.insertVertex(new Vertex("neil", "20/4/2019"));
-        graph.insertVertex(new Vertex("alex", "13/5/2019"));
-        graph.insertEdge(new Vertex("neil", "20/4/2019"), new Vertex("alex", "13/5/2019"));
-        graph.insertEdge(new Vertex("n", "6"), new Vertex("alex", "13/5/2019"));
-        graph.insertEdge(new Vertex("alex", "13/5/2019"), new Vertex("n", "6"));
-        graph.removeEdge(new Vertex("n", "6"), new Vertex("alex", "13/5/2019"));
-        graph.removeVertex(new Vertex("n", "6"));
-        Gson gson = new Gson();
-        String jsonString = null;
-        jsonString = gson.toJson(graph);
-        FileWriter fw = new FileWriter("graphjson.txt");
-        fw.write(jsonString);
-        fw.close();
     }
 }
