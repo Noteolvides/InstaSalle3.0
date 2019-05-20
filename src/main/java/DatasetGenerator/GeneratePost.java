@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -38,7 +37,7 @@ public class GeneratePost {
             for (int j = 0; j < arraysize; j++){
                 hashtags[j] = createName();
             }
-            posts.add(new Post(i, likedBy, rdm.nextInt(), createName(), (Double[]) location, hashtags));
+            posts.add(new Post(i, likedBy, rdm.nextLong(), createName(), (Double[]) location, hashtags));
         }
 
         for (int i = 0; i < posts.size(); i++) {
