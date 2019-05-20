@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,8 +21,7 @@ public class GenerateUser {
 
         Random rdm = new Random();
         for (int i = 0; i < numUsers; i++) {
-            Date date = new Date();
-            users.add(new User(createName(), date.toString()));
+            users.add(new User(Utils.createName(), rdm.nextLong()));
         }
         for (int i = 0; i < users.size(); i++) {
             int arraysize = rdm.nextInt(users.size());
@@ -49,15 +47,6 @@ public class GenerateUser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static String createName() {
-        Random rdm = new Random();
-        String name = "";
-        for (int i = 0; i < rdm.nextInt(10); i++) {
-            name += (char) (rdm.nextInt(26) + 'a');
-        }
-        return name;
     }
 
     private static boolean inRelation(String[] userrelation, String rdmuser) {

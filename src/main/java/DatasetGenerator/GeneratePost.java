@@ -27,7 +27,7 @@ public class GeneratePost {
             int arraysize = rdm.nextInt(numUsers);
             String[] likedBy = new String[arraysize];
             for (int j = 0; j < arraysize; j++){
-                likedBy[j] = createName();
+                likedBy[j] = Utils.createName();
             }
             Double[] location = new Double[2];
             location[0] = (double) rdm.nextInt((1200) + 1);
@@ -35,9 +35,9 @@ public class GeneratePost {
             arraysize = rdm.nextInt(numUsers);
             String[] hashtags = new String[arraysize];
             for (int j = 0; j < arraysize; j++){
-                hashtags[j] = createName();
+                hashtags[j] = Utils.createName();
             }
-            posts.add(new Post(i, likedBy, rdm.nextLong(), createName(), (Double[]) location, hashtags));
+            posts.add(new Post(i, likedBy, rdm.nextLong(), Utils.createName(), (Double[]) location, hashtags));
         }
 
         for (int i = 0; i < posts.size(); i++) {
@@ -51,14 +51,5 @@ public class GeneratePost {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static String createName() {
-        Random rdm = new Random();
-        StringBuilder name = new StringBuilder();
-        for (int i = 0; i < rdm.nextInt(10); i++) {
-            name.append((char) (rdm.nextInt(26) + 'a'));
-        }
-        return name.toString();
     }
 }
