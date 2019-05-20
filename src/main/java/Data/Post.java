@@ -7,7 +7,7 @@ public class Post {
     @SerializedName("liked_by")
     public String[] likedBy;
     @SerializedName("published_when")
-    public int publishedWhen;
+    public long publishedWhen;
     @SerializedName("published_by")
     public String publishedBy;
     public Double[] location;
@@ -16,7 +16,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, String[] likedBy, int publishedWhen, String publishedBy, Double[] location, String[] hashtags) {
+    public Post(int id, String[] likedBy, long publishedWhen, String publishedBy, Double[] location, String[] hashtags) {
         this.id = id;
         this.likedBy = likedBy;
         this.publishedWhen = publishedWhen;
