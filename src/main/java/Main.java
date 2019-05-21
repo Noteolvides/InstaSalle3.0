@@ -27,11 +27,11 @@ public class Main {
         String avltreepath;
         String hashpath;
         String graphpath;
-        TrieTree trieTree = null;
-        Tree rTree = null;
-        AVLTree avlTree = null;
-        HashTable hashTable = null;
-        Graph graph = null;
+        TrieTree trieTree = new TrieTree();
+        Tree rTree = new Tree();
+        AVLTree avlTree = new AVLTree();
+        HashTable hashTable = new HashTable(1);
+        Graph graph = new Graph();
 
         Scanner sc = new Scanner(System.in);
         Gson gson = new Gson();
@@ -195,7 +195,57 @@ public class Main {
                         trieTree.insert(username);
                         break;
                     case 2:
-                        
+                        System.out.println("ID:");
+                        int idPost = sc.nextInt();
+                        System.out.println("Usuaris a qui li ha agradat[Y/N]");
+                        boolean liked = true;
+                        List<String> likednamelist = new List<String>();
+                        while (liked) {
+                            System.out.println("Usuaris a qui li ha agradat[Y/N]");
+                            if (sc.next().equals("Y")) {
+                                System.out.println("Nom:");
+                                likednamelist.add(sc.next());
+                            } else {
+                                liked = false;
+                            }
+                        }
+                        String[] likedname = new String[likednamelist.size()];
+                        for (int i = 0; i < likednamelist.size(); i++) {
+                            likedname[i] = likednamelist.get(i);
+                        }
+
+                        System.out.println("Data de publicacio:");
+                        long publishedWhen = sc.nextLong();
+                        System.out.println("Publicat per:");
+                        String publishedBy = sc.next();
+                        System.out.println("Location:");
+                        Double[] location = new Double[2];
+                        System.out.println("\tLatitud:");
+                        location[0] = sc.nextDouble();
+                        System.out.println("\tLogitud:");
+                        location[1] = sc.nextDouble();
+
+                        boolean tags = true;
+                        List<String> tagnamelist = new List<String>();
+                        while (tags) {
+                            System.out.println("Tags del post[Y/N]");
+                            if (sc.next().equals("Y")) {
+                                System.out.println("HashTag:");
+                                likednamelist.add(sc.next());
+                            } else {
+                                tags = false;
+                            }
+                        }
+                        String[] tagname = new String[tagnamelist.size()];
+                        for (int i = 0; i < tagnamelist.size(); i++) {
+                            tagname[i] = tagnamelist.get(i);
+                            if (hashTable.search(tagname[i]) == null || !hashTable.search(tagname[i]).equals(tagname[i])) {
+                                hashTable.insert(tagname[i]);
+                            }
+                        }
+                        Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);
+                        //rTree.insertion(newpost, root);
+                        avlTree.insert(newpost);
                         break;
                 }
                 break;
@@ -217,7 +267,7 @@ public class Main {
                     case 2:
                         System.out.println("Id post que s'esborrara:");
                         try {
-                            avlTree.delete(sc.nextInt());
+                            avlTree.delete(avlTree.search(sc.nextInt()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
