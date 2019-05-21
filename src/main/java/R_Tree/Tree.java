@@ -98,11 +98,9 @@ public class Tree {
     }
 
     private Region regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit) {
-        split = aux;
         Region region1 = new Region();
         Region region2 = new Region();
-        Double[] minpoint = new Double[]{split.min.x, split.min.y};
-        Double[] maxpoint = new Double[]{split.max.x, split.max.y};
+
 
         if (regionsplit) {
             //Región más pequeña
@@ -163,6 +161,9 @@ public class Tree {
                 regionSplit(split.fatherNode.superRegion, this, overflowP, overflowR, true);
             }
         } else {
+            split = aux;
+            Double[] minpoint = new Double[]{Double.MAX_VALUE, Double.MAX_VALUE};
+            Double[] maxpoint = new Double[]{Double.MIN_VALUE, Double.MIN_VALUE};
             //Búsqueda de los dos posts más distanciados, es decir, aquellos que forman la MBR
             //max y min dentro de la región.
             Post min = null;
@@ -236,15 +237,33 @@ public class Tree {
                 return split;
             } else {
                 //TODO asignar overflowR
-                regionSplit(split.superRegion, this, overflowP, overflowR, true);
+                split = region1;
                 //Fin del TODO
 
+                postionAux = 0;
                 //Redistribución de los puntos en las nuevas regiones
-                for (int i = 0; i < split.pointsLeaf.length; i++) {
-                    if ((!split.pointsLeaf[i].equals(region1.pointsLeaf[0])) || ((!split.pointsLeaf[i].equals(region2.pointsLeaf[0])))) {
-                        this.insertion(split.pointsLeaf[i], split.superRegion);
+                for (int i = 0; i < aux2.pointsLeaf.length; i++) {
+                    if (!((double)aux2.pointsLeaf[i].location[0] == (double)region1.pointsLeaf[0].location[0] && (double)aux2.pointsLeaf[i].location[1] == (double)region1.pointsLeaf[0].location[1])){
+                        if (!((double)aux2.pointsLeaf[i].location[0] == (double)region2.pointsLeaf[0].location[0] && (double)aux2.pointsLeaf[i].location[1]  == (double)region2.pointsLeaf[0].location[1]))
+                        {
+                            pintsAux[postionAux] = aux2.pointsLeaf[i];
+                            postionAux++;
+                        }
                     }
                 }
+
+                //TODO añadir el punto OverflowP
+                if (!((double)overflowP.location[0] == (double)region1.pointsLeaf[0].location[0] && (double)overflowP.location[1] == (double)region1.pointsLeaf[0].location[1])) {
+                    if (!((double)overflowP.location[0] == (double)region2.pointsLeaf[0].location[0] && (double)overflowP.location[1] == (double)region2.pointsLeaf[0].location[1])){
+                        pintsAux[postionAux] = overflowP;
+                        postionAux++;
+                    }
+                }
+
+                regionSplit(split.superRegion, this, overflowP, region2, true);
+
+                //Fin del TODO
+
             }
 
         }
