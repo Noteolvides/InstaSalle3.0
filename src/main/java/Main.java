@@ -200,11 +200,17 @@ public class Main {
 
     private static TrieTree insertUsersTrie(User[] users) {
         TrieTree trie = new TrieTree();
+        for (User user : users) {
+            trie.insert(user.username);
+        }
         return trie;
     }
 
     private static Tree insertPostsRTree(Post[] posts) {
         Tree rtree = new Tree();
+        for (Post post: posts) {
+            //rtree.insertion(post, root);
+        }
         return rtree;
     }
 }
