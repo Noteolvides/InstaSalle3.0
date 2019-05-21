@@ -1,6 +1,12 @@
 package AVL;
 
+import Data.Post;
+import Trie.TrieTree;
+import com.google.gson.Gson;
 import processing.core.PApplet;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class Test extends PApplet {
 
@@ -8,12 +14,15 @@ public class Test extends PApplet {
 	private final int dimensiony = 700;
 	int level = 1;
 	int offsetY = 100;
-	AVLTree<Integer> tree = new AVLTree<Integer>();
+	AVLTree<Post> tree = new AVLTree<Post>();
 	int state = 0;
 	String result="";
 
+	public void setTree(AVLTree<Post> tree) {
+		this.tree = tree;
+	}
 
-	public static void main(String... args){
+	public void visualize(String... args){
 		PApplet.main("AVL.Test",args);
 	}
 
@@ -21,10 +30,15 @@ public class Test extends PApplet {
 		size(dimensionx, dimensiony);
 	}
 
-	public void setup(){
+	public void setup() {
 		background(51);
 		frameRate(30);
-
+		Gson gson = new Gson();
+		try {
+			tree = gson.fromJson(new FileReader("datasets/visualize/jsonForVisualize.json"), AVLTree.class);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void draw(){
@@ -46,7 +60,7 @@ public class Test extends PApplet {
 			case 1:
 				fill(255, 2, 2);
 				text ("Gracias Eliminar el nodo \n"+result, 133, 100);
-				try {
+				/*try {
 
 					tree.delete(Integer.parseInt(result));
 					result = "";
@@ -56,13 +70,13 @@ public class Test extends PApplet {
 					tree.insert(Integer.parseInt(result));
 					state = 0;
 					result = "";
-				}
+				}*/
 				break;
 		}
 
 	}
 
-	void preOrder(Node<Integer> nodeAct,int nuevo, int anterior){
+	void preOrder(Node<Post> nodeAct,int nuevo, int anterior){
 		if (level != 1){
 			line(nuevo, level * (offsetY + 2), anterior, (level - 1) * (offsetY + 2));
 		}
@@ -73,7 +87,7 @@ public class Test extends PApplet {
 		fill(255,0,0);
 		text(nodeAct.factor, nuevo+10, (level * offsetY)-4);
 		fill(0);
-		text(nodeAct.data.toString(), nuevo, (level * offsetY) + 5);
+		text(Integer.toString(nodeAct.data.id), nuevo, (level * offsetY) + 5);
 
 		double vector = Math.abs(anterior - nuevo);
 		if (nodeAct.leftChild != null) {

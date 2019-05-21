@@ -20,7 +20,7 @@ public class GenerateTrie {
         Gson gson = new Gson();
         String jsonString;
         jsonString = gson.toJson(trie);
-        FileWriter fw = new FileWriter("datasets/generated/datasetAVL" + numUsers + ".txt");
+        FileWriter fw = new FileWriter("datasets/generated/datasetAVL" + numUsers + ".json");
         fw.write(jsonString);
         fw.close();
     }
