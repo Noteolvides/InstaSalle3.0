@@ -3,6 +3,7 @@ import Data.Post;
 import Data.User;
 import Graphs.Graph;
 import HashTable.HashTable;
+import List.List;
 import R_Tree.Tree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
@@ -48,8 +49,13 @@ public class Main {
                 long startTime = System.currentTimeMillis();
                 users = gson.fromJson(new FileReader(userspath), User[].class);
                 posts = gson.fromJson(new FileReader(postspath), Post[].class);
+
+                graph = new Graph();
                 graph.insertUsers(users);
-                hashTable.insertHashTags(posts);
+                List<String> hashtags = getHashTags(posts);
+                hashTable = new HashTable(hashtags.size());
+                hashTable.insertHashTags(hashtags);
+
                 long endTime = System.currentTimeMillis();
                 int elements = users.length + posts.length;
                 long time = (endTime - startTime);
@@ -111,10 +117,10 @@ public class Main {
 
                         break;
                     case 4:
-                        hashTable.visualize();
+                        //hashTable.visualize();
                         break;
                     case 5:
-                        graph.visualize();
+                        //graph.visualize();
                         break;
                 }
                 break;
@@ -139,5 +145,17 @@ public class Main {
                         "\t4. Segons ubicació\n");
                 break;
         }
+    }
+
+    private static List<String> getHashTags(Post[] posts) {
+        List<String> hashtags = new List<String>();
+        for (Post post: posts) {
+            for (String hastag: post.hashtags) {
+                if (!hashtags.get(hastag).equals(hastag)) {
+                    hashtags.add(hastag);
+                }
+            }
+        }
+        return hashtags;
     }
 }
