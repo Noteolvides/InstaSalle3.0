@@ -23,11 +23,11 @@ public class Main {
         String avltreepath;
         String hashpath;
         String graphpath;
-        TrieTree[] triedata;
-        Tree[] rtreedata;
-        AVLTree[] avldata;
-        HashTable[] hashdata;
-        Graph[] graphdata;
+        TrieTree trieTree;
+        Tree rTree;
+        AVLTree avlTree;
+        HashTable hashTable;
+        Graph graph;
 
         Scanner sc = new Scanner(System.in);
         Gson gson = new Gson();
@@ -48,6 +48,8 @@ public class Main {
                 long startTime = System.currentTimeMillis();
                 users = gson.fromJson(new FileReader(userspath), User[].class);
                 posts = gson.fromJson(new FileReader(postspath), Post[].class);
+                graph.insertUsers(users);
+                hashTable.insertHashTags(posts);
                 long endTime = System.currentTimeMillis();
                 int elements = users.length + posts.length;
                 long time = (endTime - startTime);
@@ -71,16 +73,16 @@ public class Main {
                 System.out.println("> ");
                 graphpath = sc.next();
                 startTime = System.currentTimeMillis();
-                triedata = gson.fromJson(new FileReader(triepath), TrieTree[].class);
-                rtreedata = gson.fromJson(new FileReader(rtreepath), Tree[].class);
-                avldata = gson.fromJson(new FileReader(avltreepath), AVLTree[].class);
-                hashdata = gson.fromJson(new FileReader(hashpath), HashTable[].class);
-                graphdata = gson.fromJson(new FileReader(graphpath), Graph[].class);
+                trieTree = gson.fromJson(new FileReader(triepath), TrieTree.class);
+                rTree = gson.fromJson(new FileReader(rtreepath), Tree.class);
+                avlTree = gson.fromJson(new FileReader(avltreepath), AVLTree.class);
+                hashTable = gson.fromJson(new FileReader(hashpath), HashTable.class);
+                graph = gson.fromJson(new FileReader(graphpath), Graph.class);
                 endTime = System.currentTimeMillis();
-                elements = triedata.length + rtreedata.length + avldata.length + hashdata.length + graphdata.length;
+                //elements = triedata. + rtreedata.length + avldata.length + hashdata.length + graphdata.length;
                 time = (endTime - startTime);
                 System.out.println("Exportacio realitzada amb èxit!\n" +
-                        elements + " elements exportats en " + time + "ms\n");
+                        /*elements + */" elements exportats en " + time + "ms\n");
                 break;
         }
 
@@ -100,12 +102,19 @@ public class Main {
                         "\t5. Graph\n");
                 switch (sc.nextInt()) {
                     case 1:
+
                         break;
                     case 2:
+
                         break;
                     case 3:
+
                         break;
                     case 4:
+                        hashTable.visualize();
+                        break;
+                    case 5:
+                        graph.visualize();
                         break;
                 }
                 break;
