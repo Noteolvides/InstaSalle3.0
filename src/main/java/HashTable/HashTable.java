@@ -91,10 +91,4 @@ public class HashTable<K,E> {
             }
         }
     }
-
-    public void insertHashTags(List<String> hashtags) {
-        for (int i = 0; i < hashtags.size(); i++) {
-            insert((E) hashtags.get(i));
-        }
-    }
 }

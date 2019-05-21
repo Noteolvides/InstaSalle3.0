@@ -2,6 +2,7 @@ import AVL.AVLTree;
 import Data.Post;
 import Data.User;
 import Graphs.Graph;
+import Graphs.Vertex;
 import HashTable.HashTable;
 import List.List;
 import R_Tree.Tree;
@@ -50,11 +51,11 @@ public class Main {
                 users = gson.fromJson(new FileReader(userspath), User[].class);
                 posts = gson.fromJson(new FileReader(postspath), Post[].class);
 
-                graph = new Graph();
-                graph.insertUsers(users);
-                List<String> hashtags = getHashTags(posts);
-                hashTable = new HashTable(hashtags.size());
-                hashTable.insertHashTags(hashtags);
+                graph = insertUsersGraph(users);
+                hashTable = insertHashTags(posts);
+                avlTree = insertPostsAVL(posts);
+                trieTree = insertUsersTrie(users);
+                rTree = insertPostsRTree(posts);
 
                 long endTime = System.currentTimeMillis();
                 int elements = users.length + posts.length;
@@ -147,6 +148,36 @@ public class Main {
         }
     }
 
+    private static Graph insertUsersGraph(User[] users) {
+        Graph graph = new Graph();
+        for (User user: users) {
+            graph.insertVertex(new Vertex(user.username, user.creation));
+        }
+        for (User user: users) {
+            User relation = null;
+            for (String toFollow : user.toFollow) {
+                for (User found: users) {
+                    if (found.username.equals(toFollow)) {
+                        relation = found;
+                    }
+                }
+                if (relation != null) {
+                    graph.insertEdge(new Vertex(user.username, user.creation), new Vertex(relation.username, relation.creation));
+                }
+            }
+        }
+        return graph;
+    }
+
+    private static HashTable insertHashTags(Post[] posts) {
+        List<String> hashtags = getHashTags(posts);
+        HashTable<Integer, String> hashTable = new HashTable<Integer, String>(hashtags.size());
+        for (int i = 0; i < hashtags.size(); i++) {
+            hashTable.insert(hashtags.get(i));
+        }
+        return hashTable;
+    }
+
     private static List<String> getHashTags(Post[] posts) {
         List<String> hashtags = new List<String>();
         for (Post post: posts) {
@@ -157,5 +188,23 @@ public class Main {
             }
         }
         return hashtags;
+    }
+
+    private static AVLTree<Post> insertPostsAVL(Post[] posts) {
+        AVLTree<Post> avlTree = new AVLTree<>();
+        for (Post post : posts) {
+            avlTree.insert(post);
+        }
+        return avlTree;
+    }
+
+    private static TrieTree insertUsersTrie(User[] users) {
+        TrieTree trie = new TrieTree();
+        return trie;
+    }
+
+    private static Tree insertPostsRTree(Post[] posts) {
+        Tree rtree = new Tree();
+        return rtree;
     }
 }

@@ -46,23 +46,4 @@ public class Graph {
     public void setAdjacencyList(List<Vertex> adjacencyList) {
         this.adjacencyList = adjacencyList;
     }
-
-    public void insertUsers(User[] users) {
-        for (User user: users) {
-            insertVertex(new Vertex(user.username, user.creation));
-        }
-        for (User user: users) {
-            User relation = null;
-            for (String toFollow : user.toFollow) {
-                for (User found: users) {
-                    if (found.username.equals(toFollow)) {
-                        relation = found;
-                    }
-                }
-                if (relation != null) {
-                    insertEdge(new Vertex(user.username, user.creation), new Vertex(relation.username, relation.creation));
-                }
-            }
-        }
-    }
 }
