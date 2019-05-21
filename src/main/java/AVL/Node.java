@@ -1,11 +1,12 @@
 package AVL;
 
+import Data.Post;
+
 public class Node<T> {
     Node<T> leftChild;
     Node<T> rightChild;
     int factor;
     T data;
-
 
     public Node(T data) {
         this.data = data;
@@ -13,13 +14,7 @@ public class Node<T> {
     }
 
     public int compareTo(T data) {
-        if ((long)this.data < (long)data) {
-            return -1;
-        } else if ((long)this.data > (long)data){
-            return 1;
-        } else {
-            return 0;
-        }
+        return Long.compare(((Post) this.data).publishedWhen, ((Post) data).publishedWhen);
     }
 
 

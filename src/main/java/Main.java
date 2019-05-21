@@ -28,8 +28,8 @@ public class Main {
         TrieTree trieTree;
         Tree rTree;
         AVLTree avlTree;
-        HashTable hashTable;
-        Graph graph;
+        HashTable hashTable = null;
+        Graph graph = null;
 
         Scanner sc = new Scanner(System.in);
         Gson gson = new Gson();
@@ -182,7 +182,7 @@ public class Main {
         List<String> hashtags = new List<String>();
         for (Post post: posts) {
             for (String hastag: post.hashtags) {
-                if (!hashtags.get(hastag).equals(hastag)) {
+                if (hashtags.get(hastag) != null && !hashtags.get(hastag).equals(hastag)) {
                     hashtags.add(hastag);
                 }
             }
