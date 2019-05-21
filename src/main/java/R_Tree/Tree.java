@@ -128,9 +128,22 @@ public class Tree {
                 }
             }
             //TODO comprovar también max y min para OverflowR
+			//Búsqueda de la región más cercana
+			if (overflowR.min.x < min.min.x) {
+				if (overflowR.min.y < min.min.y) {
+					min = overflowR;
+				}
+			}
 
+			//Búsqueda de la región más lejana
+			if (overflowR.max.x > max.max.x) {
+				if (overflowR.max.y > max.max.y) {
+					max = overflowR;
+				}
+			}
             //Fin de este TODO
-            region1.add(min);
+
+			region1.add(min);
             region2.add(max);
             //TODO añadir region1 y region2 a una región como subregiones.
 
