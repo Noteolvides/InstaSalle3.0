@@ -22,7 +22,7 @@ public class GenerateHash {
         Gson gson = new Gson();
         String jsonString;
         jsonString = gson.toJson(hashTable);
-        FileWriter fw = new FileWriter("datasets/generated/datasetHash" + hashtags + ".txt");
+        FileWriter fw = new FileWriter("datasets/generated/datasetHash" + hashtags + ".json");
         fw.write(jsonString);
         fw.close();
     }

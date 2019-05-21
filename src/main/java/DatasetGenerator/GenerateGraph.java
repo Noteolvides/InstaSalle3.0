@@ -44,7 +44,7 @@ public class GenerateGraph {
         Gson gson = new Gson();
         String jsonString;
         jsonString = gson.toJson(graph);
-        FileWriter fw = new FileWriter("datasets/generated/datasetGraph" + numUsers + ".txt");
+        FileWriter fw = new FileWriter("datasets/generated/datasetGraph" + numUsers + ".json");
         fw.write(jsonString);
         fw.close();
     }

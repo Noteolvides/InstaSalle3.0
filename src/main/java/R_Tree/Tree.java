@@ -35,7 +35,7 @@ public class Tree {
                 //Todo Implementar regionSplit
                 Region sutituirParametros = regionSplit(null, this, (Post) o, new Region(), false);
                 aux.childRegionPos = sutituirParametros.childRegionPos;
-                aux.superRegion =sutituirParametros.superRegion;
+                aux.superRegion = sutituirParametros.superRegion;
                 aux.pointsLeaf = sutituirParametros.pointsLeaf;
                 aux.subRegions = sutituirParametros.subRegions;
                 aux.childRegionPos = sutituirParametros.childPos;
@@ -43,7 +43,7 @@ public class Tree {
                 aux.isRegionFull = sutituirParametros.isRegionFull;
                 aux.childPos = sutituirParametros.childPos;
                 aux.max = sutituirParametros.max;
-                aux.min  = sutituirParametros.min;
+                aux.min = sutituirParametros.min;
                 aux.fatherNode = sutituirParametros.fatherNode;
 
                 for (int i = 0; i < postionAux; i++) {
@@ -99,12 +99,49 @@ public class Tree {
         return best;
     }
 
+    private Region[] bestNodeSearch(Object o,Region regions[]) {
+        Double diff = Double.MAX_VALUE;
+        Region best = regions[0];
+        Post newNode = (Post) o;
+            for (Region region : regions) {
+                if (region != null) {
+                    if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
+                            && region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
+                        best = region;
+                        diff = 0D;
+                    } else {
+                        if (diff != 0D) {
+                            Point auxmax = new Point(region.max.x, region.max.y);
+                            Point auxmin = new Point(region.min.x, region.min.y);
+                            if (newNode.location[0] < auxmin.x) {
+                                auxmin.x = newNode.location[0];
+                            }
+                            if (newNode.location[1] < auxmin.y) {
+                                auxmin.y = newNode.location[1];
+                            }
+                            if (newNode.location[0] > auxmax.x) {
+                                auxmax.x = newNode.location[0];
+                            }
+                            if (newNode.location[1] > auxmax.y) {
+                                auxmax.y = newNode.location[1];
+                            }
+                            Double newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
+                            if (newdiff < diff) {
+                                diff = newdiff;
+                                best = region;
+                            }
+                        }
+                    }
+                }
+            }
+        best.add((Post)o);
+        return regions;
+    }
+
     private Region regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit) {
-        split = aux;
         Region region1 = new Region();
         Region region2 = new Region();
-        Double[] minpoint = new Double[]{split.min.x, split.min.y};
-        Double[] maxpoint = new Double[]{split.max.x, split.max.y};
+
 
         if (regionsplit) {
             //Región más pequeña
@@ -118,6 +155,7 @@ public class Tree {
             //Para encontrar las regiones más alejadas entre ellas
             for (int i = 0; i < split.subRegions.length; i++) {
                 //Búsqueda de la región más cercana
+
                 if (split.subRegions[i].min.x < min.min.x) {
                     if (split.subRegions[i].min.y < min.min.y) {
                         min = split.subRegions[i];
@@ -207,43 +245,41 @@ public class Tree {
                 regionSplit(split.fatherNode.superRegion, this, overflowP, overflowR, true);
             }
         } else {
+            split = aux;
+            Double distanciaMin = Double.MAX_VALUE;
+            Double distanciaMax = Double.MIN_VALUE;
+            Double distancia = null;
             //Búsqueda de los dos posts más distanciados, es decir, aquellos que forman la MBR
             //max y min dentro de la región.
             Post min = null;
             Post max = null;
             for (int i = 0; i < split.childPos; i++) {
                 //Comprovación para el punto mínimo
-                if (split.pointsLeaf[i].location[0] <= minpoint[0]) {
-                    if (split.pointsLeaf[i].location[1] <= minpoint[1]) {
-                        minpoint = split.pointsLeaf[i].location;
-                        min = split.pointsLeaf[i];
-                    }
+                //Calculo de distancias
+                distancia = calcularDistanciaDesde(split.pointsLeaf[i].location);
+                if (distancia <= distanciaMin) {
+                    distanciaMin = distancia;
+                    min = split.pointsLeaf[i];
                 }
 
                 //Comprovación para el punto máximo
-                if (split.pointsLeaf[i].location[0] >= maxpoint[0]) {
-                    if (split.pointsLeaf[i].location[1] >= maxpoint[1]) {
-                        maxpoint = split.pointsLeaf[i].location;
-                        max = split.pointsLeaf[i];
-                    }
+                if (distancia >= distanciaMax) {
+                    distanciaMax = distancia;
+                    max = split.pointsLeaf[i];
                 }
+            }
+
+            distancia = calcularDistanciaDesde(overflowP.location);
+            if (distancia <= distanciaMin) {
+                min = overflowP;
+            }
+
+            //Comprovación para el punto máximo
+            if (distancia >= distanciaMax) {
+                max = overflowP;
             }
 
             //Comprovación con el punto que he de añadir (OverflowP)
-
-            //Comprovación para el punto mínimo con overflowP
-            if (overflowP.location[0] <= minpoint[0]) {
-                if (overflowP.location[1] <= minpoint[1]) {
-                    min = overflowP;
-                }
-            }
-
-            //Comprovación para el punto máximo con OverflowP
-            if (overflowP.location[0] >= maxpoint[0]) {
-                if (overflowP.location[1] >= maxpoint[1]) {
-                    max = overflowP;
-                }
-            }
 
             region1 = new Region(min);
             region2 = new Region(max);
@@ -252,16 +288,15 @@ public class Tree {
 
             Region aux2 = (Region) split.clone();
             //En caso que haya sitio para las nuevas regiones, se ponen
-            if (!(split.isRegionFull)) {
+            if (!(split.superRegion.isRegionFull)) {
                 //Búsqueda e inserción de ambas regiones
                 split.superRegion.add(region2);
                 split = region1;
                 postionAux = 0;
                 //Redistribución de los puntos en las nuevas regiones
                 for (int i = 0; i < aux2.pointsLeaf.length; i++) {
-                    if (!((double)aux2.pointsLeaf[i].location[0] == (double)region1.pointsLeaf[0].location[0] && (double)aux2.pointsLeaf[i].location[1] == (double)region1.pointsLeaf[0].location[1])){
-                        if (!((double)aux2.pointsLeaf[i].location[0] == (double)region2.pointsLeaf[0].location[0] && (double)aux2.pointsLeaf[i].location[1]  == (double)region2.pointsLeaf[0].location[1]))
-                        {
+                    if (!((double) aux2.pointsLeaf[i].location[0] == (double) region1.pointsLeaf[0].location[0] && (double) aux2.pointsLeaf[i].location[1] == (double) region1.pointsLeaf[0].location[1])) {
+                        if (!((double) aux2.pointsLeaf[i].location[0] == (double) region2.pointsLeaf[0].location[0] && (double) aux2.pointsLeaf[i].location[1] == (double) region2.pointsLeaf[0].location[1])) {
                             pintsAux[postionAux] = aux2.pointsLeaf[i];
                             postionAux++;
                         }
@@ -281,19 +316,55 @@ public class Tree {
                 //Se asigna overflowR
 				regionSplit(split.superRegion, this, overflowP, overflowR, true);
 
+                //Fin del TODO
+
+                postionAux = 0;
                 //Redistribución de los puntos en las nuevas regiones
-                for (int i = 0; i < split.pointsLeaf.length; i++) {
-                    if ((!split.pointsLeaf[i].equals(region1.pointsLeaf[0])) || ((!split.pointsLeaf[i].equals(region2.pointsLeaf[0])))) {
-                        this.insertion(split.pointsLeaf[i], split.superRegion);
+                for (int i = 0; i < aux2.pointsLeaf.length; i++) {
+                    if (!((double) aux2.pointsLeaf[i].location[0] == (double) region1.pointsLeaf[0].location[0] && (double) aux2.pointsLeaf[i].location[1] == (double) region1.pointsLeaf[0].location[1])) {
+                        if (!((double) aux2.pointsLeaf[i].location[0] == (double) region2.pointsLeaf[0].location[0] && (double) aux2.pointsLeaf[i].location[1] == (double) region2.pointsLeaf[0].location[1])) {
+                            pintsAux[postionAux] = aux2.pointsLeaf[i];
+                            postionAux++;
+                        }
                     }
                 }
+
+                //TODO añadir el punto OverflowP
+                if (!((double) overflowP.location[0] == (double) region1.pointsLeaf[0].location[0] && (double) overflowP.location[1] == (double) region1.pointsLeaf[0].location[1])) {
+                    if (!((double) overflowP.location[0] == (double) region2.pointsLeaf[0].location[0] && (double) overflowP.location[1] == (double) region2.pointsLeaf[0].location[1])) {
+                        pintsAux[postionAux] = overflowP;
+                        postionAux++;
+                    }
+                }
+
+                Region[] auxiliar =  new Region[]{region1,region2};
+                auxiliar = bestNodeSearch(pintsAux[postionAux-1],auxiliar);
+                aux.childRegionPos = auxiliar[0].childRegionPos;
+                aux.superRegion = auxiliar[0].superRegion;
+                aux.pointsLeaf = auxiliar[0].pointsLeaf;
+                aux.subRegions = auxiliar[0].subRegions;
+                aux.childRegionPos = auxiliar[0].childPos;
+                aux.isfull = auxiliar[0].isfull;
+                aux.isRegionFull = auxiliar[0].isRegionFull;
+                aux.childPos = auxiliar[0].childPos;
+                aux.max = auxiliar[0].max;
+                aux.min = auxiliar[0].min;
+                aux.fatherNode = auxiliar[0].fatherNode;
+                regionSplit(split.superRegion, this, overflowP, auxiliar[1], true);
+
+                //Fin del TODO
+
             }
 
         }
         return split;
     }
 
-    //Todo Busqueda
+    public double calcularDistanciaDesde(Double[] parametros) {
+        double cateto1 = parametros[0];
+        double cateto2 = parametros[1];
+        double hipotenusa = Math.sqrt(cateto1 * cateto1 + cateto2 * cateto2);
+        return hipotenusa;
 
-    //Todo Eliminacion
+    }
 }

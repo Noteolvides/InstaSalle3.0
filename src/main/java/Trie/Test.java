@@ -1,7 +1,10 @@
 package Trie;
 
+import com.google.gson.Gson;
 import processing.core.PApplet;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Test extends PApplet {
@@ -39,7 +42,7 @@ public class Test extends PApplet {
 	}
 
 
-	public static void main(String... args) {
+	public void visualize(String... args) {
 		PApplet.main("Trie.Test", args);
 	}
 
@@ -50,7 +53,14 @@ public class Test extends PApplet {
 	public void setup() {
 		background(51);
 		frameRate(30);
-
+		Gson gson = new Gson();
+		try {
+			tree = gson.fromJson(new FileReader("datasets/visualize/jsonForVisualize.json"), TrieTree.class);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		checkMaxLevel(tree.root,0);
+		checkHowMany(tree.root,0);
 	}
 
 

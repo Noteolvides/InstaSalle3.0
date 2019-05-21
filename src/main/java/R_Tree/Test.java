@@ -27,10 +27,12 @@ public class Test extends PApplet {
 		Post post3 = new Post();
 		post3.location = new Double[]{(double)280,(double)200};
 		Post post4 = new Post();
-		post4.location = new Double[]{(double)90,(double)20};
+		post4.location = new Double[]{(double)281,(double)200};
 		tree.root = tree.insertion(post, tree.root);
 		tree.root = tree.insertion(post1, tree.root);
 		tree.root = tree.insertion(post2, tree.root);
+		tree.root = tree.insertion(post4, tree.root);
+		tree.root = tree.insertion(post3, tree.root);
 		PApplet.main("R_Tree.Test",args);
 	}
 
