@@ -18,7 +18,7 @@ public class Test extends PApplet {
 
 	public static void main(String... args){
 		Tree tree = new Tree();
-		Post post = new Post();
+		Post post = new Post();/*
 		post.location = new Double[]{(double)100,(double)180};
 		Post post1 = new Post();
 		post1.location = new Double[]{(double)200,(double)300};
@@ -28,11 +28,24 @@ public class Test extends PApplet {
 		post3.location = new Double[]{(double)280,(double)200};
 		Post post4 = new Post();
 		post4.location = new Double[]{(double)281,(double)200};
+		Post post5 = new Post();
+		post5.location = new Double[]{(double)500,(double)400};
 		tree.root = tree.insertion(post, tree.root);
 		tree.root = tree.insertion(post1, tree.root);
 		tree.root = tree.insertion(post2, tree.root);
 		tree.root = tree.insertion(post4, tree.root);
 		tree.root = tree.insertion(post3, tree.root);
+		tree.root = tree.insertion(post5, tree.root);*/
+		double x,y;
+		int i = 0;
+		Random rdm = new Random();
+		for (i = 0; i < 7; i++) {
+			post = new Post();
+			x = (double) rdm.nextInt((1200) + 1);
+			y = (double) rdm.nextInt((700) + 1);
+			post.location = new Double[]{x,y};
+			tree.root = tree.insertion(post, tree.root);
+		}
 		PApplet.main("R_Tree.Test",args);
 	}
 

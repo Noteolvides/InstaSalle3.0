@@ -96,8 +96,27 @@ public class Region implements Cloneable {
 	}
 
 	//Todo implement newArea
-	public int newArea(Object overflowR) {
-		return(1);
+	public double newArea(Region overflowR) {
+		double distanciaO1 = calcularDistanciaDesde(this.min);
+		double distanciaO2 = calcularDistanciaDesde(overflowR.min);
+		Point min;
+		Point max;
+		if (distanciaO1 < distanciaO2){
+			min = this.min;
+		}else{
+			min = overflowR.min;
+		}
+		distanciaO1 = calcularDistanciaDesde(this.max);
+		distanciaO2 = calcularDistanciaDesde(overflowR.max);
+
+		if (distanciaO1 < distanciaO2){
+			max = this.max;
+		}else{
+			max = overflowR.max;
+		}
+
+
+		return (max.x - min.x)*(max.y - min.y);
 	}
 
 	public Object clone(){
@@ -107,6 +126,13 @@ public class Region implements Cloneable {
 			e.printStackTrace();
 			return(null);
 		}
+	}
+
+	public double calcularDistanciaDesde(Point parametros) {
+		double cateto1 = parametros.x;
+		double cateto2 = parametros.y;
+		double hipotenusa = Math.sqrt(cateto1 * cateto1 + cateto2 * cateto2);
+		return hipotenusa;
 	}
 }
 
