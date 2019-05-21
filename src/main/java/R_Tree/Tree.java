@@ -43,30 +43,32 @@ public class Tree {
 		Post newNode = (Post) o;
 		if (!actual.isLeaf) {
 			for (Region region : regions) {
-				if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
-						&& region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
-					best = region;
-					diff = 0D;
-				} else {
-					if (diff != 0D) {
-						Point auxmax = new Point(region.max.x, region.max.y);
-						Point auxmin = new Point(region.min.x, region.min.y);
-						if (newNode.location[0] < auxmin.x) {
-							auxmin.x = newNode.location[0];
-						}
-						if (newNode.location[1] < auxmin.y) {
-							auxmin.y = newNode.location[1];
-						}
-						if (newNode.location[0] > auxmax.x) {
-							auxmax.x = newNode.location[0];
-						}
-						if (newNode.location[1] > auxmax.y) {
-							auxmax.y = newNode.location[1];
-						}
-						Double newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
-						if (newdiff < diff) {
-							diff = newdiff;
-							best = region;
+				if(region != null){
+					if (region.min.x <= newNode.location[0] && region.min.y <= newNode.location[1]
+							&& region.max.x >= newNode.location[0] && region.max.y >= newNode.location[1]) {
+						best = region;
+						diff = 0D;
+					} else {
+						if (diff != 0D) {
+							Point auxmax = new Point(region.max.x, region.max.y);
+							Point auxmin = new Point(region.min.x, region.min.y);
+							if (newNode.location[0] < auxmin.x) {
+								auxmin.x = newNode.location[0];
+							}
+							if (newNode.location[1] < auxmin.y) {
+								auxmin.y = newNode.location[1];
+							}
+							if (newNode.location[0] > auxmax.x) {
+								auxmax.x = newNode.location[0];
+							}
+							if (newNode.location[1] > auxmax.y) {
+								auxmax.y = newNode.location[1];
+							}
+							Double newdiff = (auxmax.x * auxmax.y) - (auxmin.x * auxmin.y);
+							if (newdiff < diff) {
+								diff = newdiff;
+								best = region;
+							}
 						}
 					}
 				}
