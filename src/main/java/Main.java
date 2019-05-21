@@ -118,10 +118,10 @@ public class Main {
 
                         break;
                     case 4:
-                        //hashTable.visualize();
+                        hashTable.visualize();
                         break;
                     case 5:
-                        //graph.visualize();
+                        graph.visualize();
                         break;
                 }
                 break;
@@ -182,7 +182,7 @@ public class Main {
         List<String> hashtags = new List<String>();
         for (Post post: posts) {
             for (String hastag: post.hashtags) {
-                if (hashtags.get(hastag) != null && !hashtags.get(hastag).equals(hastag)) {
+                if (hashtags.get(hastag) == null || !hashtags.get(hastag).equals(hastag)) {
                     hashtags.add(hastag);
                 }
             }
