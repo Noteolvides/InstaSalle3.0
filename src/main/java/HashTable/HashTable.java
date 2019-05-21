@@ -82,13 +82,16 @@ public class HashTable<K,E> {
 
     public void visualize() {
         for (int i = 0; i < hashTable.length; i++) {
+            String listhash = i + " : ";
             for (int j = 0; j < hashTable[i].list.size(); j++) {
                 if (hashTable[i].list.get(j) != null) {
-                    System.out.println(hashTable[i].list.get(j));
-                } else {
-                    System.out.println("-- empty --");
+                    if (j != 0) {
+                        listhash += ", ";
+                    }
+                    listhash += hashTable[i].list.get(j);
                 }
             }
+            System.out.println(listhash);
         }
     }
 }
