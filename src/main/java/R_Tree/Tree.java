@@ -5,7 +5,9 @@ import Data.Post;
 public class Tree {
 	final static int BTREEDIMENSION = 2;
 	Region root = new Region();
-
+	Region aux = null;
+	Post pintsAux[] = new Post[3];
+	int postionAux = 0;
 
 	public Tree() {
 	}
@@ -13,14 +15,13 @@ public class Tree {
 
 	//Todo Insercion
 	public Region insertion(Object o, Region actual){
-		Region aux;
 
 		if (actual.childRegionPos == 0){
 			actual.add(new Region((Post) o));
 		} else {
 			//Búsqueda dle mejor nodo región en el que colocar el punto
 			//Todo implementar la búsqueda del mejor nodo
-			aux = bestNodeSearch(root, o);
+			bestNodeSearch(root, o);
 
 			//comprovación de si está o no llena la mejor región
 			if (!aux.isfull) {
@@ -30,7 +31,10 @@ public class Tree {
 			} else {
 				//En caso que no lo esté, hacemos split
 				//Todo Implementar regionSplit
-				regionSplit(aux, this, (Post) o, new Region(), false);
+				aux = regionSplit(null, this, (Post) o, new Region(), false);
+				for (int i = 0; i < postionAux; i++) {
+					aux = insertion(pintsAux[i],aux.superRegion);
+				}
 			}
 		}
 		return actual;
@@ -74,13 +78,15 @@ public class Tree {
 				}
 			}
 			if (best.subRegions != null) {
-				best = bestNodeSearch(best, o);
+				aux = bestNodeSearch(best, o);
 			}
 		}
+		aux = best;
 		return best;
 	}
 
-	private void regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
+	private Region regionSplit(Region split, Tree t, Post overflowP, Region overflowR, boolean regionsplit){
+		split = aux;
 		Region region1 = new Region();
 		Region region2 = new Region();
 		Double[] minpoint = new Double[]{split.min.x, split.min.y};
@@ -185,6 +191,8 @@ public class Tree {
 
 			region1 = new Region(min);
 			region2 = new Region(max);
+			region1.superRegion = split.superRegion;
+			region2.superRegion = split.superRegion;
 
 			Region aux = (Region) split.clone();
 			//En caso que haya sitio para las nuevas regiones, se ponen
@@ -192,17 +200,23 @@ public class Tree {
 				//Búsqueda e inserción de ambas regiones
 				split.superRegion.add(region2);
 				split = region1;
-
+				postionAux = 0;
 				//Redistribución de los puntos en las nuevas regiones
 				for(int i = 0; i < aux.pointsLeaf.length; i++){
 					if((!aux.pointsLeaf[i].equals(region1.pointsLeaf[0]))||((!aux.pointsLeaf[i].equals(region2.pointsLeaf[0])))){
-						this.insertion(aux.pointsLeaf[i], split.superRegion);
+						pintsAux[postionAux] = aux.pointsLeaf[i];
+						postionAux++;
 					}
 				}
 
 				//TODO añadir el punto OverflowP
-				this.insertion(overflowP, split.superRegion);
+				if((!overflowP.equals(region1.pointsLeaf[0]))||((!overflowP.equals(region2.pointsLeaf[0])))) {
+					pintsAux[postionAux] = overflowP;
+					postionAux++;
+				}
 				//Fin del TODO
+
+				return split;
 			}else{
 				//TODO asignar overflowR
 				regionSplit(split.superRegion, this, overflowP, overflowR, true);
@@ -217,6 +231,7 @@ public class Tree {
 			}
 
 		}
+		return split;
 	}
 
 	//Todo Busqueda
