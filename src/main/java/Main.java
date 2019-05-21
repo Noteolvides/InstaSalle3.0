@@ -284,10 +284,34 @@ public class Main {
                 switch (sc.nextInt()) {
                     case 1:
                         String search = sc.next();
+                        trieTree.contains(search);
                         break;
                     case 2:
-                        System.out.println("Id post que s'esborrara:");
-                        avlTree.search(sc.nextInt());
+                        System.out.println("ID del post que es vol cercar:");
+                        Post post = (Post) avlTree.search(sc.nextInt());
+                        System.out.println("Post trobat:");
+                        System.out.println("\tid: " + post.id);
+                        String likedby = "[";
+                        for (int i = 0; i < post.likedBy.length ; i++) {
+                            if (i != 0) {
+                                likedby += ", ";
+                            }
+                            likedby += post.likedBy[i];
+                        }
+                        likedby += "]";
+                        System.out.println("\tliked_by: " + likedby);
+                        System.out.println("\tpublished_by: " + post.publishedBy);
+                        System.out.println("\tpublished_when: " + post.publishedWhen);
+                        System.out.println("\tlocation: [" + post.location[0] + ", " + post.location[1] + "]");
+                        String tags = "[";
+                        for (int i = 0; i < post.hashtags.length ; i++) {
+                            if (i != 0) {
+                                tags += ", ";
+                            }
+                            tags += post.hashtags[i];
+                        }
+                        tags += "]";
+                        System.out.println("\thashtags: " + tags);
                         break;
                     case 3:
                         System.out.println("Introduir hashtag:");
