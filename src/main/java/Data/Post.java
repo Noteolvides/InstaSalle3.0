@@ -3,7 +3,7 @@ package Data;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Post implements Comparable {
+public class Post {
     public int id;
     @SerializedName("liked_by")
     public String[] likedBy;
@@ -24,10 +24,5 @@ public class Post implements Comparable {
         this.publishedBy = publishedBy;
         this.location = location;
         this.hashtags = hashtags;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return Long.compare(publishedWhen, ((Post) o).publishedWhen);
     }
 }

@@ -1,6 +1,7 @@
 package HashTable;
 
 
+import Data.Post;
 import List.List;
 
 class Table {
@@ -81,13 +82,16 @@ public class HashTable<K,E> {
 
     public void visualize() {
         for (int i = 0; i < hashTable.length; i++) {
+            String listhash = i + " : ";
             for (int j = 0; j < hashTable[i].list.size(); j++) {
-                if (hashTable[i].list.get(i) == null) {
-                    System.out.println(hashTable[i].list.get(j));
-                } else {
-                    System.out.println("-- empty --");
+                if (hashTable[i].list.get(j) != null) {
+                    if (j != 0) {
+                        listhash += ", ";
+                    }
+                    listhash += hashTable[i].list.get(j);
                 }
             }
+            System.out.println(listhash);
         }
     }
 }

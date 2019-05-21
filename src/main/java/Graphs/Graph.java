@@ -1,5 +1,7 @@
 package Graphs;
 
+import Data.User;
+import Graphs.visualización.Vista_Graph;
 import List.List;
 
 public class Graph {
@@ -33,7 +35,7 @@ public class Graph {
     }
 
     public void visualize() {
-
+        new Vista_Graph(adjacencyList);
     }
     //List<List<Vertex>> graph;
     //directed graph implemented via Adjacency list

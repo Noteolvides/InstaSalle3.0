@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AVLTree<T extends Comparable<T>> {
+public class AVLTree<T> {
     Node<T> root;
 
     private class Logical {
@@ -131,11 +131,11 @@ public class AVLTree<T extends Comparable<T>> {
             node = new Node<T>(data);
             act.bool = true;
         } else {
-            int cmp = data.compareTo(node.data);
+            int cmp = node.compareTo(data);
             if (cmp == 0) {
                 throw new Exception("No se pueden introducir nodos repetidos");
             }
-            if (cmp < 0) {
+            if (cmp > 0) {
                 node.leftChild = insert(data, node.leftChild, act);
                 if (act.bool) {
                     if (node.factor == +1) {
@@ -154,7 +154,7 @@ public class AVLTree<T extends Comparable<T>> {
                     }
                 }
             }
-            if (cmp > 0) {
+            if (cmp < 0) {
                 node.rightChild = insert(data, node.rightChild, act);
                 if (act.bool) {
                     if (node.factor == -1) {
@@ -187,15 +187,15 @@ public class AVLTree<T extends Comparable<T>> {
         if (node == null) {
             throw new Exception("Item not Found");
         } else {
-            cmp = element.compareTo(node.data);
+            cmp = node.compareTo(element);
         }
-        if (cmp < 0) {
+        if (cmp > 0) {
             node.leftChild = deleteInside(node.leftChild, element, changeOfHeight);
             if (changeOfHeight.bool) {
                 node = balanceLeftBranch(node, changeOfHeight);
             }
         }
-        if (cmp > 0) {
+        if (cmp < 0) {
             node.rightChild = deleteInside(node.rightChild, element, changeOfHeight);
             if (changeOfHeight.bool) {
                 node = balanceRightBranch(node, changeOfHeight);
