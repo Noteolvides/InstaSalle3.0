@@ -39,7 +39,7 @@ public class GenerateAVL {
         Gson gson = new Gson();
         String jsonString;
         //jsonString = gson.toJson(avltree);
-        FileWriter fw = new FileWriter("datasets/generated/datasetAVL" + numPosts + ".txt");
+        FileWriter fw = new FileWriter("datasets/generated/datasetAVL" + numPosts + ".json");
         //fw.write(jsonString);
         fw.close();
     }

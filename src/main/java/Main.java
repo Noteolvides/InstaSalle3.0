@@ -1,4 +1,5 @@
 import AVL.AVLTree;
+import AVL.Test;
 import Data.Post;
 import Data.User;
 import Graphs.Graph;
@@ -11,10 +12,11 @@ import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) throws FileNotFoundException {
         String userspath;
         String postspath;
@@ -25,9 +27,9 @@ public class Main {
         String avltreepath;
         String hashpath;
         String graphpath;
-        TrieTree trieTree;
-        Tree rTree;
-        AVLTree avlTree;
+        TrieTree trieTree = null;
+        Tree rTree = null;
+        AVLTree avlTree = null;
         HashTable hashTable = null;
         Graph graph = null;
 
@@ -109,13 +111,46 @@ public class Main {
                         "\t5. Graph\n");
                 switch (sc.nextInt()) {
                     case 1:
-
+                        gson = new Gson();
+                        String trieString;
+                        trieString = gson.toJson(trieTree);
+                        try {
+                            FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
+                            fw.write(trieString);
+                            fw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Trie.Test trietest = new Trie.Test();
+                        trietest.visualize(args);
                         break;
                     case 2:
-
+                        gson = new Gson();
+                        String rString;
+                        rString = gson.toJson(rTree);
+                        try {
+                            FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
+                            fw.write(rString);
+                            fw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        /*R_Tree.Test rtest = new R_Tree.Test();
+                        rtest.visualize(rTree, args);*/
                         break;
                     case 3:
-
+                        gson = new Gson();
+                        String avlString;
+                        avlString = gson.toJson(avlTree);
+                        try {
+                            FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
+                            fw.write(avlString);
+                            fw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        AVL.Test avltest = new Test();
+                        avltest.visualize(args);
                         break;
                     case 4:
                         hashTable.visualize();
