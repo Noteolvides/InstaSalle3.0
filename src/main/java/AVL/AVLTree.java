@@ -1,6 +1,7 @@
 package AVL;
 
 
+import Data.Post;
 import com.google.gson.Gson;
 
 import java.awt.*;
@@ -18,13 +19,19 @@ public class AVLTree<T> {
 
     //Implementacion de la busqueda
 
-    public boolean search(T element) {
+    public T search(T element) {
         return searchInside(root, element);
     }
 
-    private boolean searchInside(Node<T> node, T element) {
-        if (node.data == element) {
-            return true;
+    private T searchInside(Node<T> node, T element) {
+        if (node.data.getClass() == Post.class) {
+            if (((Post) node.data).id == (Integer) element) {
+                return node.data;
+            }
+        } else {
+            if (node.data == element) {
+                return node.data;
+            }
         }
         if (node.leftChild != null) {
             return searchInside(node.leftChild, element);
@@ -32,7 +39,7 @@ public class AVLTree<T> {
         if (node.rightChild != null) {
             return searchInside(node.rightChild, element);
         }
-        return false;
+        return null;
     }
 
 
