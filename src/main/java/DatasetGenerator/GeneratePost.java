@@ -19,8 +19,7 @@ public class GeneratePost {
         List<Post> posts = new List<Post>();
 
         Gson gson = new Gson();
-        StringBuilder jsonString = new StringBuilder();
-
+        String jsonString;
         Random rdm = new Random();
 
         for (int i = 0; i < numPosts; i++) {
@@ -40,9 +39,12 @@ public class GeneratePost {
             posts.add(new Post(i, likedBy, rdm.nextLong(), Utils.createName(), (Double[]) location, hashtags));
         }
 
+        Post[] postjson = new Post[posts.size()];
         for (int i = 0; i < posts.size(); i++) {
-            jsonString.append(gson.toJson(posts.get(i))).append("\n");
+            postjson[i] = posts.get(i);
         }
+
+        jsonString = gson.toJson(postjson);
         try {
             System.out.println(jsonString);
             FileWriter fw = new FileWriter("datasets/generated/datasetPosts" + numPosts + ".json");

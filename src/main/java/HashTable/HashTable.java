@@ -1,11 +1,30 @@
 package HashTable;
 
-
-import Data.Post;
 import List.List;
 
+
 class Table {
-    List<String> list;
+    List<Data> list;
+}
+
+class Data<K,E> {
+    int hash;
+    K key;
+    E element;
+
+    Data(int hash, K key, E element) {
+        this.hash = hash;
+        this.key = key;
+        this.element = element;
+    }
+
+    K getKey() {
+        return key;
+    }
+
+    E getElement() {
+        return element;
+    }
 }
 
 public class HashTable<K,E> {
@@ -35,49 +54,76 @@ public class HashTable<K,E> {
         hashTable = new Table[size];
         for (int i = 0; i < hashTable.length; i++) {
             hashTable[i] = new Table();
-            hashTable[i].list = new List<String>();
+            hashTable[i].list = new List<Data>();
         }
-
-
     }
 
     private int hashCode(int key) {
         return key % size;
     }
 
-    private int getKey(E element) {
-        int key = 0;
-        if (element instanceof String) {
-            char[] toCharArray = ((String) element).toCharArray();
+    private int getKey(K key) {
+        if (key instanceof Character) {
+            return (int)(Character) key;
+        } else if (key instanceof String) {
+            int stringkey = 0;
+            char[] toCharArray = ((String) key).toCharArray();
             for (char c : toCharArray) {
-                key += (int) c;
+                stringkey += (int) c;
+            }
+            return stringkey;
+        } else if (key instanceof Integer) {
+            return (int) (Integer)key;
+        }
+        return 0;
+    }
+
+    public Object search(E element) {
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(i).element.equals(element)) {
+                    return hashTable[i].list.get(i).element;
+                }
             }
         }
-        if (element instanceof Character) {
-            key = (int) (Character) element;
-        }
-        return key;
+        return null;
     }
 
-    public void insert(E element) {
-        int index = hashCode(getKey(element));
-        hashTable[index].list.add((String)element);
+    public void put(K key, E element) {
+        int hash = hashCode(getKey(key));
+        hashTable[hash].list.add(new Data(hash, key, element));
     }
 
-    public String search(E element) {
-        String found = null;
-        int index = hashCode(getKey(element));
-        for (int i = 0; i < hashTable[index].list.size() && found == null; i++) {
-            if (hashTable[index].list.get(i).equals(element.toString())) {
-                found = hashTable[index].list.get(i);
+    public E get(K key) {
+        List<Data> data = hashTable[hashCode(getKey(key))].list;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).key.equals(key)) {
+                return (E) data.get(i).element;
             }
         }
-        return found;
+        return null;
     }
 
-    public void delete(E element) {
-        int index = hashCode(getKey(element));
-        hashTable[index].list.remove(element.toString());
+    public boolean contains(E element) {
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(i).element.equals(element.toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void delete(K key) {
+        int hash = hashCode(getKey(key));
+        //TODO SEARCH
+        
+       // hashTable[hash].list.remove(new Data(hash, key, element));
+    }
+
+    public void deleteElement(E element) {
+
     }
 
     public void visualize() {
@@ -88,7 +134,7 @@ public class HashTable<K,E> {
                     if (j != 0) {
                         listhash += ", ";
                     }
-                    listhash += hashTable[i].list.get(j);
+                    listhash += hashTable[i].list.get(j).element;
                 }
             }
             System.out.println(listhash);

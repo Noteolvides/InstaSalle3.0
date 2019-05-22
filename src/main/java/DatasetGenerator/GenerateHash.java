@@ -16,7 +16,7 @@ public class GenerateHash {
         HashTable<Integer, String> hashTable = new HashTable<Integer, String>(hashtags);
 
         for (int i = 0; i < hashtags; i++) {
-            hashTable.insert(Utils.createName());
+            hashTable.put(i, Utils.createName());
         }
 
         Gson gson = new Gson();
