@@ -192,9 +192,12 @@ public class AVLTree<T extends Comparable<T>> {
 	public void delete(T element) throws Exception {
 		root = deleteInside(root, element, new Logical());
 	}
-
+	//Tenemos dos casos claros primero si el nodo es una hoja se eliminar se sustituira por otro nodo
+	//En el caso contrario si tiene subarboles buscaremos el nodo mas a la derecha del primero de la izquierda
+	//Lo complicado es que despues de hacer este proceso tiene que ver los factores e ir equilibrando vamos a ir explicando paso por paso la busqueda y sustitucion
 	private Node<T> deleteInside(Node<T> node, T element, Logical changeOfHeight) throws Exception {
 		int cmp;
+		//Primero tenemos que buscar el nodo este proceso ya nos lo sabemos buscamos derechas o irquierdas para ir llamando recursivamente
 		if (node == null) {
 			throw new Exception("Item not Found");
 		} else {
@@ -202,27 +205,28 @@ public class AVLTree<T extends Comparable<T>> {
 		}
 		if (cmp < 0) {
 			node.leftChild = deleteInside(node.leftChild, element, changeOfHeight);
-			if (changeOfHeight.bool) {
+			if (changeOfHeight.bool) {//En el caso de que el booleano sea true significa que al terminar la eliminacion ocurrio in desequilibrio
 				node = balanceLeftBranch(node, changeOfHeight);
 			}
 		}
 		if (cmp > 0) {
 			node.rightChild = deleteInside(node.rightChild, element, changeOfHeight);
-			if (changeOfHeight.bool) {
+			if (changeOfHeight.bool) { //Igualmente si es true un desequilibrio ocurrio
 				node = balanceRightBranch(node, changeOfHeight);
 			}
 		}
-		if (cmp == 0) {
+		if (cmp == 0) { //Okey hemos encontrado el nodo.
+			//Ahora dependiendo de el nodo que queremos buscar si tiene hijos es hoja o no ocurrira un caso u otro :)
 			Node<T> delete = node;
 			if (delete.leftChild == null) {
-				node = delete.rightChild;
+				node = delete.rightChild;//Si no tiene hijo sustituimos por el hijo derecho y un desbalanceo ocurre
 				changeOfHeight.bool = true;
 			} else if (delete.rightChild == null) {
-				node = delete.leftChild;
+				node = delete.leftChild;//Igualmente si no tiene un hijo derecho sustituimos por el hijo izquiero y un desbalanceo ocurre
 				changeOfHeight.bool = true;
 			} else {
-				node.leftChild = replaze(node, node.leftChild, changeOfHeight);
-				if (changeOfHeight.bool) {
+				node.leftChild = replaze(node, node.leftChild, changeOfHeight);//En este caso tiene dos hijos :( pues tenemos que buscar el numeor mas alto del arbol izquierdo
+				if (changeOfHeight.bool) { // Y  si al salir nos desiquilibrmos pues equilibramos
 					node = balanceLeftBranch(node, changeOfHeight);
 				}
 			}
@@ -234,8 +238,8 @@ public class AVLTree<T extends Comparable<T>> {
 
 	private Node<T> replaze(Node<T> node, Node<T> actual, Logical changeOfHeight) {
 		if (actual.rightChild != null) {
-			actual.rightChild = replaze(node, actual.rightChild, changeOfHeight);
-			if (changeOfHeight.bool) {
+			actual.rightChild = replaze(node, actual.rightChild, changeOfHeight); // Hasta que llegemos al final seguimos llamando recursivamente
+			if (changeOfHeight.bool) { //Igualmente hay que equilbrar si el replaze modifica algo
 				actual = balanceRightBranch(actual, changeOfHeight);
 			}
 		} else {
