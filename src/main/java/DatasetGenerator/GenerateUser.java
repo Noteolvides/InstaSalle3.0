@@ -36,12 +36,15 @@ public class GenerateUser {
             users.get(i).setToFollow(userrelation);
         }
 
+        User[] userjson = new User[users.size()];
         for (int i = 0; i < users.size(); i++) {
-            jsonString += gson.toJson(users.get(i)) + "\n";
+            userjson[i] = users.get(i);
         }
+
+        jsonString = gson.toJson(userjson);
         try {
             System.out.println(jsonString);
-            FileWriter fw = new FileWriter("datasets/generated/datasetUsers_" + numUsers + ".json");
+            FileWriter fw = new FileWriter("datasets/generated/datasetUsers" + numUsers + ".json");
             fw.write(jsonString);
             fw.close();
         } catch (IOException e) {
