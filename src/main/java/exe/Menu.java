@@ -114,11 +114,11 @@ public class Menu {
                     System.out.println("Quin usuari vols buscar: ");
                     String search = sc.next();
                     long timeSearchTrie;
-                    long start = System.currentTimeMillis();
+                    long start = System.nanoTime();
                     trieTree.containsQuery(search, memori);
-                    long end = System.currentTimeMillis();
+                    long end = System.nanoTime();
                     timeSearchTrie = end - start;
-                    System.out.println("S'ha tardat " + timeSearchTrie + "ms.");
+                    System.out.println("S'ha tardat " + timeSearchTrie + "nanos.");
                     System.out.println("Seguir buscant?[Y/N]");
                     if (sc.next().equals("N")) {
                         exit = false;
@@ -127,9 +127,9 @@ public class Menu {
                 System.out.println("A qui vols buscar finalment:");
                 String search = sc.next();
                 long timeSearchGraph;
-                long start = System.currentTimeMillis();
+                long start = System.nanoTime();
                 User userSearch = graph.searchUser(search);
-                long end = System.currentTimeMillis();
+                long end = System.nanoTime();
                 timeSearchGraph = end - start;
                 System.out.println("Usuari trobat:");
                 System.out.println("\tNom: " + userSearch.username);
@@ -138,14 +138,15 @@ public class Menu {
                 for (String follow : userSearch.toFollow) {
                     System.out.println("\t\tNom: " + follow);
                 }
-                System.out.println("S'ha tardat " + timeSearchGraph + "ms.");
+                System.out.println("S'ha tardat " + timeSearchGraph + "nanos.");
                 break;
             case 2:
                 System.out.println("Data de creacio del post que es vol cercar:");
+                long data = sc.nextLong();
                 long timeSearchAVL;
-                start = System.currentTimeMillis();
-                Post post = (Post) avlTree.search(sc.nextLong());
-                end = System.currentTimeMillis();
+                start = System.nanoTime();
+                Post post = (Post) avlTree.search(data);
+                end = System.nanoTime();
                 timeSearchAVL = end - start;
                 System.out.println("Post trobat:");
                 System.out.println("\tid: " + post.id);
@@ -158,7 +159,7 @@ public class Menu {
                 }
                 likedby += "]";
                 System.out.println("\tliked_by: " + likedby);
-                System.out.println("\tpublished_by: " + post.publishedBy);
+                System.out.println("\tpublistimeSearchAVLhed_by: " + post.publishedBy);
                 System.out.println("\tpublished_when: " + post.publishedWhen);
                 System.out.println("\tlocation: [" + post.location[0] + ", " + post.location[1] + "]");
                 String tags = "[";
@@ -170,7 +171,7 @@ public class Menu {
                 }
                 tags += "]";
                 System.out.println("\thashtags: " + tags);
-                System.out.println("S'ha tardat " + timeSearchAVL + "ms.");
+                System.out.println("S'ha tardat " + timeSearchAVL + "nanos.");
                 break;
             case 3:
                 System.out.println("Introduir hashtag:");
@@ -179,15 +180,15 @@ public class Menu {
                 int limit = sc.nextInt();
                 System.out.println("Post amb el hashtag " + hashtag + ":");
                 long timeSearchHash;
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 List<Data> posts = hashTable.getAll(hashtag);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 timeSearchHash = end - start;
                 for (int i = 0; i < limit; i++) {
                     System.out.println(((Post) posts.get(i).getElement()).id);
                 }
                 System.out.println("\n");
-                System.out.println("S'ha tardat " + timeSearchHash + "ms.");
+                System.out.println("S'ha tardat " + timeSearchHash + "nanos.");
                 System.out.println("\n");
                 break;
             case 4:
@@ -215,29 +216,29 @@ public class Menu {
                 long creation = sc.nextLong();
 
                 long timeDeleteGraph;
-                long start = System.currentTimeMillis();
+                long start = System.nanoTime();
                 graph.removeVertex(new Vertex(username, creation));
-                long end = System.currentTimeMillis();
+                long end = System.nanoTime();
                 timeDeleteGraph = end - start;
-                System.out.println("Eliminacio de Usuari finalitzada del Graph en " + timeDeleteGraph + "ms.");
+                System.out.println("Eliminacio de Usuari finalitzada del Graph en " + timeDeleteGraph + "nanos.");
 
                 long timeDeleteTrie;
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 trieTree.delete(username);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 timeDeleteTrie = end - start;
-                System.out.println("Eliminacio de Usuari finalitzada del Trie en " + timeDeleteTrie + "ms.");
+                System.out.println("Eliminacio de Usuari finalitzada del Trie en " + timeDeleteTrie + "nanos.");
 
                 break;
             case 2:
                 System.out.println("Id post que s'esborrara:");
                 try {
                     long timeDeleteAVL;
-                    start = System.currentTimeMillis();
+                    start = System.nanoTime();
                     avlTree.delete(avlTree.search(sc.nextInt()));
-                    end = System.currentTimeMillis();
+                    end = System.nanoTime();
                     timeDeleteAVL = end - start;
-                    System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ms.");
+                    System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "nanos.");
 
 
 
@@ -287,21 +288,21 @@ public class Menu {
                 Vertex v1 = new Vertex(username, datacreation);
                 long timeInsertGraph;
 
-                long start = System.currentTimeMillis();
+                long start = System.nanoTime();
                 graph.insertVertex(v1);
                 for (int i = 0; i < tofollowname.length; i++) {
                     graph.insertEdge(v1, graph.getAdjacencyList().get(new Vertex(tofollowname[i], tofollowcreation[i])));
                 }
-                long end = System.currentTimeMillis();
+                long end = System.nanoTime();
                 timeInsertGraph = end - start;
-                System.out.println("Insercio nou Usuari del Graph finalitzada en " + timeInsertGraph + "ms.");
+                System.out.println("Insercio nou Usuari del Graph finalitzada en " + timeInsertGraph + "nanos.");
 
                 long timeInsertTrie;
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 trieTree.insert(username);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 timeInsertTrie = end - start;
-                System.out.println("Insercio nou Usuari del Trie finalitzada en " + timeInsertTrie + "ms.");
+                System.out.println("Insercio nou Usuari del Trie finalitzada en " + timeInsertTrie + "nanos.");
 
                 break;
             case 2:
@@ -353,20 +354,20 @@ public class Menu {
                 Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);
 
                 long timeInsertHash;
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 for (String tag : tagname) {
                     hashTable.put(tag, newpost);
                 }
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 timeInsertHash = end - start;
-                System.out.println("Insercio nou Post de la HashTable finalitzada en " + timeInsertHash + "ms.");
+                System.out.println("Insercio nou Post de la HashTable finalitzada en " + timeInsertHash + "nanos.");
 
                 long timeInsertAVL;
-                start = System.currentTimeMillis();
+                start = System.nanoTime();
                 avlTree.insert(newpost);
-                end = System.currentTimeMillis();
+                end = System.nanoTime();
                 timeInsertAVL = end - start;
-                System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "ms.");
+                System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "nanos.");
 
                 //rTree.insertion(newpost, root);
                 break;
@@ -485,13 +486,13 @@ public class Menu {
         hashpath = sc.next();
         System.out.println("Especifiqui ruta del fitxer a importar corresponent a Graph\n");
         graphpath = sc.next();
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         trieTree = gson.fromJson(new FileReader(triepath), TrieTree.class);
         rTree = gson.fromJson(new FileReader(rtreepath), Tree.class);
         avlTree = gson.fromJson(new FileReader(avltreepath), AVLTree.class);
         hashTable = gson.fromJson(new FileReader(hashpath), HashTable.class);
         graph = gson.fromJson(new FileReader(graphpath), Graph.class);
-        long endTime = System.currentTimeMillis();
+        long endTime = System.nanoTime();
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
                 "Elements exportats en " + time + "ms\n");
@@ -505,7 +506,7 @@ public class Menu {
         System.out.println("Especifiqui ruta del fitxer a importar corresponent a posts");
         postspath = sc.next();
 
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         users = gson.fromJson(new FileReader(userspath), User[].class);
         posts = gson.fromJson(new FileReader(postspath), Post[].class);
 
@@ -515,17 +516,15 @@ public class Menu {
         trieTree = insertUsersTrie(users);
         rTree = insertPostsRTree(posts);
 
-        long endTime = System.currentTimeMillis();
+        long endTime = System.nanoTime();
         int elements = users.length + posts.length;
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
                  elements + " elements exportats en " + time + "ms\n");
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
         for (int i = 0; i < users.length; i++) {
-            if (users[i].creation == 1528939234216L){
-                endTime = System.currentTimeMillis();
-            }
         }
+        endTime = System.nanoTime();
         System.out.println("Para busqueda por avl tarda " + (endTime-startTime));
     }
 
