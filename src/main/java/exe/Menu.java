@@ -103,19 +103,32 @@ public class Menu {
         System.out.println("\t2. Post");
         System.out.println("\t3. Segons hashtag");
         System.out.println("\t4. Segons ubicació");
-        switch (sc.nextInt()) {
+        int option = sc.nextInt();
+        switch (option) {
             case 1:
-                System.out.println("Cuando quieres limitar la memoria : ");
+                System.out.println("Quant vols limitar la memoria: ");
                 int memori = sc.nextInt();
+                boolean exit = true;
                 do {
-                    System.out.println("Que personas quieres buscar : ");
+                    System.out.println("Quin usuari vols buscar: ");
                     String search = sc.next();
                     trieTree.containsQuery(search, memori);
-                    System.out.println("Quieres seguir buscando");
+                    System.out.println("Seguir buscant?[Y/N]");
                     if (sc.next().equals("N")) {
-                        break;
+                        exit = false;
                     }
-                } while (true);
+                } while (exit);
+                System.out.println("A qui vols buscar finalment:");
+                String search = sc.next();
+                User userSearch = graph.searchUser(search);
+                System.out.println("Usuari trobat:");
+                System.out.println("\tNom: " + userSearch.username);
+                System.out.println("\tData de creacio: " + userSearch.creation);
+                System.out.println("\tToFollow: ");
+                for (String follow : userSearch.toFollow) {
+                    System.out.println("\t\tNom: " + follow);
+                }
+                break;
             case 2:
                 System.out.println("Data de creacio del post que es vol cercar:");
                 Post post = (Post) avlTree.search(sc.nextLong());
@@ -191,7 +204,7 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         System.out.println("Inserció d'informació\n" +
                 "Quin tipus d'informació vol inserir?\n" +
-                "\t1. Nou Uusuari\n" +
+                "\t1. Nou Usuari\n" +
                 "\t2. Nou Post\n");
         switch (sc.nextInt()) {
             case 1:

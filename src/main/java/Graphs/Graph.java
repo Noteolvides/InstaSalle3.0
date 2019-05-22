@@ -37,8 +37,22 @@ public class Graph {
     public void visualize() {
         new Vista_Graph(adjacencyList);
     }
-    //List<List<Vertex>> graph;
-    //directed graph implemented via Adjacency list
+
+    public User searchUser(String name) {
+        Vertex found = null;
+        for (int i = 0; i < adjacencyList.size(); i++) {
+            if (adjacencyList.get(i).username.equals(name)) {
+                found = adjacencyList.get(i);
+            }
+        }
+        User user = new User(found.username, found.creation);
+        String[] toFollow = new String[found.relations.size()];
+        for (int i = 0; i < found.relations.size(); i++) {
+            toFollow[i] = found.relations.get(i).username;
+        }
+        user.setToFollow(toFollow);
+        return user;
+    }
 
     public List<Vertex> getAdjacencyList() {
         return adjacencyList;
