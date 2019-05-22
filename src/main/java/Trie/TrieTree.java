@@ -2,6 +2,7 @@ package Trie;
 
 
 import HashTable.HashTable;
+import HashTable.Data;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -77,14 +78,14 @@ public class TrieTree {
     }
 
     private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, String start, int memoriaMaxima) {
-        for (Data<Character, Node<Character>> pair : aux.children.entrySet()) {
+        for (Data<Character, Node<Character>> pair : aux.children.dataSet()) {
             if (counter < memoriaMaxima) {
                 stringBuilder.append(pair.getKey());
-                if (pair.getValue().isWord) {
+                if (pair.getElement().isWord) {
                     counter++;
                     System.out.println(start+stringBuilder.toString());
                 }
-                getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
+                getAllStrings(pair.getElement(), stringBuilder,start, memoriaMaxima);
                 stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             }
         }
