@@ -7,12 +7,11 @@ import java.util.Map;
 public class TrieTree {
     public static void main(String[] args) {
         TrieTree tree = new TrieTree();
-        tree.insert("GustavoGomez");
-        tree.insert("Fernando");
-        tree.insert("Neil");
-        tree.insert("holiwi");
         tree.insert("hola");
-        System.out.println(tree.containsQuery("", 5));
+        tree.insert("hola2fjkosdkj");
+        tree.insert("hola3erj");
+        tree.insert("hola4");
+        System.out.println(tree.containsQuery("h", 4));
     }
     int counter = 0;
     Node<Character> root = null;
@@ -82,11 +81,9 @@ public class TrieTree {
                 if (pair.getValue().isWord) {
                     counter++;
                     System.out.println(start+stringBuilder.toString());
-                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                }else{
-                    getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
-                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 }
+                getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
+                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             }
         }
     }
