@@ -96,7 +96,7 @@ public class HashTable<K,E> {
         return false;
     }
 
-    public boolean containsKeys(K key) {
+    public boolean containsKey(K key) {
         int hash = hashCode(getKey(key));
         for (int i = 0; i < hashTable[hash].list.size(); i++) {
             if (hashTable[hash].list.get(i).key.equals(key)) {
@@ -138,7 +138,7 @@ public class HashTable<K,E> {
         return (K[]) keyset;
     }
 
-    public void delete(K key) {
+    public void remove(K key) {
         int hash = hashCode(getKey(key));
         for (int i = 0; i < hashTable[hash].list.size(); i++) {
             if (hashTable[hash].list.get(i).key.equals(key)) {
@@ -148,7 +148,7 @@ public class HashTable<K,E> {
         size--;
     }
 
-    public void deleteElement(E element) {
+    public void removeElement(E element) {
         for (int i = 0; i < hashTable.length; i++) {
             for (int j = 0; j < hashTable[i].list.size(); j++) {
                 if (hashTable[i].list.get(j).element.equals(element)) {

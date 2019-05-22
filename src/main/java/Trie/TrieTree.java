@@ -174,7 +174,7 @@ public class TrieTree {
                 }
             case 3:
                 if ((node.children.get(phrase.charAt(i)).children.size() == 0) && (!node.children.get(phrase.charAt(i)).isWord)) {
-                    node.children.delete(node.children.get(phrase.charAt(i)).data);
+                    node.children.remove(node.children.get(phrase.charAt(i)).data);
                 }
                 return (4);
             case 4:
