@@ -3,10 +3,6 @@ package HashTable;
 import List.List;
 
 
-class Table {
-    List<Data> list;
-}
-
 public class HashTable<K,E> {
     private Table[] hashTable;
     private int space;

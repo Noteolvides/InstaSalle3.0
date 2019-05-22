@@ -11,11 +11,11 @@ public class Data<K,E> {
         this.element = element;
     }
 
-    K getKey() {
+    public K getKey() {
         return key;
     }
 
-    E getElement() {
+    public E getElement() {
         return element;
     }
 }
