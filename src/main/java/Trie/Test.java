@@ -1,5 +1,6 @@
 package Trie;
 
+import HashTable.Data;
 import com.google.gson.Gson;
 import processing.core.PApplet;
 
@@ -23,8 +24,8 @@ public class Test extends PApplet {
 
 	private void checkMaxLevel(Node<Character> node,int level){
 		level++;
-		for (Character c : node.children.keySet()) {
-			checkMaxLevel(node.children.get(c),level);
+		for (Data c : node.children.dataSet()) {
+			checkMaxLevel(node.children.get((Character) c.getKey()),level);
 		}
 		if (level >= maxLevel){
 			maxLevel = level;
