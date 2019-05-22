@@ -429,19 +429,17 @@ public class Menu {
 
     private Graph insertUsersGraph(User[] users) {
         Graph graph = new Graph();
-        for (User user: users) {
-            graph.insertVertex(new Vertex(user.username, user.creation));
+        Vertex[] vertices = new Vertex[users.length];
+        for (int i = 0; i < users.length; i++) {
+            vertices[i] = (new Vertex(users[i].username, users[i].creation));
+            graph.insertVertex(vertices[i]);
         }
-        for (User user: users) {
-            User relation = null;
-            for (String toFollow : user.toFollow) {
-                for (User found: users) {
-                    if (found.username.equals(toFollow)) {
-                        relation = found;
+        for (int i = 0; i < users.length; i++) {
+            for (int j = 0; j < users[i].toFollow.length; j++) {
+                for (Vertex vertex : vertices) {
+                    if (users[i].toFollow[j].equals(vertex.getUsername())) {
+                        graph.insertEdge(vertices[i], vertex);
                     }
-                }
-                if (relation != null) {
-                    graph.insertEdge(new Vertex(user.username, user.creation), new Vertex(relation.username, relation.creation));
                 }
             }
         }
