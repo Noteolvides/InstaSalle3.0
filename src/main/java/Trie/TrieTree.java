@@ -7,16 +7,14 @@ import java.util.Map;
 public class TrieTree {
     public static void main(String[] args) {
         TrieTree tree = new TrieTree();
-        tree.insert("holioli");
-        tree.insert("holuoli");
-        tree.insert("holaMuyBuenasATodos");
+        tree.insert("GustavoGomez");
+        tree.insert("Fernando");
+        tree.insert("Neil");
         tree.insert("holiwi");
         tree.insert("hola");
-        System.out.println(tree.containsQuery("ho", 4));
-
-
+        System.out.println(tree.containsQuery("", 5));
     }
-
+    int counter = 0;
     Node<Character> root = null;
 
     public void insert(String phrase) {
@@ -66,25 +64,27 @@ public class TrieTree {
     }
 
     public ArrayList<String> containsQuery(String phrase, int memoriaMaxima) {
+        counter = 0;
         ArrayList<String> queryWords = new ArrayList<String>();
         queryWords.clear();
         if (root == null) {
             return null;
         }
         Node<Character> aux = containsInsideQuery(phrase, 0, root);
-        getAllStrings(aux, new StringBuilder(), queryWords, memoriaMaxima);
+        getAllStrings(aux, new StringBuilder(), phrase, memoriaMaxima);
         return queryWords;
     }
 
-    private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, ArrayList<String> queryWords, int memoriaMaxima) {
+    private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, String start, int memoriaMaxima) {
         for (Map.Entry<Character, Node<Character>> pair : aux.children.entrySet()) {
-            if (queryWords.size() < memoriaMaxima) {
+            if (counter < memoriaMaxima) {
                 stringBuilder.append(pair.getKey());
                 if (pair.getValue().isWord) {
-                    queryWords.add(stringBuilder.toString());
+                    counter++;
+                    System.out.println(start+stringBuilder.toString());
                     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 }else{
-                    getAllStrings(pair.getValue(), stringBuilder, queryWords, memoriaMaxima);
+                    getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
                     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 }
             }
