@@ -335,7 +335,7 @@ public class Main {
         }
     }
 
-    private void exportacioEstructures() throws IOException {
+    private void exportacioEstructures() {
         int opcio = 0;
         Gson gson = new Gson();
         Scanner sc = new Scanner(System.in);
@@ -350,33 +350,53 @@ public class Main {
         switch (opcio) {
             case 1:
                 jsonString = gson.toJson(trieTree);
-                fw = new FileWriter("datasets/exported/datasetTrie.json");
-                fw.write(jsonString);
-                fw.close();
-                break;
+                try {
+                    fw = new FileWriter("datasets/exported/datasetTrie.json");
+                    fw.write(jsonString);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            break;
             case 2:
                 jsonString = gson.toJson(rTree);
-                fw = new FileWriter("datasets/exported/datasetRTree.json");
-                fw.write(jsonString);
-                fw.close();
+                try {
+                    fw = new FileWriter("datasets/exported/datasetRTree.json");
+                    fw.write(jsonString);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 3:
                 jsonString = gson.toJson(avlTree);
-                fw = new FileWriter("datasets/exported/datasetAVLTree.json");
-                fw.write(jsonString);
-                fw.close();
+                try {
+                    fw = new FileWriter("datasets/exported/datasetAVLTree.json");
+                    fw.write(jsonString);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 4:
                 jsonString = gson.toJson(hashTable);
-                fw = new FileWriter("datasets/exported/datasetHashTable.json");
-                fw.write(jsonString);
-                fw.close();
+                try {
+                    fw = new FileWriter("datasets/exported/datasetHashTable.json");
+                    fw.write(jsonString);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case 5:
                 jsonString = gson.toJson(graph);
-                fw = new FileWriter("datasets/exported/datasetGraph.json");
-                fw.write(jsonString);
-                fw.close();
+                try {
+                    fw = new FileWriter("datasets/exported/datasetGraph.json");
+                    fw.write(jsonString);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
         System.out.println("El fitxer ha sigut exportat a la carpeta datasets/exported");
