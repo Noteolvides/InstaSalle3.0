@@ -1,18 +1,19 @@
 package Trie;
 
 
+import HashTable.HashTable;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 public class TrieTree {
     public static void main(String[] args) {
         TrieTree tree = new TrieTree();
-        tree.insert("GustavoGomez");
-        tree.insert("Fernando");
-        tree.insert("Neil");
-        tree.insert("holiwi");
         tree.insert("hola");
-        System.out.println(tree.containsQuery("", 5));
+        tree.insert("hola2fjkosdkj");
+        tree.insert("hola3erj");
+        tree.insert("hola4");
+        System.out.println(tree.containsQuery("h", 4));
     }
     int counter = 0;
     Node<Character> root = null;
@@ -76,17 +77,15 @@ public class TrieTree {
     }
 
     private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, String start, int memoriaMaxima) {
-        for (Map.Entry<Character, Node<Character>> pair : aux.children.entrySet()) {
+        for (Data<Character, Node<Character>> pair : aux.children.entrySet()) {
             if (counter < memoriaMaxima) {
                 stringBuilder.append(pair.getKey());
                 if (pair.getValue().isWord) {
                     counter++;
                     System.out.println(start+stringBuilder.toString());
-                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                }else{
-                    getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
-                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 }
+                getAllStrings(pair.getValue(), stringBuilder,start, memoriaMaxima);
+                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             }
         }
     }
@@ -174,7 +173,7 @@ public class TrieTree {
                 }
             case 3:
                 if ((node.children.get(phrase.charAt(i)).children.size() == 0) && (!node.children.get(phrase.charAt(i)).isWord)) {
-                    node.children.remove(node.children.get(phrase.charAt(i)).data);
+                    node.children.delete(node.children.get(phrase.charAt(i)).data);
                 }
                 return (4);
             case 4:
