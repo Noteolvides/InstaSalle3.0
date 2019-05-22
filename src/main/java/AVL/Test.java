@@ -3,6 +3,7 @@ package AVL;
 import Data.Post;
 import Trie.TrieTree;
 import com.google.gson.Gson;
+import exe.Menu;
 import processing.core.PApplet;
 
 import java.io.FileNotFoundException;
@@ -33,12 +34,7 @@ public class Test extends PApplet {
 	public void setup() {
 		background(51);
 		frameRate(30);
-		Gson gson = new Gson();
-		try {
-			tree = gson.fromJson(new FileReader("datasets/visualize/jsonForVisualize.json"), AVLTree.class);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		tree = Menu.avlTree;
 	}
 
 	public void draw(){

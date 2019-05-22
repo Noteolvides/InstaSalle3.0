@@ -1,3 +1,5 @@
+package exe;
+
 import AVL.AVLTree;
 import AVL.Test;
 import Data.Post;
@@ -16,7 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Main {
+public class Menu {
     String userspath;
     String postspath;
     User[] users;
@@ -26,14 +28,14 @@ public class Main {
     String avltreepath;
     String hashpath;
     String graphpath;
-    TrieTree trieTree = new TrieTree();
+    public static TrieTree trieTree = new TrieTree();
     Tree rTree = new Tree();
-    AVLTree avlTree = new AVLTree();
+    public static AVLTree avlTree = new AVLTree();
     HashTable hashTable = new HashTable(100);
     Graph graph = new Graph();
 
     public static void main(String[] args) throws FileNotFoundException {
-        Main main= new Main();
+        Menu main= new Menu();
         main.Menu(args);
     }
 
@@ -107,8 +109,8 @@ public class Main {
                 trieTree.contains(search);
                 break;
             case 2:
-                System.out.println("ID del post que es vol cercar:");
-                Post post = (Post) avlTree.search(sc.nextInt());
+                System.out.println("Data de creacio del post que es vol cercar:");
+                Post post = (Post) avlTree.search(sc.nextLong());
                 System.out.println("Post trobat:");
                 System.out.println("\tid: " + post.id);
                 String likedby = "[";
@@ -135,7 +137,7 @@ public class Main {
                 break;
             case 3:
                 System.out.println("Introduir hashtag:");
-                String hastag = hashTable.search(sc.next());
+                //String hastag = hashTable.search(sc.next());
 
                 break;
             case 4:
@@ -263,15 +265,15 @@ public class Main {
                     }
                 }
                 String[] tagname = new String[tagnamelist.size()];
-                for (int i = 0; i < tagnamelist.size(); i++) {
+                /*for (int i = 0; i < tagnamelist.size(); i++) {
                     tagname[i] = tagnamelist.get(i);
                     if (hashTable.search(tagname[i]) == null || !hashTable.search(tagname[i]).equals(tagname[i])) {
                         hashTable.insert(tagname[i]);
                     }
                 }
-                Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);
+                Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);*/
                 //rTree.insertion(newpost, root);
-                avlTree.insert(newpost);
+                //avlTree.insert(newpost);
                 break;
         }
     }
@@ -288,41 +290,14 @@ public class Main {
                 "\t5. Graph\n");
         switch (sc.nextInt()) {
             case 1:
-                String trieString;
-                trieString = gson.toJson(trieTree);
-                try {
-                    FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
-                    fw.write(trieString);
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 Trie.Test trietest = new Trie.Test();
                 trietest.visualize(args);
                 break;
             case 2:
-                String rString;
-                rString = gson.toJson(rTree);
-                try {
-                    FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
-                    fw.write(rString);
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 /*R_Tree.Test rtest = new R_Tree.Test();
                 rtest.visualize(rTree, args);*/
                 break;
             case 3:
-                String avlString;
-                avlString = gson.toJson(avlTree);
-                try {
-                    FileWriter fw = new FileWriter("datasets/visualize/jsonForVisualize.json");
-                    fw.write(avlString);
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 Test avltest = new Test();
                 avltest.visualize(args);
                 break;
@@ -473,25 +448,28 @@ public class Main {
         return graph;
     }
 
-    private HashTable insertHashTags(Post[] posts) {
-        List<String> hashtags = getHashTags(posts);
-        HashTable<Integer, String> hashTable = new HashTable<Integer, String>(hashtags.size());
-        for (int i = 0; i < hashtags.size(); i++) {
-            hashTable.insert(hashtags.get(i));
-        }
-        return hashTable;
-    }
-
-    private static List<String> getHashTags(Post[] posts) {
+    private List<String> getHashTags(Post[] posts) {
         List<String> hashtags = new List<String>();
-        for (Post post: posts) {
-            for (String hastag: post.hashtags) {
+        for (Post post : posts) {
+            for (String hastag : post.hashtags) {
                 if (hashtags.get(hastag) == null || !hashtags.get(hastag).equals(hastag)) {
                     hashtags.add(hastag);
                 }
             }
         }
         return hashtags;
+    }
+
+    private HashTable insertHashTags(Post[] posts) {
+        //insertar los post dentro las hashtable con key los hashtags
+        List<String> hastags = getHashTags(posts);
+        HashTable<String, Post> hashTable = new HashTable<String, Post>(hastags.size());
+        for (Post post : posts) {
+            for (String hashtag : post.hashtags) {
+                hashTable.put(hashtag, post);
+            }
+        }
+        return hashTable;
     }
 
     private AVLTree<Post> insertPostsAVL(Post[] posts) {

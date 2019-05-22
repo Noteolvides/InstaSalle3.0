@@ -11,7 +11,7 @@ public class Node<T extends Comparable> {
 
 
     public Node(T data) {
-        this.children =  new HashTable<Character, Node<Character>>(255);
+        this.children =  new HashTable<Character, Node<Character>>(100);
         this.data = data;
         isWord = false;
     }

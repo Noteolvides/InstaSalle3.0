@@ -3,6 +3,7 @@ package Trie;
 import HashTable.Data;
 import com.google.gson.Gson;
 import processing.core.PApplet;
+import exe.Menu;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,7 +26,7 @@ public class Test extends PApplet {
 	private void checkMaxLevel(Node<Character> node,int level){
 		level++;
 		for (Data c : node.children.dataSet()) {
-			checkMaxLevel(node.children.get((Character) c.getKey()),level);
+			checkMaxLevel(node.children.get(c.getKey().toString().charAt(0)),level);
 		}
 		if (level >= maxLevel){
 			maxLevel = level;
@@ -37,8 +38,8 @@ public class Test extends PApplet {
 	private void checkHowMany(Node<Character> node,int level){
 		howManyInLevelTotal[level] += node.children.size();
 		level++;
-		for (Character c : node.children.keySet()) {
-			checkHowMany(node.children.get(c),level);
+		for (Data c : node.children.dataSet()) {
+			checkHowMany(node.children.get(c.getKey().toString().charAt(0)),level);
 		}
 	}
 
@@ -54,12 +55,7 @@ public class Test extends PApplet {
 	public void setup() {
 		background(51);
 		frameRate(30);
-		Gson gson = new Gson();
-		try {
-			tree = gson.fromJson(new FileReader("datasets/visualize/jsonForVisualize.json"), TrieTree.class);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		tree = Menu.trieTree;
 		checkMaxLevel(tree.root,0);
 		checkHowMany(tree.root,0);
 	}
@@ -123,11 +119,11 @@ public class Test extends PApplet {
 		text(value, nuevo, (level * offsetY) + 5);
 
 		if (node.children.size() > 0) {
-			for (Character c : node.children.keySet()) {
+			for (Data c : node.children.dataSet()) {
 				level++;
 				howManyInLevel[level-2] = howManyInLevel[level-2] + 1;
 				int nuevoP = (width / (howManyInLevelTotal[level-2] + 1) ) * howManyInLevel[level-2];
-				drawNodes(node.children.get(c),nuevoP , nuevo);
+				drawNodes(node.children.get(c.getKey().toString().charAt(0)),nuevoP , nuevo);
 				level--;
 			}
 		}

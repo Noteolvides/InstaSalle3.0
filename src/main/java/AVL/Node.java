@@ -14,7 +14,13 @@ public class Node<T> {
     }
 
     public int compareTo(T data) {
-        return Long.compare(((Post) this.data).publishedWhen, ((Post) data).publishedWhen);
+        if (data instanceof Post) {
+            return Long.compare(((Post) this.data).publishedWhen, ((Post) data).publishedWhen);
+        }
+        if (data instanceof Long) {
+            return Long.compare(((Post) this.data).publishedWhen, (Long)data);
+        }
+        return 0;
     }
 
 

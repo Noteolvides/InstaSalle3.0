@@ -2,7 +2,7 @@ package HashTable;
 
 import List.List;
 
-import java.util.Objects;
+import Data.Post;
 
 
 public class HashTable<K,E> {
@@ -122,6 +122,7 @@ public class HashTable<K,E> {
         return dataset;
     }
 
+    @Deprecated
     public K[] keySet() {
         List<Object> set = new List<Object>();
         for (int i = 0; i < hashTable.length; i++) {
@@ -173,7 +174,7 @@ public class HashTable<K,E> {
                     if (j != 0) {
                         listhash += ", ";
                     }
-                    listhash += hashTable[i].list.get(j).element;
+                    listhash += ((Post) hashTable[i].list.get(j).element).id;
                 }
             }
             System.out.println(listhash);
