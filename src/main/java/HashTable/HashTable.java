@@ -1,11 +1,22 @@
 package HashTable;
 
-
-import Data.Post;
 import List.List;
 
+
 class Table {
-    List<String> list;
+    List<Data> list;
+}
+
+class Data<K,E> {
+    int hash;
+    K key;
+    E element;
+
+    Data(int hash, K key, E element) {
+        this.hash = hash;
+        this.key = key;
+        this.element = element;
+    }
 }
 
 public class HashTable<K,E> {
@@ -35,17 +46,31 @@ public class HashTable<K,E> {
         hashTable = new Table[size];
         for (int i = 0; i < hashTable.length; i++) {
             hashTable[i] = new Table();
-            hashTable[i].list = new List<String>();
+            hashTable[i].list = new List<Data>();
         }
-
-
     }
 
     private int hashCode(int key) {
         return key % size;
     }
 
-    private int getKey(E element) {
+    private int getKey(K key) {
+        if (key instanceof Character) {
+            return (int)(Character) key;
+        } else if (key instanceof String) {
+            int stringkey = 0;
+            char[] toCharArray = ((String) key).toCharArray();
+            for (char c : toCharArray) {
+                stringkey += (int) c;
+            }
+            return stringkey;
+        } else if (key instanceof Integer) {
+            return (int) (Integer)key;
+        }
+        return 0;
+    }
+
+    private int getKeyFromElement(E element) {
         int key = 0;
         if (element instanceof String) {
             char[] toCharArray = ((String) element).toCharArray();
@@ -55,29 +80,48 @@ public class HashTable<K,E> {
         }
         if (element instanceof Character) {
             key = (int) (Character) element;
+        } else if (element instanceof Integer) {
+            key = (int) (Integer) element;
         }
         return key;
     }
 
     public void insert(E element) {
-        int index = hashCode(getKey(element));
-        hashTable[index].list.add((String)element);
+        int key = getKeyFromElement(element);
+        int hash = hashCode(key);
+        hashTable[hash].list.add(new Data(hash, key, element));
     }
 
     public String search(E element) {
         String found = null;
-        int index = hashCode(getKey(element));
+        int index = hashCode(getKeyFromElement(element));
         for (int i = 0; i < hashTable[index].list.size() && found == null; i++) {
             if (hashTable[index].list.get(i).equals(element.toString())) {
-                found = hashTable[index].list.get(i);
+                found = hashTable[index].list.get(i).element.toString();
             }
         }
         return found;
     }
 
+    public void put(K key, E element) {
+        int hash = hashCode(getKey(key));
+        hashTable[hash].list.add(new Data(hash, key, element));
+    }
+
+    public E get(K key) {
+        List<Data> data = hashTable[hashCode(getKey(key))].list;
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).key.equals(key)) {
+                return (E) data.get(i).element;
+            }
+        }
+        return null;
+    }
+
     public void delete(E element) {
-        int index = hashCode(getKey(element));
-        hashTable[index].list.remove(element.toString());
+        int key = getKeyFromElement(element);
+        int hash = hashCode(key);
+        hashTable[hash].list.remove(new Data(hash, key, element));
     }
 
     public void visualize() {
@@ -88,7 +132,8 @@ public class HashTable<K,E> {
                     if (j != 0) {
                         listhash += ", ";
                     }
-                    listhash += hashTable[i].list.get(j);
+                    listhash += hashTable[i].list.get(j).element;
+                    System.out.println(get((K) "#sonyalpha"));
                 }
             }
             System.out.println(listhash);
