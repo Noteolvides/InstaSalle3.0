@@ -7,51 +7,33 @@ class Table {
     List<Data> list;
 }
 
-class Data<K,E> {
-    int hash;
-    K key;
-    E element;
-
-    Data(int hash, K key, E element) {
-        this.hash = hash;
-        this.key = key;
-        this.element = element;
-    }
-
-    K getKey() {
-        return key;
-    }
-
-    E getElement() {
-        return element;
-    }
-}
-
 public class HashTable<K,E> {
     private Table[] hashTable;
+    private int space;
     private int size;
 
     public HashTable(int length) {
         if (length < 53) {
-            size = 53;
+            space = 53;
         } else if (length <= 193) {
-            size = 193;
+            space = 193;
         } else if (length <= 769) {
-            size = 769;
+            space = 769;
         } else if (length <= 1543) {
-            size = 1543;
+            space = 1543;
         } else if (length <= 3079) {
-            size = 3079;
+            space = 3079;
         } else if (length <= 6151) {
-            size = 6151;
+            space = 6151;
         } else if (length <= 12289) {
-            size = 12289;
+            space = 12289;
         } else if (length <= 49157) {
-            size = 49157;
+            space = 49157;
         } else if (length <= 196613) {
-            size = 196613;
+            space = 196613;
         }
-        hashTable = new Table[size];
+        size = 0;
+        hashTable = new Table[space];
         for (int i = 0; i < hashTable.length; i++) {
             hashTable[i] = new Table();
             hashTable[i].list = new List<Data>();
@@ -59,7 +41,7 @@ public class HashTable<K,E> {
     }
 
     private int hashCode(int key) {
-        return key % size;
+        return key % space;
     }
 
     private int getKey(K key) {
@@ -92,6 +74,7 @@ public class HashTable<K,E> {
     public void put(K key, E element) {
         int hash = hashCode(getKey(key));
         hashTable[hash].list.add(new Data(hash, key, element));
+        size++;
     }
 
     public E get(K key) {
@@ -115,15 +98,39 @@ public class HashTable<K,E> {
         return false;
     }
 
+    public boolean containsKeys(K key) {
+
+    }
+
+    public E[] dataSet() {
+
+    }
+
+    public K[] keySet() {
+
+    }
+
     public void delete(K key) {
         int hash = hashCode(getKey(key));
-        //TODO SEARCH
-        
-       // hashTable[hash].list.remove(new Data(hash, key, element));
+        for (int i = 0; i < hashTable[hash].list.size(); i++) {
+            if (hashTable[hash].list.get(i).key.equals(key)) {
+                hashTable[hash].list.remove(hashTable[hash].list.get(i));
+            }
+        }
+        size--;
     }
 
     public void deleteElement(E element) {
-
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(j).element.equals(element)) {
+                    hashTable[i].list.remove(hashTable[i].list.get(j));
+                    if (hashTable[i].list.size() == 0) {
+                        size--;
+                    }
+                }
+            }
+        }
     }
 
     public void visualize() {
