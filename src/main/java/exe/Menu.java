@@ -454,10 +454,10 @@ public class Menu {
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
                  elements + " elements exportats en " + time + "ms\n");
-        startTime = System.nanoTime();
+        startTime = System.currentTimeMillis();
         for (int i = 0; i < users.length; i++) {
             if (users[i].creation == 1528939234216L){
-                endTime = System.nanoTime();
+                endTime = System.currentTimeMillis();
             }
         }
         System.out.println("Para busqueda por avl tarda " + (endTime-startTime));
