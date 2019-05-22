@@ -2,6 +2,8 @@ package HashTable;
 
 import List.List;
 
+import java.util.Objects;
+
 
 public class HashTable<K,E> {
     private Table[] hashTable;
@@ -104,12 +106,36 @@ public class HashTable<K,E> {
         return false;
     }
 
-    public E[] dataSet() {
-        return null;
+    public Data[] dataSet() {
+        List<Data> set = new List<Data>();
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(j) != null) {
+                    set.add(hashTable[i].list.get(j));
+                }
+            }
+        }
+        Data[] dataset = new Data[set.size()];
+        for (int i = 0; i < set.size(); i++) {
+            dataset[i] = set.get(i);
+        }
+        return dataset;
     }
 
     public K[] keySet() {
-        return null;
+        List<Object> set = new List<Object>();
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(j) != null) {
+                    set.add(hashTable[i].list.get(j).key);
+                }
+            }
+        }
+        Object[] keyset = new Object[set.size()];
+        for (int i = 0; i < set.size(); i++) {
+            keyset[i] = set.get(i);
+        }
+        return (K[]) keyset;
     }
 
     public void delete(K key) {
