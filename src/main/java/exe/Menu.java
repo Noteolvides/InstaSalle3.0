@@ -12,11 +12,14 @@ import List.List;
 import R_Tree.Tree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
+import javafx.geometry.Pos;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Menu {
@@ -535,11 +538,6 @@ public class Menu {
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
                  elements + " elements exportats en " + time + "ms\n");
-        startTime = System.nanoTime();
-        for (int i = 0; i < users.length; i++) {
-        }
-        endTime = System.nanoTime();
-        System.out.println("Para busqueda por avl tarda " + (endTime-startTime));
     }
 
     private Graph insertUsersGraph(User[] users) {
