@@ -454,6 +454,13 @@ public class Menu {
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
                  elements + " elements exportats en " + time + "ms\n");
+        startTime = System.nanoTime();
+        for (int i = 0; i < users.length; i++) {
+            if (users[i].creation == 1528939234216L){
+                endTime = System.nanoTime();
+            }
+        }
+        System.out.println("Para busqueda por avl tarda " + (endTime-startTime));
     }
 
     private Graph insertUsersGraph(User[] users) {
