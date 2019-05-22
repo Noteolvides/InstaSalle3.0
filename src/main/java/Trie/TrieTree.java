@@ -1,12 +1,20 @@
 package Trie;
 
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class TrieTree {
 	public static void main(String[] args) {
 		TrieTree tree = new TrieTree();
+		tree.insert("hola");
+		tree.insert("hi");
+		tree.insert("holiwi");
+		ArrayList<String> aux = tree.containsQuery("h");
+		System.out.println(aux);
+
 	}
 	Node<Character> root = null;
-
 
 	public void insert(String phrase){
 		if (root == null){
@@ -51,6 +59,41 @@ public class TrieTree {
 				return containsInside(phrase,i+1,node.children.get(c));
 			}
 			return node.children.get(c).isWord;
+		}
+	}
+
+	public ArrayList<String> containsQuery(String phrase){
+		ArrayList<String> queryWords = new ArrayList<String>();
+		queryWords.clear();
+		if (root == null){
+			return null;
+		}
+		Node<Character> aux = containsInsideQuery(phrase,0,root);
+		getAllStrings(aux,new StringBuilder(),queryWords);
+		return queryWords;
+	}
+
+	private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, ArrayList<String> queryWords) {
+		for (Map.Entry<Character,Node<Character>> pair: aux.children.entrySet()) {
+			stringBuilder.append(pair.getKey());
+			if (pair.getValue().isWord){
+				queryWords.add(stringBuilder.toString());
+				stringBuilder.deleteCharAt(stringBuilder.length()-1);
+			}else{
+				getAllStrings(pair.getValue(),stringBuilder, queryWords);
+			}
+		}
+	}
+
+	private Node<Character> containsInsideQuery(String phrase, int i, Node<Character> node) {
+		Character c = phrase.charAt(i);
+		if (!node.children.containsKey(c)){
+			return null;
+		}else {
+			if (i+1 < phrase.length()){
+				return containsInsideQuery(phrase,i+1,node.children.get(c));
+			}
+			return node.children.get(c);
 		}
 	}
 
