@@ -105,9 +105,17 @@ public class Menu {
         System.out.println("\t4. Segons ubicació");
         switch (sc.nextInt()) {
             case 1:
-                String search = sc.next();
-                trieTree.contains(search);
-                break;
+                System.out.println("Cuando quieres limitar la memoria : ");
+                int memori = sc.nextInt();
+                do {
+                    System.out.println("Que personas quieres buscar : ");
+                    String search = sc.next();
+                    trieTree.containsQuery(search, memori);
+                    System.out.println("Quieres seguir buscando");
+                    if (sc.next().equals("N")) {
+                        break;
+                    }
+                } while (true);
             case 2:
                 System.out.println("Data de creacio del post que es vol cercar:");
                 Post post = (Post) avlTree.search(sc.nextLong());
