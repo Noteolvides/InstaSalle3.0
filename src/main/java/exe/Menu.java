@@ -113,7 +113,12 @@ public class Menu {
                 do {
                     System.out.println("Quin usuari vols buscar: ");
                     String search = sc.next();
+                    long timeSearchTrie;
+                    long start = System.currentTimeMillis();
                     trieTree.containsQuery(search, memori);
+                    long end = System.currentTimeMillis();
+                    timeSearchTrie = end - start;
+                    System.out.println("S'ha tardat " + timeSearchTrie + "ms.");
                     System.out.println("Seguir buscant?[Y/N]");
                     if (sc.next().equals("N")) {
                         exit = false;
@@ -121,7 +126,11 @@ public class Menu {
                 } while (exit);
                 System.out.println("A qui vols buscar finalment:");
                 String search = sc.next();
+                long timeSearchGraph;
+                long start = System.currentTimeMillis();
                 User userSearch = graph.searchUser(search);
+                long end = System.currentTimeMillis();
+                timeSearchGraph = end - start;
                 System.out.println("Usuari trobat:");
                 System.out.println("\tNom: " + userSearch.username);
                 System.out.println("\tData de creacio: " + userSearch.creation);
@@ -129,10 +138,15 @@ public class Menu {
                 for (String follow : userSearch.toFollow) {
                     System.out.println("\t\tNom: " + follow);
                 }
+                System.out.println("S'ha tardat " + timeSearchGraph + "ms.");
                 break;
             case 2:
                 System.out.println("Data de creacio del post que es vol cercar:");
+                long timeSearchAVL;
+                start = System.currentTimeMillis();
                 Post post = (Post) avlTree.search(sc.nextLong());
+                end = System.currentTimeMillis();
+                timeSearchAVL = end - start;
                 System.out.println("Post trobat:");
                 System.out.println("\tid: " + post.id);
                 String likedby = "[";
@@ -156,6 +170,7 @@ public class Menu {
                 }
                 tags += "]";
                 System.out.println("\thashtags: " + tags);
+                System.out.println("S'ha tardat " + timeSearchAVL + "ms.");
                 break;
             case 3:
                 System.out.println("Introduir hashtag:");
@@ -163,10 +178,16 @@ public class Menu {
                 System.out.println("Quants pots vols mostrar d'aquest hashtag:");
                 int limit = sc.nextInt();
                 System.out.println("Post amb el hashtag " + hashtag + ":");
+                long timeSearchHash;
+                start = System.currentTimeMillis();
                 List<Data> posts = hashTable.getAll(hashtag);
+                end = System.currentTimeMillis();
+                timeSearchHash = end - start;
                 for (int i = 0; i < limit; i++) {
                     System.out.println(((Post) posts.get(i).getElement()).id);
                 }
+                System.out.println("\n");
+                System.out.println("S'ha tardat " + timeSearchHash + "ms.");
                 System.out.println("\n");
                 break;
             case 4:
@@ -218,7 +239,7 @@ public class Menu {
                     timeDeleteAVL = end - start;
                     System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ms.");
 
-                    
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
