@@ -128,14 +128,22 @@ public class Menu {
                 String search = sc.next();
                 long timeSearchGraph;
                 long start = System.currentTimeMillis();
-                User userSearch = graph.searchUser(search);
+                Vertex userSearch = graph.searchUser(search);
                 long end = System.currentTimeMillis();
                 timeSearchGraph = end - start;
+
+                User user = new User(userSearch.getUsername(), userSearch.getCreation());
+                String[] toFollow = new String[userSearch.getRelations().size()];
+                for (int i = 0; i < userSearch.getRelations().size(); i++) {
+                    toFollow[i] = userSearch.getRelations().get(i).getUsername();
+                }
+                user.setToFollow(toFollow);
+
                 System.out.println("Usuari trobat:");
-                System.out.println("\tNom: " + userSearch.username);
-                System.out.println("\tData de creacio: " + userSearch.creation);
+                System.out.println("\tNom: " + user.username);
+                System.out.println("\tData de creacio: " + user.creation);
                 System.out.println("\tToFollow: ");
-                for (String follow : userSearch.toFollow) {
+                for (String follow : user.toFollow) {
                     System.out.println("\t\tNom: " + follow);
                 }
                 System.out.println("S'ha tardat " + timeSearchGraph + "ms.");

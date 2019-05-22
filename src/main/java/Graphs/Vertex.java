@@ -28,6 +28,10 @@ public class Vertex {
         return username;
     }
 
+    public long getCreation() {
+        return creation;
+    }
+
     public List<Vertex> getRelations() {
         return relations;
     }

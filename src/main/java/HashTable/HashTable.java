@@ -11,7 +11,7 @@ public class HashTable<K,E> {
     private int size;
 
     public HashTable(int length) {
-        if (length < 53) {
+        if (length <= 53) {
             space = 53;
         } else if (length <= 193) {
             space = 193;

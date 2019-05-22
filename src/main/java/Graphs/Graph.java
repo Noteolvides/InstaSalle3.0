@@ -50,20 +50,14 @@ public class Graph {
         new Vista_Graph(adjacencyList);
     }
 
-    public User searchUser(String name) {
+    public Vertex searchUser(String name) {
         Vertex found = null;
         for (int i = 0; i < adjacencyList.size(); i++) {
             if (adjacencyList.get(i).username.equals(name)) {
                 found = adjacencyList.get(i);
             }
         }
-        User user = new User(found.username, found.creation);
-        String[] toFollow = new String[found.relations.size()];
-        for (int i = 0; i < found.relations.size(); i++) {
-            toFollow[i] = found.relations.get(i).username;
-        }
-        user.setToFollow(toFollow);
-        return user;
+        return found;
     }
 
     public List<Vertex> getAdjacencyList() {
