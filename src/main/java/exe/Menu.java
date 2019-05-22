@@ -7,6 +7,7 @@ import Data.User;
 import Graphs.Graph;
 import Graphs.Vertex;
 import HashTable.HashTable;
+import HashTable.Data;
 import List.List;
 import R_Tree.Tree;
 import Trie.TrieTree;
@@ -158,8 +159,15 @@ public class Menu {
                 break;
             case 3:
                 System.out.println("Introduir hashtag:");
-                //String hastag = hashTable.search(sc.next());
-
+                String hashtag = sc.next();
+                System.out.println("Quants pots vols mostrar d'aquest hashtag:");
+                int limit = sc.nextInt();
+                System.out.println("Post amb el hashtag " + hashtag + ":");
+                List<Data> posts = hashTable.getAll(hashtag);
+                for (int i = 0; i < limit; i++) {
+                    System.out.println(((Post) posts.get(i).getElement()).id);
+                }
+                System.out.println("\n");
                 break;
             case 4:
                 System.out.println("Latitud:");
