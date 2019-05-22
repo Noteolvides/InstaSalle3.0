@@ -29,11 +29,23 @@ public class Graph {
             }
         }
     }
+    public void visualizeCommandLine(){
+        for (int i = 0; i < adjacencyList.size(); i++) {
+            Vertex v =  adjacencyList.get(i);
+            System.out.print(v.username + ":");
+            for (int j = 0; j < v.getRelations().size(); j++) {
+                Vertex vPrima = v.getRelations().get(0);
+                System.out.print( ", " + vPrima.username);
+            }
+            System.out.println();
+        }
+    }
 
     public void removeEdge (Vertex v1, Vertex v2) {
         adjacencyList.get(v1).relations.remove(v2);
     }
 
+    @Deprecated
     public void visualize() {
         new Vista_Graph(adjacencyList);
     }
