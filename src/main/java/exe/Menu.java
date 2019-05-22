@@ -534,7 +534,7 @@ public class Menu {
         int elements = users.length + posts.length;
         long time = (endTime - startTime);
         System.out.println("Exportacio realitzada amb èxit!\n" +
-                 elements + " elements exportats en " + time + "ms\n");
+                 elements + " elements exportats en " + time + "ns.\n");
         startTime = System.nanoTime();
         for (int i = 0; i < users.length; i++) {
         }
