@@ -118,6 +118,17 @@ public class HashTable<K,E> {
         return null;
     }
 
+    public boolean contains(E element) {
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(i).element.equals(element.toString())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void delete(E element) {
         int key = getKeyFromElement(element);
         int hash = hashCode(key);
