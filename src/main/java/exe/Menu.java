@@ -334,7 +334,7 @@ public class Menu {
                 hashTable.visualize();
                 break;
             case 5:
-                graph.visualize();
+                graph.visualizeCommandLine();
                 break;
         }
     }
