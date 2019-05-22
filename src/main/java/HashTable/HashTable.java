@@ -17,6 +17,14 @@ class Data<K,E> {
         this.key = key;
         this.element = element;
     }
+
+    K getKey() {
+        return key;
+    }
+
+    E getElement() {
+        return element;
+    }
 }
 
 public class HashTable<K,E> {
@@ -70,37 +78,15 @@ public class HashTable<K,E> {
         return 0;
     }
 
-    private int getKeyFromElement(E element) {
-        int key = 0;
-        if (element instanceof String) {
-            char[] toCharArray = ((String) element).toCharArray();
-            for (char c : toCharArray) {
-                key += (int) c;
+    public Object search(E element) {
+        for (int i = 0; i < hashTable.length; i++) {
+            for (int j = 0; j < hashTable[i].list.size(); j++) {
+                if (hashTable[i].list.get(i).element.equals(element)) {
+                    return hashTable[i].list.get(i).element;
+                }
             }
         }
-        if (element instanceof Character) {
-            key = (int) (Character) element;
-        } else if (element instanceof Integer) {
-            key = (int) (Integer) element;
-        }
-        return key;
-    }
-
-    public void insert(E element) {
-        int key = getKeyFromElement(element);
-        int hash = hashCode(key);
-        hashTable[hash].list.add(new Data(hash, key, element));
-    }
-
-    public String search(E element) {
-        String found = null;
-        int index = hashCode(getKeyFromElement(element));
-        for (int i = 0; i < hashTable[index].list.size() && found == null; i++) {
-            if (hashTable[index].list.get(i).equals(element.toString())) {
-                found = hashTable[index].list.get(i).element.toString();
-            }
-        }
-        return found;
+        return null;
     }
 
     public void put(K key, E element) {
@@ -129,10 +115,15 @@ public class HashTable<K,E> {
         return false;
     }
 
-    public void delete(E element) {
-        int key = getKeyFromElement(element);
-        int hash = hashCode(key);
-        hashTable[hash].list.remove(new Data(hash, key, element));
+    public void delete(K key) {
+        int hash = hashCode(getKey(key));
+        //TODO SEARCH
+        
+       // hashTable[hash].list.remove(new Data(hash, key, element));
+    }
+
+    public void deleteElement(E element) {
+
     }
 
     public void visualize() {
@@ -144,7 +135,6 @@ public class HashTable<K,E> {
                         listhash += ", ";
                     }
                     listhash += hashTable[i].list.get(j).element;
-                    System.out.println(get((K) "#sonyalpha"));
                 }
             }
             System.out.println(listhash);
