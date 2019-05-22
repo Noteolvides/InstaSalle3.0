@@ -20,7 +20,18 @@ public class AVLTree<T> {
     //Implementacion de la busqueda
 
     public T search(T element) {
-        return searchInside(root, element);
+        return searchElement(root, element);
+    }
+
+    private T searchElement(Node<T> node, T element){
+        int cmp = node.compareTo(element);
+        if (cmp == 0) {
+            return node.data;
+        }
+        if (cmp > 0){
+            return searchElement(node.leftChild,element);
+        }
+        return searchElement(node.rightChild,element);
     }
 
     private T searchInside(Node<T> node, T element) {
