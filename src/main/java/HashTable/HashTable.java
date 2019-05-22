@@ -153,10 +153,11 @@ public class HashTable<K,E> {
         size--;
     }
 
-    public void removeElement(E element) {
+    //only for published
+    public void removeElement(long element) {
         for (int i = 0; i < hashTable.length; i++) {
             for (int j = 0; j < hashTable[i].list.size(); j++) {
-                if (hashTable[i].list.get(j).element.equals(element)) {
+                if (((Post) hashTable[i].list.get(j).element).publishedWhen == element) {
                     hashTable[i].list.remove(hashTable[i].list.get(j));
                     if (hashTable[i].list.size() == 0) {
                         size--;

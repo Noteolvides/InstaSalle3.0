@@ -118,7 +118,7 @@ public class Menu {
                     trieTree.containsQuery(search, memori);
                     long end = System.nanoTime();
                     timeSearchTrie = end - start;
-                    System.out.println("S'ha tardat " + timeSearchTrie + "nanos.");
+                    System.out.println("S'ha tardat " + timeSearchTrie + "ns.");
                     System.out.println("Seguir buscant?[Y/N]");
                     if (sc.next().equals("N")) {
                         exit = false;
@@ -128,7 +128,7 @@ public class Menu {
                 String search = sc.next();
                 long timeSearchGraph;
                 long start = System.nanoTime();
-                User userSearch = graph.searchUser(search);
+                Vertex userSearch = graph.searchUser(search);
                 long end = System.nanoTime();
                 timeSearchGraph = end - start;
 
@@ -146,7 +146,7 @@ public class Menu {
                 for (String follow : user.toFollow) {
                     System.out.println("\t\tNom: " + follow);
                 }
-                System.out.println("S'ha tardat " + timeSearchGraph + "nanos.");
+                System.out.println("S'ha tardat " + timeSearchGraph + "ns.");
                 break;
             case 2:
                 System.out.println("Data de creacio del post que es vol cercar:");
@@ -179,7 +179,7 @@ public class Menu {
                 }
                 tags += "]";
                 System.out.println("\thashtags: " + tags);
-                System.out.println("S'ha tardat " + timeSearchAVL + "nanos.");
+                System.out.println("S'ha tardat " + timeSearchAVL + "ns.");
                 break;
             case 3:
                 System.out.println("Introduir hashtag:");
@@ -196,7 +196,7 @@ public class Menu {
                     System.out.println(((Post) posts.get(i).getElement()).id);
                 }
                 System.out.println("\n");
-                System.out.println("S'ha tardat " + timeSearchHash + "nanos.");
+                System.out.println("S'ha tardat " + timeSearchHash + "ns.");
                 System.out.println("\n");
                 break;
             case 4:
@@ -228,27 +228,33 @@ public class Menu {
                 graph.removeVertex(new Vertex(username, creation));
                 long end = System.nanoTime();
                 timeDeleteGraph = end - start;
-                System.out.println("Eliminacio de Usuari finalitzada del Graph en " + timeDeleteGraph + "nanos.");
+                System.out.println("Eliminacio de Usuari finalitzada del Graph en " + timeDeleteGraph + "ns.");
 
                 long timeDeleteTrie;
                 start = System.nanoTime();
                 trieTree.delete(username);
                 end = System.nanoTime();
                 timeDeleteTrie = end - start;
-                System.out.println("Eliminacio de Usuari finalitzada del Trie en " + timeDeleteTrie + "nanos.");
+                System.out.println("Eliminacio de Usuari finalitzada del Trie en " + timeDeleteTrie + "ns.");
 
                 break;
             case 2:
-                System.out.println("Id post que s'esborrara:");
+                System.out.println("Data de publicacio post que s'esborrara:");
+                long published = sc.nextLong();
                 try {
                     long timeDeleteAVL;
                     start = System.nanoTime();
-                    avlTree.delete(avlTree.search(sc.nextInt()));
+                    avlTree.delete(published);
                     end = System.nanoTime();
                     timeDeleteAVL = end - start;
-                    System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "nanos.");
+                    System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ns.");
 
-
+                    long timeDeleteHash;
+                    start = System.nanoTime();
+                    hashTable.removeElement(published);
+                    end = System.nanoTime();
+                    timeDeleteHash = end - start;
+                    System.out.println("Eliminacio del Post finalitzada del HashTable en " + timeDeleteHash + "ns.");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -303,14 +309,14 @@ public class Menu {
                 }
                 long end = System.nanoTime();
                 timeInsertGraph = end - start;
-                System.out.println("Insercio nou Usuari del Graph finalitzada en " + timeInsertGraph + "nanos.");
+                System.out.println("Insercio nou Usuari del Graph finalitzada en " + timeInsertGraph + "ns.");
 
                 long timeInsertTrie;
                 start = System.nanoTime();
                 trieTree.insert(username);
                 end = System.nanoTime();
                 timeInsertTrie = end - start;
-                System.out.println("Insercio nou Usuari del Trie finalitzada en " + timeInsertTrie + "nanos.");
+                System.out.println("Insercio nou Usuari del Trie finalitzada en " + timeInsertTrie + "ns.");
 
                 break;
             case 2:
@@ -368,14 +374,14 @@ public class Menu {
                 }
                 end = System.nanoTime();
                 timeInsertHash = end - start;
-                System.out.println("Insercio nou Post de la HashTable finalitzada en " + timeInsertHash + "nanos.");
+                System.out.println("Insercio nou Post de la HashTable finalitzada en " + timeInsertHash + "ns.");
 
                 long timeInsertAVL;
                 start = System.nanoTime();
                 avlTree.insert(newpost);
                 end = System.nanoTime();
                 timeInsertAVL = end - start;
-                System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "nanos.");
+                System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "ns.");
 
                 //rTree.insertion(newpost, root);
                 break;
