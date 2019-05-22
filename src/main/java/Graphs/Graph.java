@@ -34,7 +34,7 @@ public class Graph {
             Vertex v =  adjacencyList.get(i);
             System.out.print(v.username + ":");
             for (int j = 0; j < v.getRelations().size(); j++) {
-                Vertex vPrima = v.getRelations().get(0);
+                Vertex vPrima = v.getRelations().get(j);
                 System.out.print( ", " + vPrima.username);
             }
             System.out.println();
