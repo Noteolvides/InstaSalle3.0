@@ -1,6 +1,8 @@
 package Trie;
 
 
+import HashTable.HashTable;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -75,7 +77,7 @@ public class TrieTree {
     }
 
     private void getAllStrings(Node<Character> aux, StringBuilder stringBuilder, String start, int memoriaMaxima) {
-        for (Map.Entry<Character, Node<Character>> pair : aux.children.entrySet()) {
+        for (Data<Character, Node<Character>> pair : aux.children.entrySet()) {
             if (counter < memoriaMaxima) {
                 stringBuilder.append(pair.getKey());
                 if (pair.getValue().isWord) {
@@ -171,7 +173,7 @@ public class TrieTree {
                 }
             case 3:
                 if ((node.children.get(phrase.charAt(i)).children.size() == 0) && (!node.children.get(phrase.charAt(i)).isWord)) {
-                    node.children.remove(node.children.get(phrase.charAt(i)).data);
+                    node.children.delete(node.children.get(phrase.charAt(i)).data);
                 }
                 return (4);
             case 4:
