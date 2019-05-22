@@ -193,13 +193,33 @@ public class Menu {
                 System.out.println("Data de creacio del usuari");
                 long creation = sc.nextLong();
 
+                long timeDeleteGraph;
+                long start = System.currentTimeMillis();
                 graph.removeVertex(new Vertex(username, creation));
+                long end = System.currentTimeMillis();
+                timeDeleteGraph = end - start;
+                System.out.println("Eliminacio de Usuari finalitzada del Graph en " + timeDeleteGraph + "ms.");
+
+                long timeDeleteTrie;
+                start = System.currentTimeMillis();
                 trieTree.delete(username);
+                end = System.currentTimeMillis();
+                timeDeleteTrie = end - start;
+                System.out.println("Eliminacio de Usuari finalitzada del Trie en " + timeDeleteTrie + "ms.");
+
                 break;
             case 2:
                 System.out.println("Id post que s'esborrara:");
                 try {
+                    long timeDeleteAVL;
+                    start = System.currentTimeMillis();
                     avlTree.delete(avlTree.search(sc.nextInt()));
+                    end = System.currentTimeMillis();
+                    timeDeleteAVL = end - start;
+                    System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ms.");
+
+                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -244,12 +264,24 @@ public class Menu {
                 }
 
                 Vertex v1 = new Vertex(username, datacreation);
+                long timeInsertGraph;
+
+                long start = System.currentTimeMillis();
                 graph.insertVertex(v1);
                 for (int i = 0; i < tofollowname.length; i++) {
                     graph.insertEdge(v1, graph.getAdjacencyList().get(new Vertex(tofollowname[i], tofollowcreation[i])));
                 }
+                long end = System.currentTimeMillis();
+                timeInsertGraph = end - start;
+                System.out.println("Insercio nou Usuari del Graph finalitzada en " + timeInsertGraph + "ms.");
 
+                long timeInsertTrie;
+                start = System.currentTimeMillis();
                 trieTree.insert(username);
+                end = System.currentTimeMillis();
+                timeInsertTrie = end - start;
+                System.out.println("Insercio nou Usuari del Trie finalitzada en " + timeInsertTrie + "ms.");
+
                 break;
             case 2:
                 System.out.println("ID:");
@@ -294,15 +326,28 @@ public class Menu {
                     }
                 }
                 String[] tagname = new String[tagnamelist.size()];
-                /*for (int i = 0; i < tagnamelist.size(); i++) {
+                for (int i = 0; i < tagnamelist.size(); i++) {
                     tagname[i] = tagnamelist.get(i);
-                    if (hashTable.search(tagname[i]) == null || !hashTable.search(tagname[i]).equals(tagname[i])) {
-                        hashTable.insert(tagname[i]);
-                    }
                 }
-                Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);*/
+                Post newpost = new Post(idPost, likedname, publishedWhen, publishedBy, location, tagname);
+
+                long timeInsertHash;
+                start = System.currentTimeMillis();
+                for (String tag : tagname) {
+                    hashTable.put(tag, newpost);
+                }
+                end = System.currentTimeMillis();
+                timeInsertHash = end - start;
+                System.out.println("Insercio nou Post de la HashTable finalitzada en " + timeInsertHash + "ms.");
+
+                long timeInsertAVL;
+                start = System.currentTimeMillis();
+                avlTree.insert(newpost);
+                end = System.currentTimeMillis();
+                timeInsertAVL = end - start;
+                System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "ms.");
+
                 //rTree.insertion(newpost, root);
-                //avlTree.insert(newpost);
                 break;
         }
     }
