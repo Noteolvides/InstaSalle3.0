@@ -26,10 +26,10 @@ class NodeRTree {
     }
 
     public void insert(NodeRTree node) {
-        if (node.minPoint.isClosetToRightCornerThan(minPoint)) {
+        if (node.minPoint.isClosetToLeftCornerThan(minPoint)) {
             minPoint = node.minPoint;
         }
-        if (node.maxPoint.isClosetToLeftCornerThan(maxPoint)) {
+        if (node.maxPoint.isClosetToRightCornerThan(maxPoint)) {
             maxPoint = node.maxPoint;
         }
         regions[indexArray++] = node;
@@ -59,6 +59,19 @@ class NodeRTree {
             newMaxPoint = pointToAdd;
         }
         return area(newMinPoint, newMaxPoint);
+    }
+
+    public int calculateExpansionArea(NodeRTree regionToAdd){
+        Point newMinPoint = minPoint;
+        Point newMaxPoint = maxPoint;
+        if (regionToAdd.minPoint.isClosetToLeftCornerThan(minPoint)){
+            newMinPoint = regionToAdd.minPoint;
+        }
+        if(regionToAdd.maxPoint.isClosetToRightCornerThan(maxPoint)){
+            newMaxPoint = regionToAdd.maxPoint;
+        }
+
+        return  area(newMinPoint,newMaxPoint);
     }
 
     private int area(Point min, Point max) {
