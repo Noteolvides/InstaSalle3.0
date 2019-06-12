@@ -19,6 +19,7 @@ public class RTree {
     /**
      * Funcion que inserta un punto
      * TODO Pasarlo a otro tipo de estructura.
+     *
      * @return NodeToActualizate
      */
     public NodeRTree insertInside(Point p, NodeRTree node) {
@@ -32,12 +33,12 @@ public class RTree {
                 } else {
                     areaIteracion = node.regions[i].calculateExpansionArea(p);
                 }
-                if (areaIteracion < areaMinimaBusqueda){
+                if (areaIteracion < areaMinimaBusqueda) {
                     areaMinimaBusqueda = areaIteracion;
                     indiceConMenorArea = i;
                 }
             }
-            node.regions[indiceConMenorArea] = insertInside(p,node.regions[indiceConMenorArea]);
+            node.regions[indiceConMenorArea] = insertInside(p, node.regions[indiceConMenorArea]);
 
         } else {
             if (!node.isFull) {
@@ -102,11 +103,20 @@ public class RTree {
                     NodeRTree newParent = new NodeRTree(false);
                     a.parent = newParent;
                     newParent.insert(a);//Suponemos que de tamaño minimo es 2
-                    a.parent = newParent;
+                    b.parent = newParent;
                     newParent.insert(b);
                     return newParent;
-                }else{
-                    //Ese es el caso chungi por ahora pasamos
+                } else {
+                    for (int i = 0; i < nodeToInsert.indexArray; i++) {
+                        if (nodeToInsert.regions[i] == node) {
+                            nodeToInsert.regions[i] = a;
+                        }
+                    }
+                    if (!nodeToInsert.isFull) {
+                        nodeToInsert.insert(b);
+                    } else {
+
+                    }
                 }
 
 

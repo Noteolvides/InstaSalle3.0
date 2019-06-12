@@ -9,6 +9,7 @@ public class Main {
         rTree.insert(new Point(120,120));
         rTree.insert(new Point(115,115));
         rTree.insert(new Point(15,15));
+        rTree.insert(new Point(500,500));
         System.out.println("hola");
     }
 }
