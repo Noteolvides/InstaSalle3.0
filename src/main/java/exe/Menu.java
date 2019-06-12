@@ -9,7 +9,6 @@ import Graphs.Vertex;
 import HashTable.HashTable;
 import HashTable.Data;
 import List.List;
-import R_Tree.Tree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
 import javafx.geometry.Pos;
@@ -33,7 +32,7 @@ public class Menu {
     String hashpath;
     String graphpath;
     public static TrieTree trieTree = new TrieTree();
-    Tree rTree = new Tree();
+    //Tree rTree = new Tree();
     public static AVLTree avlTree = new AVLTree();
     HashTable hashTable = new HashTable(100);
     Graph graph = new Graph();
@@ -447,10 +446,10 @@ public class Menu {
                 }
             break;
             case 2:
-                jsonString = gson.toJson(rTree);
+                //jsonString = gson.toJson(rTree);
                 try {
                     fw = new FileWriter("datasets/exported/datasetRTree.json");
-                    fw.write(jsonString);
+                    //fw.write(jsonString);
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -505,7 +504,7 @@ public class Menu {
         graphpath = sc.next();
         long startTime = System.nanoTime();
         trieTree = gson.fromJson(new FileReader(triepath), TrieTree.class);
-        rTree = gson.fromJson(new FileReader(rtreepath), Tree.class);
+        //rTree = gson.fromJson(new FileReader(rtreepath), Tree.class);
         avlTree = gson.fromJson(new FileReader(avltreepath), AVLTree.class);
         hashTable = gson.fromJson(new FileReader(hashpath), HashTable.class);
         graph = gson.fromJson(new FileReader(graphpath), Graph.class);
@@ -530,8 +529,8 @@ public class Menu {
         graph = insertUsersGraph(users);
         hashTable = insertHashTags(posts);
         avlTree = insertPostsAVL(posts);
-        trieTree = insertUsersTrie(users);
-        rTree = insertPostsRTree(posts);
+        //trieTree = insertUsersTrie(users);
+        //rTree = insertPostsRTree(posts);
 
         long endTime = System.nanoTime();
         int elements = users.length + posts.length;
@@ -590,13 +589,13 @@ public class Menu {
         }
         return avlTree;
     }
-
+/*
     private TrieTree insertUsersTrie(User[] users) {
-        TrieTree trie = new TrieTree();
+        //TrieTree trie = new TrieTree();
         for (User user : users) {
-            trie.insert(user.username);
+            //trie.insert(user.username);
         }
-        return trie;
+        return null;
     }
 
     private Tree insertPostsRTree(Post[] posts) {
@@ -605,5 +604,5 @@ public class Menu {
             //rtree.insertion(post, root);
         }
         return rtree;
-    }
+    }*/
 }
