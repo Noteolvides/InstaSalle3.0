@@ -90,45 +90,46 @@ class NodeRTree {
 
 
 
-    public void insertInside(Point p) {
-        if (!this.isLeaf) {
+    public void insertInside(Point p,int indice) {
+        NodeRTree node = indice == -1 ? this : this.regions[indice];
+        if (!node.isLeaf) {
             int areaMinimaBusqueda = Integer.MAX_VALUE;
             int indiceConMenorArea = -1;
             int areaIteracion;
-            for (int i = 0; i < this.indexArray; i++) {
-                if (this.regions[i].minPoint.x <= p.x && this.regions[i].minPoint.y <= p.y && this.regions[i].maxPoint.x >= p.x && this.regions[i].maxPoint.y >= p.y) {
+            for (int i = 0; i < node.indexArray; i++) {
+                if (node.regions[i].minPoint.x <= p.x && node.regions[i].minPoint.y <= p.y && node.regions[i].maxPoint.x >= p.x && node.regions[i].maxPoint.y >= p.y) {
                     areaIteracion = 0;
                 } else {
-                    areaIteracion = this.regions[i].calculateExpansionArea(p);
+                    areaIteracion = node.regions[i].calculateExpansionArea(p);
                 }
                 if (areaIteracion < areaMinimaBusqueda) {
                     areaMinimaBusqueda = areaIteracion;
                     indiceConMenorArea = i;
                 }
             }
-            this.regions[indiceConMenorArea].insertInside(p);
+            node.insertInside(p,indiceConMenorArea);
 
         } else {
-            if (!this.isFull) {
+            if (!node.isFull) {
                 //Es hoja y no esta llena pues genial la añadimos
-                this.insert(p);
+                node.insert(p);
             } else {
                 //Que pena esta lleno asi que split
                 //Hacemos una insercion espercial pues sabemos que puede tener uno de mas
-                this.insert(p);
+                node.insert(p);
 
                 NodeRTree a = new NodeRTree(true);//Region A en la que estara el punto minimo y los mas cercanos a este
-                a.parent = this.parent;
+                a.parent = node.parent;
                 NodeRTree b = new NodeRTree(true); //Region B en la que estara el punto maximo y los mas cercanos a este
-                b.parent = this.parent;
+                b.parent = node.parent;
 
                 Point min = new Point(RTree.WIDTH_SCRREN + 1, RTree.HEIGHT_SCREEN + 1);
                 int minIndex = -1;
                 Point max = new Point(0, 0);
                 int maxIndex = -1;
                 //Todo Esto puede ser una fuente de bugs pues el minimo puede ser a la vez el maximo, por ahora lo dejamos
-                for (int i = 0; i < this.indexArray; i++) {
-                    Point pointSearch = this.points[i];
+                for (int i = 0; i < node.indexArray; i++) {
+                    Point pointSearch = node.points[i];
                     if (pointSearch.isClosetToLeftCornerThan(min)) {
                         min = pointSearch;
                         minIndex = i;
@@ -138,8 +139,8 @@ class NodeRTree {
                         maxIndex = i;
                     }
                 }
-                this.points[minIndex] = null; //Para luego no tener que meterlos
-                this.points[maxIndex] = null;
+                node.points[minIndex] = null; //Para luego no tener que meterlos
+                node.points[maxIndex] = null;
 
                 a.insert(min);
                 b.insert(max);
@@ -148,17 +149,17 @@ class NodeRTree {
                 //El splip finaliza redistribuimos los puntos
 
 
-                for (int i = 0; i < this.indexArray; i++) {
-                    Point pointSearch = this.points[i];
+                for (int i = 0; i < node.indexArray; i++) {
+                    Point pointSearch = node.points[i];
                     if (pointSearch != null) {
                         double areaA = a.calculateExpansionArea(pointSearch);
                         double areaB = b.calculateExpansionArea(pointSearch);
                         if (areaA < areaB) {
                             a.insert(pointSearch);
-                            this.points[i] = null;
+                            node.points[i] = null;
                         } else {
                             b.insert(pointSearch);
-                            this.points[i] = null;
+                            node.points[i] = null;
                         }
                     }
                 }
@@ -166,28 +167,28 @@ class NodeRTree {
                 //Ahora tenemos dos casos, en el caso de sea la primera ejecucion, el nodo padre sera null en ese caso creamos uno nuevo
                 //En el otro caso, somos un nodo interno y tenemos que sustituir y añadir la otra region
 
-                if (this.parent == null) {
+                if (node.parent == null) {
                     NodeRTree newParent = new NodeRTree(false);
                     a.parent = newParent;
                     newParent.insert(a);//Suponemos que de tamaño minimo es 2
                     b.parent = newParent;
                     newParent.insert(b);
-                    this.parent = newParent.parent;
-                    this.isLeaf = newParent.isLeaf;
-                    this.regions = newParent.regions;
-                    this.points = newParent.points;
-                    this.indexArray = newParent.indexArray;
-                    this.maxPoint = newParent.maxPoint;
-                    this.minPoint = newParent.minPoint;
-                    this.isFull = newParent.isFull;
+                    node.parent = newParent.parent;
+                    node.isLeaf = newParent.isLeaf;
+                    node.regions = newParent.regions;
+                    node.points = newParent.points;
+                    node.indexArray = newParent.indexArray;
+                    node.maxPoint = newParent.maxPoint;
+                    node.minPoint = newParent.minPoint;
+                    node.isFull = newParent.isFull;
                 } else {
-                    for (int i = 0; i < this.parent.indexArray; i++) {
-                        if (this.parent.regions[i] == this) {
-                            this.parent.regions[i] = a;
+                    for (int i = 0; i < node.parent.indexArray; i++) {
+                        if (node.parent.regions[i] == node) {
+                            node.parent.regions[i] = a;
                             break;
                         }
                     }
-                    this.parent.insertRegion(b);
+                    this.insertRegion(b);
                 }
             }
         }

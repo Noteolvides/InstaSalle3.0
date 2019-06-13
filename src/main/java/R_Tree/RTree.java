@@ -15,7 +15,7 @@ public class RTree {
     }
 
     public void insert(Point p) {
-        root.insertInside(p);
+        root.insertInside(p,-1);
     }
 
     /**

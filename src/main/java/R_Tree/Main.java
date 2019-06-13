@@ -11,6 +11,6 @@ public class Main {
         rTree.insert(new Point(15,15));
         rTree.insert(new Point(500,500));
         rTree.insert(new Point(11,11));
-        System.out.println("hola");
+
     }
 }
