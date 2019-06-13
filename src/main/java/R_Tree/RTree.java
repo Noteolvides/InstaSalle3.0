@@ -5,9 +5,9 @@ import AVL.Node;
 public class RTree {
     static final int MIN = 1;
     static final int MAX = 3;
-    static final int HEIGHT_SCREEN = 1000;
-    static final int WIDTH_SCRREN = 1000;
-    private NodeRTree root;
+    static final int HEIGHT_SCREEN = 500;
+    static final int WIDTH_SCRREN = 500;
+    NodeRTree root;
 
 
     public RTree() {
