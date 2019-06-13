@@ -182,12 +182,14 @@ class NodeRTree {
                     node.minPoint = newParent.minPoint;
                     node.isFull = newParent.isFull;
                 } else {
-                    for (int i = 0; i < node.parent.indexArray; i++) {
-                        if (node.parent.regions[i] == node) {
-                            node.parent.regions[i] = a;
-                            break;
-                        }
-                    }
+                    node.parent = a.parent;
+                    node.isLeaf = a.isLeaf;
+                    node.regions = a.regions;
+                    node.points = a.points;
+                    node.indexArray = a.indexArray;
+                    node.maxPoint = a.maxPoint;
+                    node.minPoint = a.minPoint;
+                    node.isFull = a.isFull;
                     this.insertRegion(b);
                 }
             }
@@ -271,12 +273,14 @@ class NodeRTree {
                 this.minPoint = newParent.minPoint;
                 this.isFull = newParent.isFull;
             } else {
-                for (int i = 0; i < this.parent.indexArray; i++) {
-                    if (this.parent.regions[i] == this) {
-                        this.parent.regions[i] = a;
-                        break;
-                    }
-                }
+                this.parent = a.parent;
+                this.isLeaf = a.isLeaf;
+                this.regions = a.regions;
+                this.points = a.points;
+                this.indexArray = a.indexArray;
+                this.maxPoint = a.maxPoint;
+                this.minPoint = a.minPoint;
+                this.isFull = a.isFull;
                 this.parent.insertRegion(b);
             }
 

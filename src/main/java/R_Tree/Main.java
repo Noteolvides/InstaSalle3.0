@@ -11,6 +11,9 @@ public class Main {
         rTree.insert(new Point(15,15));
         rTree.insert(new Point(500,500));
         rTree.insert(new Point(11,11));
+        rTree.insert(new Point(12,12));
+        rTree.insert(new Point(13,13));
+        System.out.println("hiak");
 
     }
 }
