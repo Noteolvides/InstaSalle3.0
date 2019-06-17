@@ -24,19 +24,27 @@ public class List<E> {
         size++;
     }
 
+    //TODO: Revisar que elimine el primer elemento (HashTable no lo elimina)
     public boolean remove(E element) {
         boolean done = false;
         Node<E> prev = head;
         Node<E> actual = head;
         if (!isEmpty()) {
-            while (actual != null /*&& actual != tail*/ && !done) {
-                if (actual.element.equals(element)) {
-                    prev.next = actual.next;
-                    size--;
-                    done = true;
+            if (head.element == element) {
+                head = head.next;
+                size--;
+                done = true;
+            } else {
+                while (actual != null /*&& actual != tail*/ && !done) {
+                    if (actual.element.equals(element)) {
+                        prev.next = actual.next;
+                        size--;
+                        done = true;
+
+                    }
+                    prev = actual;
+                    actual = actual.next;
                 }
-                prev = actual;
-                actual = actual.next;
             }
         }
         return done;
