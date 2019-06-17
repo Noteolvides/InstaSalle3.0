@@ -1,7 +1,6 @@
 package R_Tree;
 
 
-
 class NodeRTree {
     Point points[];
     NodeRTree regions[];
@@ -64,17 +63,17 @@ class NodeRTree {
         return area(newMinPoint, newMaxPoint);
     }
 
-    public int calculateExpansionArea(NodeRTree regionToAdd){
+    public int calculateExpansionArea(NodeRTree regionToAdd) {
         Point newMinPoint = minPoint;
         Point newMaxPoint = maxPoint;
-        if (regionToAdd.minPoint.isClosetToLeftCornerThan(minPoint)){
+        if (regionToAdd.minPoint.isClosetToLeftCornerThan(minPoint)) {
             newMinPoint = regionToAdd.minPoint;
         }
-        if(regionToAdd.maxPoint.isClosetToRightCornerThan(maxPoint)){
+        if (regionToAdd.maxPoint.isClosetToRightCornerThan(maxPoint)) {
             newMaxPoint = regionToAdd.maxPoint;
         }
 
-        return  area(newMinPoint,newMaxPoint);
+        return area(newMinPoint, newMaxPoint);
     }
 
     private int area(Point min, Point max) {
@@ -89,9 +88,8 @@ class NodeRTree {
     }
 
 
-
-    public void insertInside(Point p,int indice) {
-        NodeRTree node = indice == -1 ? this : this.regions[indice];
+    public NodeRTree insertInside(Point p) {
+        NodeRTree node = this;
         if (!node.isLeaf) {
             int areaMinimaBusqueda = Integer.MAX_VALUE;
             int indiceConMenorArea = -1;
@@ -107,7 +105,10 @@ class NodeRTree {
                     indiceConMenorArea = i;
                 }
             }
-            node.insertInside(p,indiceConMenorArea);
+            NodeRTree b = node.regions[indiceConMenorArea].insertInside(p);
+            if (b != null) {
+                return node.insertRegion(b);
+            }
 
         } else {
             if (!node.isFull) {
@@ -127,7 +128,7 @@ class NodeRTree {
                 int minIndex = -1;
                 Point max = new Point(0, 0);
                 int maxIndex = -1;
-                //Todo Esto puede ser una fuente de bugs pues el minimo puede ser a la vez el maximo, por ahora lo dejamos
+                //Todo Esto puede ser una fuente de bugs pues el minimo puede ser a la vez el maximo, por ahora lo dejamos --> Efectivamente querido watson hahah
                 for (int i = 0; i < node.indexArray; i++) {
                     Point pointSearch = node.points[i];
                     if (pointSearch.isClosetToLeftCornerThan(min)) {
@@ -155,11 +156,21 @@ class NodeRTree {
                         double areaA = a.calculateExpansionArea(pointSearch);
                         double areaB = b.calculateExpansionArea(pointSearch);
                         if (areaA < areaB) {
-                            a.insert(pointSearch);
-                            node.points[i] = null;
+                            if (a.indexArray-1 != (RTree.MAX - RTree.MIN)) {
+                                a.insert(pointSearch);
+                                node.points[i] = null;
+                            } else {
+                                b.insert(pointSearch);
+                                node.points[i] = null;
+                            }
                         } else {
-                            b.insert(pointSearch);
-                            node.points[i] = null;
+                            if (b.indexArray-1 != (RTree.MAX - RTree.MIN)) {
+                                b.insert(pointSearch);
+                                node.points[i] = null;
+                            } else {
+                                a.insert(pointSearch);
+                                node.points[i] = null;
+                            }
                         }
                     }
                 }
@@ -190,10 +201,11 @@ class NodeRTree {
                     node.maxPoint = a.maxPoint;
                     node.minPoint = a.minPoint;
                     node.isFull = a.isFull;
-                    this.insertRegion(b);
+                    return b;
                 }
             }
         }
+        return null;
     }
 
     /**
@@ -203,7 +215,7 @@ class NodeRTree {
      * @return regionToInsert
      */
 
-    public void insertRegion(NodeRTree insertNode) {
+    public NodeRTree insertRegion(NodeRTree insertNode) {
         if (!this.isFull) {
             //Es nodo intermedio  y no esta llena pues genial la añadimos
             this.insert(insertNode);
@@ -219,7 +231,7 @@ class NodeRTree {
             int maxIndex = -1;
             NodeRTree min = new NodeRTree(false);
             NodeRTree max = new NodeRTree(false);
-            //Todo Esto puede ser una fuente de bugs pues el minimo puede ser a la vez el maximo, por ahora lo dejamos
+            //Todo Esto puede ser una fuente de bugs pues el minimo puede ser a la vez el maximo, por ahora lo dejamos -- si, eres muy listo
             for (int i = 0; i < this.indexArray; i++) {
                 if (this.regions[i].minPoint.isClosetToLeftCornerThan(min.minPoint)) {
                     min = this.regions[i];
@@ -246,11 +258,21 @@ class NodeRTree {
                     double areaA = a.calculateExpansionArea(this.regions[i]);
                     double areaB = b.calculateExpansionArea(this.regions[i]);
                     if (areaA < areaB) {
-                        a.insert(this.regions[i]);
-                        this.regions[i] = null;
+                        if (a.indexArray-1 != (RTree.MAX - RTree.MIN)) {
+                            a.insert(this.regions[i]);
+                            this.regions[i] = null;
+                        } else {
+                            b.insert(this.regions[i]);
+                            this.regions[i] = null;
+                        }
                     } else {
-                        b.insert(this.regions[i]);
-                        this.regions[i] = null;
+                        if (b.indexArray-1 != (RTree.MAX - RTree.MIN)) {
+                            b.insert(this.regions[i]);
+                            this.regions[i] = null;
+                        } else {
+                            a.insert(this.regions[i]);
+                            this.regions[i] = null;
+                        }
                     }
                 }
             }
@@ -281,10 +303,11 @@ class NodeRTree {
                 this.maxPoint = a.maxPoint;
                 this.minPoint = a.minPoint;
                 this.isFull = a.isFull;
-                this.parent.insertRegion(b);
+                return b;
             }
 
 
         }
+        return null;
     }
 }

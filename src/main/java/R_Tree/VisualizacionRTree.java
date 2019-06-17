@@ -2,6 +2,7 @@ package R_Tree;
 
 import processing.core.PApplet;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,20 +10,27 @@ public class VisualizacionRTree extends PApplet {
 
     final int DIM_X = RTree.WIDTH_SCRREN;
     final int DIM_Y = RTree.HEIGHT_SCREEN;
-
     static RTree tree = new RTree();
     Random rd = new Random();
-    byte letter = 65;
     Scanner sc = new Scanner(System.in);
 
 
     public static void main(String[] args) {
         Random rd = new Random();
-        /*
-        for (int i = 0; i < 15; i++) {
-          tree.insert(new Point(rd.nextInt(RTree.WIDTH_SCRREN),rd.nextInt(RTree.HEIGHT_SCREEN)));
-        }*/
+
+        for (int i = 0; i < 5; i++) {
+            int x = rd.nextInt(RTree.WIDTH_SCRREN);
+            int y = rd.nextInt(RTree.HEIGHT_SCREEN);
+            try{
+                tree.insert(new Point(x,y));
+            }catch (Exception e){
+                tree.insert(new Point(x,y));
+                System.out.println("12");
+            }
+        }
+
         PApplet.main("R_Tree.VisualizacionRTree", args);
+        System.out.println("12");
     }
 
 
@@ -32,13 +40,11 @@ public class VisualizacionRTree extends PApplet {
 
     public void setup() {
         background(51);
-        preOrder(tree.root);
-
-
+        preOrder(tree.root,0);
     }
 
-    public void draw(){
 
+    public void draw(){/*
         int x;
         int y;
         System.out.println("introduce X");
@@ -46,11 +52,12 @@ public class VisualizacionRTree extends PApplet {
         System.out.println("introduce Y");
         y = sc.nextInt();
         tree.insert(new Point(x,y));
-        preOrder(tree.root);
-
+        LEVEL = 0;
+        checkHeigh(tree.root);
+        preOrder(tree.root,0);*/
     }
 
-    private void preOrder(NodeRTree node) {
+    private void preOrder(NodeRTree node,int level) {
         int x;
         int y;
 
@@ -78,19 +85,16 @@ public class VisualizacionRTree extends PApplet {
             bColor = rd.nextInt(255);
             for (int i = 0; i < node.indexArray; i++) {
                 if (node.regions[i] != null) {
-                    preOrder(node.regions[i]);
                     noFill();
                     Point maxPoint = node.regions[i].maxPoint;
                     Point minPoint = node.regions[i].minPoint;
                     strokeWeight(1);
                     stroke(rColor, gColor, bColor);
                     rect(minPoint.x, minPoint.y, maxPoint.x - minPoint.x, maxPoint.y - minPoint.y);
-                    /*
-                    if (letter == 91){
-                        letter = 65;
-                    }
-                    text((char)letter,(maxPoint.x-minPoint.x),30);
-                    letter++;*/
+                    textAlign(CENTER);
+                    textSize(10);
+                    text(Character.toString((char) (65+i)) +level,minPoint.x+(maxPoint.x-minPoint.x)/2,minPoint.y+(maxPoint.y-minPoint.y)/2);
+                    preOrder(node.regions[i],level+1);
                 }
             }
         }
