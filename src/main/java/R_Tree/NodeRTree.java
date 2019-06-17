@@ -28,11 +28,17 @@ class NodeRTree {
     }
 
     public void insert(NodeRTree node) {
-        if (node.minPoint.isClosetToLeftCornerThan(minPoint)) {
-            minPoint = node.minPoint;
+        if (node.minPoint.y < minPoint.y) {
+            minPoint.y = node.minPoint.y;
         }
-        if (node.maxPoint.isClosetToRightCornerThan(maxPoint)) {
-            maxPoint = node.maxPoint;
+        if (node.minPoint.x < minPoint.x) {
+            minPoint.x = node.minPoint.x;
+        }
+        if (node.maxPoint.y > maxPoint.y) {
+            maxPoint.y = node.maxPoint.y;
+        }
+        if (node.minPoint.x > maxPoint.x) {
+            maxPoint.x = node.maxPoint.x;
         }
         regions[indexArray++] = node;
         isFull = indexArray >= RTree.MAX;
@@ -40,11 +46,17 @@ class NodeRTree {
 
 
     public void insert(Point p) {
-        if (p.isClosetToLeftCornerThan(minPoint)) {
-            minPoint = p;
+        if (p.y < minPoint.y) {
+            minPoint.y = p.y;
         }
-        if (p.isClosetToRightCornerThan(maxPoint)) {
-            maxPoint = p;
+        if (p.x < minPoint.x) {
+            minPoint.x = p.x;
+        }
+        if (p.y > maxPoint.y) {
+            maxPoint.y = p.y;
+        }
+        if (p.x > maxPoint.x) {
+            maxPoint.x = p.x;
         }
         points[indexArray++] = p;
         isFull = indexArray >= RTree.MAX;

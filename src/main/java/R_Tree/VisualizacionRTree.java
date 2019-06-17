@@ -18,7 +18,7 @@ public class VisualizacionRTree extends PApplet {
     public static void main(String[] args) {
         Random rd = new Random();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             int x = rd.nextInt(RTree.WIDTH_SCRREN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
             try{
