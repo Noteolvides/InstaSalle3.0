@@ -3,10 +3,18 @@ package R_Tree;
 public class Point {
     int x;
     int y;
+    Object data;
+    boolean dontShow;
 
     public Point(int x,int y){
         this.x = x;
         this.y = y;
+    }
+
+    public Point(int x,int y,Object data){
+        this.x = x;
+        this.y = y;
+        this.data = data;
     }
 
     public double calculateDistanceFrom(Point point) {

@@ -1,6 +1,8 @@
 package R_Tree;
 
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.RtMethodGenerator;
+
 class NodeRTree {
     Point points[];
     NodeRTree regions[];
@@ -8,7 +10,7 @@ class NodeRTree {
     NodeRTree parent;
     Boolean isLeaf;
     Boolean isFull;
-
+    Boolean visualize;
     Point minPoint;
     Point maxPoint;
 
@@ -321,5 +323,80 @@ class NodeRTree {
 
         }
         return null;
+    }
+
+    public Boolean deletePoint(Point p) {
+        NodeRTree node = this;
+        if (!node.isLeaf){
+            NodeRTree posibles[] = new NodeRTree[RTree.MAX];
+            int indice = 0;
+            for (int i = 0; i < node.indexArray; i++) {
+                if (node.regions[i].minPoint.x <= p.x && node.regions[i].minPoint.y <= p.y && node.regions[i].maxPoint.x >= p.x && node.regions[i].maxPoint.y >= p.y) {
+                    posibles[indice++] = node.regions[i];
+                }
+            }
+            for (int i = 0; i < indice; i++) {
+                if (posibles[i].deletePoint(p)){
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            for (int i = 0; i < indexArray; i++) {
+                Point pFind = node.points[i];
+                if (p.x == pFind.x && p.y == pFind.y){
+                    pFind.dontShow = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public boolean overlap(Point min1,Point max1,Point min2,Point max2){
+        if (min1.x > min2.x || max2.x > max1.x){
+            return false;
+        }
+        return min1.y >= min2.y && max2.y >= max1.y;
+    }
+
+    public Point[] findPointsNear(Point p,int radius,int maxPoints) {
+        NodeRTree node = this;
+        Point[] result = new Point[maxPoints];
+        int indice = 0;
+        if (!node.isLeaf){
+            NodeRTree posibles[] = new NodeRTree[RTree.MAX];
+            for (int i = 0; i < node.indexArray; i++) {
+                if (!overlap(node.regions[i].minPoint,node.regions[i].maxPoint,new Point(p.x-radius,p.y-radius),new Point(p.x+radius,p.y+radius))){
+                    posibles[indice++] = node.regions[i];
+                }
+            }
+            Point[][] resultPrev = new Point[indice][];
+            for (int i = 0; i < indice; i++) {
+                resultPrev[i] = posibles[i].findPointsNear(p,radius,maxPoints);
+            }
+            int indice2 = 0;
+            for (int i = 0; i < indice; i++) {
+                for (int j = 0; j < maxPoints; j++) {
+                    if (resultPrev[i][j] != null){
+                        result[indice2++] = resultPrev[i][j];
+                        if (indice2 == maxPoints){
+                            return result;
+                        }
+                    }
+                }
+            }
+            return result;
+        }else{
+            Point minPoint = new Point(p.x-radius,p.y-radius);
+            Point maxPoint = new Point(p.x+radius,p.y+radius);
+            for (int i = 0; i < indexArray; i++) {
+                Point pFind = node.points[i];
+                if (minPoint.x <= pFind.x && minPoint.y <= pFind.y && maxPoint.x >= pFind.x && maxPoint.y >= pFind.y) {
+                    result[indice++] = pFind;
+                }
+            }
+            return result;
+        }
     }
 }

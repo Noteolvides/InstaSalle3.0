@@ -2,11 +2,10 @@ package R_Tree;
 
 import processing.core.PApplet;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-public class VisualizacionRTree extends PApplet {
+public class VisualizacionMenuRtree extends PApplet {
 
     final int DIM_X = RTree.WIDTH_SCRREN;
     final int DIM_Y = RTree.HEIGHT_SCREEN;
@@ -17,19 +16,19 @@ public class VisualizacionRTree extends PApplet {
 
     public static void main(String[] args) {
         Random rd = new Random();
-/*
+
         for (int i = 0; i < 1000; i++) {
             int x = rd.nextInt(RTree.WIDTH_SCRREN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
             try{
                 tree.insert(new Point(x,y));
             }catch (Exception e){
-                tree.insert(new Point(x,y));
-                System.out.println("12");
             }
         }
-*/
-        PApplet.main("R_Tree.VisualizacionRTree", args);
+
+        Point[] result = tree.fintPointsNear(new Point(250,250),20,20);
+        System.out.println("hola");
+        PApplet.main("R_Tree.VisualizacionMenuRtree", args);
     }
 
 
@@ -43,24 +42,15 @@ public class VisualizacionRTree extends PApplet {
     }
 
 
-    public void draw() {/*
-        int x;
-        int y;
-        System.out.println("introduce X");
-        x = sc.nextInt();
+    public void draw() {
+        System.out.println("Eliminar punto?");
+        int x = sc.nextInt();
         System.out.println("introduce Y");
-        y = sc.nextInt();
-        tree.insert(new Point(x,y));
-        LEVEL = 0;
-        checkHeigh(tree.root);
-        preOrder(tree.root,0);*/
-        delay(1000);
-        int x = rd.nextInt(RTree.WIDTH_SCRREN);
-        int y = rd.nextInt(RTree.HEIGHT_SCREEN);
-        try {
-            tree.insert(new Point(x, y));
-            preOrder(tree.root, 0);
-        } catch (Exception e) {
+        int y = sc.nextInt();
+        if(tree.deletePoint(new Point(x,y))){
+            clear();
+            background(51);
+            preOrder(tree.root,0);
         }
     }
 
@@ -81,11 +71,13 @@ public class VisualizacionRTree extends PApplet {
             bColor = rd.nextInt(255);
             for (int i = 0; i < node.indexArray; i++) {
                 if (node.points[i] != null) {
-                    x = node.points[i].x;
-                    y = node.points[i].y;
-                    strokeWeight(4);
-                    stroke(rColor, gColor, bColor);
-                    point(x, y);
+                    if (!node.points[i].dontShow){
+                        x = node.points[i].x;
+                        y = node.points[i].y;
+                        strokeWeight(4);
+                        stroke(rColor, gColor, bColor);
+                        point(x, y);
+                    }
                 }
             }
         } else {
