@@ -9,6 +9,9 @@ import Graphs.Vertex;
 import HashTable.HashTable;
 import HashTable.Data;
 import List.List;
+import R_Tree.Point;
+import R_Tree.RTree;
+import R_Tree.VisualizacionMenuRtree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
 import javafx.geometry.Pos;
@@ -29,7 +32,7 @@ public class Menu {
     String hashpath;
     String graphpath;
     public static TrieTree trieTree = new TrieTree();
-    //Tree rTree = new Tree();
+    public static RTree rTree = new RTree();
     public static AVLTree avlTree = new AVLTree();
     HashTable hashTable = new HashTable(100);
     Graph graph = new Graph();
@@ -78,7 +81,7 @@ public class Menu {
                         case 5:
                             return(0);
                         default:
-                            System.out.println("Valor erroni. Entri un nou i vàlid");
+                            System.out.println("Opcio incorrecta!");
                             break;
                     }
                 }while(option > 5);
@@ -108,7 +111,7 @@ public class Menu {
                             case 5:
                                 return(5);
                             default:
-                                System.out.println("Valor erroni. Entri un nou i vàlid");
+                                System.out.println("Opcio incorrecta!");
                                 break;
                         }
                     }while((option2>4));
@@ -231,7 +234,7 @@ public class Menu {
                     int radi = sc.nextInt();
                     break;
                 default:
-                    System.out.println("Valor erroni. Entri un nou i vàlid");
+                    System.out.println("Opcio incorrecta!");
                 break;
 
             }
@@ -292,7 +295,7 @@ public class Menu {
                     }
                     break;
                 default:
-                    System.out.println("Valor erroni. Entri un nou i vàlid");
+                    System.out.println("Opcio incorrecta!");
                 break;
             }
         }while(option > 2);
@@ -423,7 +426,7 @@ public class Menu {
                     //rTree.insertion(newpost, root);
                     break;
                 default:
-                    System.out.println("Valor erroni. Entri un nou i vàlid");
+                    System.out.println("Opcio incorrecta!");
                     break;
             }
         }while(option > 2);
@@ -448,8 +451,9 @@ public class Menu {
                     trietest.visualize(args);
                     break;
                 case 2:
-                /*R_Tree.Test rtest = new R_Tree.Test();
-                rtest.visualize(rTree, args);*/
+                    // TODO: 2019-06-21 Revisar correcta visualizacion
+                    VisualizacionMenuRtree rvisual = new VisualizacionMenuRtree();
+                    //rvisual.visualize();
                     break;
                 case 3:
                     Test avltest = new Test();
@@ -462,7 +466,7 @@ public class Menu {
                     graph.visualizeCommandLine();
                     break;
                 default:
-                    System.out.println("Valor erroni. Entri un nou i vàlid");
+                    System.out.println("Opcio incorrecte!");
                     break;
             }
         }while(option >5 );
@@ -493,10 +497,10 @@ public class Menu {
                     }
                     break;
                 case 2:
-                    //jsonString = gson.toJson(rTree);
+                    jsonString = gson.toJson(rTree);
                     try {
                         fw = new FileWriter("datasets/exported/datasetRTree.json");
-                        //fw.write(jsonString);
+                        fw.write(jsonString);
                         fw.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -533,7 +537,7 @@ public class Menu {
                     }
                     break;
                 default:
-                    System.out.println("Valor erroni. Entri un nou i vàlid");
+                    System.out.println("Opcio incorrecta!");
                     break;
             }
         }while(opcio > 5);
@@ -556,7 +560,7 @@ public class Menu {
         try{
             long startTime = System.nanoTime();
             trieTree = gson.fromJson(new FileReader(triepath), TrieTree.class);
-            //rTree = gson.fromJson(new FileReader(rtreepath), Tree.class);
+            rTree = gson.fromJson(new FileReader(rtreepath), RTree.class);
             avlTree = gson.fromJson(new FileReader(avltreepath), AVLTree.class);
             hashTable = gson.fromJson(new FileReader(hashpath), HashTable.class);
             graph = gson.fromJson(new FileReader(graphpath), Graph.class);
@@ -585,8 +589,8 @@ public class Menu {
         graph = insertUsersGraph(users);
         hashTable = insertHashTags(posts);
         avlTree = insertPostsAVL(posts);
-        //trieTree = insertUsersTrie(users);
-        //rTree = insertPostsRTree(posts);
+        trieTree = insertUsersTrie(users);
+        rTree = insertPostsRTree(posts);
 
         long endTime = System.nanoTime();
         int elements = users.length + posts.length;
@@ -645,20 +649,21 @@ public class Menu {
         }
         return avlTree;
     }
-/*
+
     private TrieTree insertUsersTrie(User[] users) {
-        //TrieTree trie = new TrieTree();
+        TrieTree trie = new TrieTree();
         for (User user : users) {
-            //trie.insert(user.username);
+            trie.insert(user.username);
         }
         return null;
     }
 
-    private Tree insertPostsRTree(Post[] posts) {
-        Tree rtree = new Tree();
-        for (Post post: posts) {
-            //rtree.insertion(post, root);
-        }
+    private RTree insertPostsRTree(Post[] posts) {
+        // TODO: 2019-06-21 Da ArrayOutOfBoundException
+        RTree rtree = new RTree();
+        /*for (Post post: posts) {
+            rtree.insert(new Point(post.location[0].intValue(), post.location[1].intValue()));
+        }*/
         return rtree;
-    }*/
+    }
 }
