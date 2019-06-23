@@ -456,7 +456,6 @@ public class Menu {
                     trietest.visualize(args);
                     break;
                 case 2:
-                    // TODO: 2019-06-21 Revisar correcta visualizacion
                     VisualizacionMenuRtree rvisual = new VisualizacionMenuRtree();
                     rvisual.visualize(args);
                     break;
