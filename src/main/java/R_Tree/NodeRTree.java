@@ -1,8 +1,6 @@
 package R_Tree;
 
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.RtMethodGenerator;
-
 class NodeRTree {
     Point points[];
     NodeRTree regions[];
@@ -97,7 +95,7 @@ class NodeRTree {
     }
 
     public void resetLimits() {
-        minPoint = new Point(RTree.WIDTH_SCRREN + 1, RTree.HEIGHT_SCREEN + 1);
+        minPoint = new Point(RTree.WIDTH_SCREEN + 1, RTree.HEIGHT_SCREEN + 1);
         maxPoint = new Point(0, 0);
     }
 
@@ -138,7 +136,7 @@ class NodeRTree {
                 NodeRTree b = new NodeRTree(true); //Region B en la que estara el punto maximo y los mas cercanos a este
                 b.parent = node.parent;
 
-                Point min = new Point(RTree.WIDTH_SCRREN + 1, RTree.HEIGHT_SCREEN + 1);
+                Point min = new Point(RTree.WIDTH_SCREEN + 1, RTree.HEIGHT_SCREEN + 1);
                 int minIndex = -1;
                 Point max = new Point(0, 0);
                 int maxIndex = -1;

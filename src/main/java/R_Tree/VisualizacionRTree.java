@@ -2,13 +2,12 @@ package R_Tree;
 
 import processing.core.PApplet;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class VisualizacionRTree extends PApplet {
 
-    final int DIM_X = RTree.WIDTH_SCRREN;
+    final int DIM_X = RTree.WIDTH_SCREEN;
     final int DIM_Y = RTree.HEIGHT_SCREEN;
     static RTree tree = new RTree();
     Random rd = new Random();
@@ -19,7 +18,7 @@ public class VisualizacionRTree extends PApplet {
         Random rd = new Random();
 /*
         for (int i = 0; i < 1000; i++) {
-            int x = rd.nextInt(RTree.WIDTH_SCRREN);
+            int x = rd.nextInt(RTree.WIDTH_SCREEN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
             try{
                 tree.insert(new Point(x,y));
@@ -55,7 +54,7 @@ public class VisualizacionRTree extends PApplet {
         checkHeigh(tree.root);
         preOrder(tree.root,0);*/
         delay(1000);
-        int x = rd.nextInt(RTree.WIDTH_SCRREN);
+        int x = rd.nextInt(RTree.WIDTH_SCREEN);
         int y = rd.nextInt(RTree.HEIGHT_SCREEN);
         try {
             tree.insert(new Point(x, y));

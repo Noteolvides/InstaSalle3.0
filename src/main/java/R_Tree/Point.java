@@ -30,8 +30,8 @@ public class Point {
     }
 
     public boolean isClosetToRightCornerThan(Point point) {
-        double distancia1 = calculateDistanceFrom(new Point(RTree.WIDTH_SCRREN,RTree.HEIGHT_SCREEN));
-        double distancia2 = point.calculateDistanceFrom(new Point(RTree.WIDTH_SCRREN,RTree.HEIGHT_SCREEN));
+        double distancia1 = calculateDistanceFrom(new Point(RTree.WIDTH_SCREEN,RTree.HEIGHT_SCREEN));
+        double distancia2 = point.calculateDistanceFrom(new Point(RTree.WIDTH_SCREEN,RTree.HEIGHT_SCREEN));
         return distancia1 < distancia2;
     }
 }

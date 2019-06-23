@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
@@ -422,8 +423,12 @@ public class Menu {
                     end = System.nanoTime();
                     timeInsertAVL = end - start;
                     System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "ns.");
-
-                    //rTree.insertion(newpost, root);
+                    long timeInsertR;
+                    start = System.nanoTime();
+                    rTree.insert(new Point(newpost.location[0].intValue(), newpost.location[1].intValue()));
+                    end = System.nanoTime();
+                    timeInsertR = end - start;
+                    System.out.println("Insercio nou Post del RTree finalitzada en " + timeInsertR + "ns.");
                     break;
                 default:
                     System.out.println("Opcio incorrecta!");
@@ -453,7 +458,7 @@ public class Menu {
                 case 2:
                     // TODO: 2019-06-21 Revisar correcta visualizacion
                     VisualizacionMenuRtree rvisual = new VisualizacionMenuRtree();
-                    //rvisual.visualize();
+                    rvisual.visualize(args);
                     break;
                 case 3:
                     Test avltest = new Test();
@@ -659,11 +664,17 @@ public class Menu {
     }
 
     private RTree insertPostsRTree(Post[] posts) {
-        // TODO: 2019-06-21 Da ArrayOutOfBoundException
         RTree rtree = new RTree();
-        /*for (Post post: posts) {
-            rtree.insert(new Point(post.location[0].intValue(), post.location[1].intValue()));
-        }*/
+        Random rd = new Random();
+        for (int i = 0; i < posts.length; i++) {
+            int x = rd.nextInt(RTree.WIDTH_SCREEN);
+            int y = rd.nextInt(RTree.HEIGHT_SCREEN);
+            try {
+                rtree.insert(new Point(x, y));
+            } catch (Exception e) {
+                rtree.insert(new Point(x, y));
+            }
+        }
         return rtree;
     }
 }

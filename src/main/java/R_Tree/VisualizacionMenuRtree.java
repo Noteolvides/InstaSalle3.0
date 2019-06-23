@@ -7,18 +7,18 @@ import java.util.Scanner;
 
 public class VisualizacionMenuRtree extends PApplet {
 
-    final int DIM_X = RTree.WIDTH_SCRREN;
+    final int DIM_X = RTree.WIDTH_SCREEN;
     final int DIM_Y = RTree.HEIGHT_SCREEN;
     static RTree tree = new RTree();
     Random rd = new Random();
     Scanner sc = new Scanner(System.in);
 
 
-    public static void main(String[] args) {
-        Random rd = new Random();
+    public static void visualize(String[] args) {
+        /*Random rd = new Random();
 
         for (int i = 0; i < 1000; i++) {
-            int x = rd.nextInt(RTree.WIDTH_SCRREN);
+            int x = rd.nextInt(RTree.WIDTH_SCREEN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
             try{
                 tree.insert(new Point(x,y));
@@ -27,7 +27,7 @@ public class VisualizacionMenuRtree extends PApplet {
         }
 
         Point[] result = tree.fintPointsNear(new Point(250,250),20,20);
-        System.out.println("hola");
+        System.out.println("hola");*/
         PApplet.main("R_Tree.VisualizacionMenuRtree", args);
     }
 
