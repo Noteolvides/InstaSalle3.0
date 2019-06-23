@@ -363,12 +363,11 @@ public class Menu {
                 case 2:
                     System.out.println("ID:");
                     int idPost = sc.nextInt();
-                    System.out.println("Usuaris a qui li ha agradat[Y/N]");
                     boolean liked = true;
                     List<String> likednamelist = new List<String>();
                     while (liked) {
                         System.out.println("Usuaris a qui li ha agradat[Y/N]");
-                        if (sc.next().equals("Y")) {
+                        if (sc.next().equals("Y")||sc.next().equals("y")) {
                             System.out.println("Nom:");
                             likednamelist.add(sc.next());
                         } else {

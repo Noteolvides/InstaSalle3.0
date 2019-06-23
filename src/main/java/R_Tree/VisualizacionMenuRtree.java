@@ -5,11 +5,13 @@ import processing.core.PApplet;
 import java.util.Random;
 import java.util.Scanner;
 
+import static exe.Menu.rTree;
+
 public class VisualizacionMenuRtree extends PApplet {
 
     final int DIM_X = RTree.WIDTH_SCREEN;
     final int DIM_Y = RTree.HEIGHT_SCREEN;
-    static RTree tree = new RTree();
+    static RTree tree;
     Random rd = new Random();
     Scanner sc = new Scanner(System.in);
 
@@ -28,6 +30,7 @@ public class VisualizacionMenuRtree extends PApplet {
 
         Point[] result = tree.fintPointsNear(new Point(250,250),20,20);
         System.out.println("hola");*/
+        tree = rTree;
         PApplet.main("R_Tree.VisualizacionMenuRtree", args);
     }
 
@@ -43,7 +46,7 @@ public class VisualizacionMenuRtree extends PApplet {
 
 
     public void draw() {
-        System.out.println("Eliminar punto?");
+        /*System.out.println("Eliminar punto?");
         int x = sc.nextInt();
         System.out.println("introduce Y");
         int y = sc.nextInt();
@@ -51,7 +54,7 @@ public class VisualizacionMenuRtree extends PApplet {
             clear();
             background(51);
             preOrder(tree.root,0);
-        }
+        }*/
     }
 
 
