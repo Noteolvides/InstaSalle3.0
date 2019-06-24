@@ -23,6 +23,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
+    String name;
+    long publish;
+    double puntoX, puntoY;
     String userspath;
     String postspath;
     User[] users;
@@ -56,7 +59,8 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         int option = 0;
         int option2 = 0;
-
+        name = args[0];
+        publish = Long.parseLong(args[1]);
         while (option != 5) {
                 do{
                     System.out.println("Importació de fitxers");
@@ -291,6 +295,7 @@ public class Menu {
                     System.out.println("\n");
                     System.out.println("1. Per Data de publicació");
                     System.out.println("2. Per Ubicació");
+                    System.out.println("3. Per Hashtag");
                     option = sc.nextInt();
 
                     switch(option){
