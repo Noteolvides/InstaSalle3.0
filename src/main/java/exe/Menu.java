@@ -239,7 +239,9 @@ public class Menu {
                     Point[] ubiPost = rTree.fintPointsNear(new Point((int)lat, (int)log), radi, 1);
                     end = System.nanoTime();
                     for (int i = 0; i < ubiPost.length; i++){
-                        System.out.println(((Post) ubiPost[i].getData()).toString());
+                        if (ubiPost[i].getData() != null){
+                            System.out.println(((Post) ubiPost[i].getData()).toString());
+                        }
                     }
                     System.out.println("\n");
                     System.out.println("S'ha tardat " + (end-start) + "ns.");
@@ -484,7 +486,7 @@ public class Menu {
                     System.out.println("Insercio nou Post del AVLTree finalitzada en " + timeInsertAVL + "ns.");
                     long timeInsertR;
                     start = System.nanoTime();
-                    rTree.insert(new Point(newpost.location[0].intValue(), newpost.location[1].intValue()));
+                    rTree.insert(new Point(newpost.location[0].intValue(), newpost.location[1].intValue(),newpost));
                     end = System.nanoTime();
                     timeInsertR = end - start;
                     System.out.println("Insercio nou Post del RTree finalitzada en " + timeInsertR + "ns.");
@@ -726,10 +728,10 @@ public class Menu {
         for (int i = 0; i < posts.length; i++) {
             int x = rd.nextInt(RTree.WIDTH_SCREEN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
+            Point p = new Point(x,y,posts[i]);
             try {
-                rtree.insert(new Point(x, y));
+                rtree.insert(p);
             } catch (Exception e) {
-                rtree.insert(new Point(x, y));
             }
         }
         return rtree;
