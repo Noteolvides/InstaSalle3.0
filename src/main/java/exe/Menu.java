@@ -230,13 +230,13 @@ public class Menu {
                     break;
                 case 4:
                     System.out.println("Latitud:");
-                    double lat = sc.nextDouble();
+                    int lat = sc.nextInt();
                     System.out.println("Longitud:");
-                    double log = sc.nextDouble();
+                    int log = sc.nextInt();
                     System.out.println("Radi maxim:");
                     int radi = sc.nextInt();
                     start = System.nanoTime();
-                    Point[] ubiPost = rTree.fintPointsNear(new Point((int)lat, (int)log), radi, 1);
+                    Point[] ubiPost = rTree.fintPointsNear(new Point(lat, log), radi, 1);
                     end = System.nanoTime();
                     for (int i = 0; i < ubiPost.length; i++){
                         if (ubiPost[i].getData() != null){
