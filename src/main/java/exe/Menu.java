@@ -32,10 +32,10 @@ public class Menu {
     String avltreepath;
     String hashpath;
     String graphpath;
-    public static TrieTree trieTree = new TrieTree();
-    public static RTree rTree = new RTree();
-    public static AVLTree avlTree = new AVLTree();
-    HashTable hashTable = new HashTable(100);
+    public static TrieTree trieTree;
+    public static RTree rTree;
+    public static AVLTree avlTree;
+    HashTable hashTable;
     Graph graph = new Graph();
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -262,7 +262,8 @@ public class Menu {
             System.out.println("Esborrar informació\n" +
                     "Quin tipus de informació vol esborrar?\n" +
                     "\t1. Usuari\n" +
-                    "\t2. Post\n");
+                    "\t2. Post\n" +
+                    "\t3. HashTag\n");
             option = sc.nextInt();
             switch (option) {
                 case 1:
@@ -351,7 +352,17 @@ public class Menu {
                             System.out.println("Opcio incorrecta!");
                         break;
                     }
-
+                case 3:
+                    System.out.println("HashTag del posts que s'esborraran:");
+                    String hashtag;
+                    hashtag = sc.next();
+                    long timeDeleteHashTag;
+                    start = System.nanoTime();
+                    hashTable.remove(hashtag);
+                    end = System.nanoTime();
+                    timeDeleteHashTag = end - start;
+                    System.out.println("Eliminacio del HashTag finalitzada del HashTable en " + timeDeleteHashTag + "ns.");
+                    break;
 
                 default:
                     System.out.println("Opcio incorrecta!");
