@@ -17,7 +17,7 @@ public class VisualizacionRTree extends PApplet {
     public static void main(String[] args) {
         Random rd = new Random();
 /*
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             int x = rd.nextInt(RTree.WIDTH_SCREEN);
             int y = rd.nextInt(RTree.HEIGHT_SCREEN);
             try{
@@ -26,8 +26,8 @@ public class VisualizacionRTree extends PApplet {
                 tree.insert(new Point(x,y));
                 System.out.println("12");
             }
-        }
-*/
+        }*/
+
         PApplet.main("R_Tree.VisualizacionRTree", args);
     }
 

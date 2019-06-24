@@ -152,6 +152,12 @@ class NodeRTree {
                         maxIndex = i;
                     }
                 }
+                if  (minIndex == maxIndex){
+                    maxIndex++;
+                    if (maxIndex >= RTree.MAX){
+                        maxIndex = 0;
+                    }
+                }
                 node.points[minIndex] = null; //Para luego no tener que meterlos
                 node.points[maxIndex] = null;
 
@@ -254,7 +260,12 @@ class NodeRTree {
                     maxIndex = i;
                 }
             }
-
+            if  (minIndex == maxIndex){
+                maxIndex++;
+                if (maxIndex >= RTree.MAX){
+                    maxIndex = 0;
+                }
+            }
 
             this.regions[minIndex] = null; //Para luego no tener que meterlos
             this.regions[maxIndex] = null;
@@ -390,7 +401,7 @@ class NodeRTree {
             Point maxPoint = new Point(p.x+radius,p.y+radius);
             for (int i = 0; i < indexArray; i++) {
                 Point pFind = node.points[i];
-                if (minPoint.x <= pFind.x && minPoint.y <= pFind.y && maxPoint.x >= pFind.x && maxPoint.y >= pFind.y) {
+                if (minPoint.x <= pFind.x && minPoint.y <= pFind.y && maxPoint.x >= pFind.x && maxPoint.y >= pFind.y && indice < maxPoints) {
                     result[indice++] = pFind;
                 }
             }
