@@ -7,7 +7,7 @@ public class RTree {
     static final int MAX = 3;
     public static final int HEIGHT_SCREEN = 600;
     public static final int WIDTH_SCREEN = 1000;
-    NodeRTree root;
+    public NodeRTree root;
 
     public Boolean deletePoint(Point p){
         return root.deletePoint(p);
