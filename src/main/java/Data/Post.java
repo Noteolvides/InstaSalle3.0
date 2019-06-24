@@ -2,6 +2,8 @@ package Data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
+
 
 public class Post {
     public int id;
@@ -24,5 +26,17 @@ public class Post {
         this.publishedBy = publishedBy;
         this.location = location;
         this.hashtags = hashtags;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", likedBy=" + Arrays.toString(likedBy) +
+                ", publishedWhen=" + publishedWhen +
+                ", publishedBy='" + publishedBy + '\'' +
+                ", location=" + Arrays.toString(location) +
+                ", hashtags=" + Arrays.toString(hashtags) +
+                '}';
     }
 }

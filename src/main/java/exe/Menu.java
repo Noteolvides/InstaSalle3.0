@@ -14,7 +14,7 @@ import R_Tree.RTree;
 import R_Tree.VisualizacionMenuRtree;
 import Trie.TrieTree;
 import com.google.gson.Gson;
-import javafx.geometry.Pos;
+
 
 import java.io.*;
 import java.util.ArrayList;
@@ -123,6 +123,7 @@ public class Menu {
 
     private void searchEstructures() {
         int option;
+        String yn;
         do{
             Scanner sc = new Scanner(System.in);
             System.out.println("Cercar informació");
@@ -147,7 +148,8 @@ public class Menu {
                         timeSearchTrie = end - start;
                         System.out.println("S'ha tardat " + timeSearchTrie + "ns.");
                         System.out.println("Seguir buscant?[Y/N]");
-                        if (sc.next().equals("N")) {
+                        yn = sc.next();
+                        if (yn.equals("N")||yn.equals("n")) {
                             exit = false;
                         }
                     } while (exit);
@@ -233,6 +235,15 @@ public class Menu {
                     double log = sc.nextDouble();
                     System.out.println("Radi maxim:");
                     int radi = sc.nextInt();
+                    start = System.nanoTime();
+                    Point[] ubiPost = rTree.fintPointsNear(new Point((int)lat, (int)log), radi, 1);
+                    end = System.nanoTime();
+                    for (int i = 0; i < ubiPost.length; i++){
+                        System.out.println(((Post) ubiPost[i].getData()).toString());
+                    }
+                    System.out.println("\n");
+                    System.out.println("S'ha tardat " + (end-start) + "ns.");
+                    System.out.println("\n");
                     break;
                 default:
                     System.out.println("Opcio incorrecta!");
@@ -274,27 +285,72 @@ public class Menu {
 
                     break;
                 case 2:
-                    System.out.println("Data de publicacio post que s'esborrara:");
-                    long published = sc.nextLong();
-                    try {
-                        long timeDeleteAVL;
-                        start = System.nanoTime();
-                        avlTree.delete(published);
-                        end = System.nanoTime();
-                        timeDeleteAVL = end - start;
-                        System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ns.");
+                    System.out.println("\n");
+                    System.out.println("1. Per Data de publicació");
+                    System.out.println("2. Per Ubicació");
+                    option = sc.nextInt();
 
-                        long timeDeleteHash;
-                        start = System.nanoTime();
-                        hashTable.removeElement(published);
-                        end = System.nanoTime();
-                        timeDeleteHash = end - start;
-                        System.out.println("Eliminacio del Post finalitzada del HashTable en " + timeDeleteHash + "ns.");
+                    switch(option){
+                        case 1:
+                            System.out.println("Data de publicacio post que s'esborrara:");
+                            long published = sc.nextLong();
+                            try {
+                                long timeDeleteAVL;
+                                start = System.nanoTime();
+                                avlTree.delete(published);
+                                end = System.nanoTime();
+                                timeDeleteAVL = end - start;
+                                System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ns.");
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                                long timeDeleteHash;
+                                start = System.nanoTime();
+                                hashTable.removeElement(published);
+                                end = System.nanoTime();
+                                timeDeleteHash = end - start;
+                                System.out.println("Eliminacio del Post finalitzada del HashTable en " + timeDeleteHash + "ns.");
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case 2:
+                            System.out.println("Latitud:");
+                            double lat = sc.nextDouble();
+                            System.out.println("Longitud:");
+                            double log = sc.nextDouble();
+                            System.out.println("Radi maxim:");
+                            int radi = sc.nextInt();
+                            Point[] ubiPost = rTree.fintPointsNear(new Point((int)lat, (int)log), radi, 1);
+                            start = System.nanoTime();
+                            rTree.deletePoint(ubiPost[0]);
+                            end = System.nanoTime();
+                            System.out.println("Eliminacio del Post finalitzada del r-Tree en " + (end-start) + "ns.");
+
+                            long timeDeleteAVL;
+                            start = System.nanoTime();
+                            try {
+                                avlTree.delete(((Post)ubiPost[0].getData()).publishedWhen);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            end = System.nanoTime();
+                            timeDeleteAVL = end - start;
+                            System.out.println("Eliminacio del Post finalitzada del AVLTree en " + timeDeleteAVL + "ns.");
+
+                            long timeDeleteHash;
+                            start = System.nanoTime();
+                            hashTable.removeElement(((Post)ubiPost[0].getData()).publishedWhen);
+                            end = System.nanoTime();
+                            timeDeleteHash = end - start;
+                            System.out.println("Eliminacio del Post finalitzada del HashTable en " + timeDeleteHash + "ns.");
+
+                            break;
+                        default:
+                            System.out.println("Opcio incorrecta!");
+                        break;
                     }
-                    break;
+
+
                 default:
                     System.out.println("Opcio incorrecta!");
                 break;
@@ -303,6 +359,7 @@ public class Menu {
     }
 
     private void insertEstructures() {
+        String yn;
         Scanner sc = new Scanner(System.in);
         int option;
         do{
@@ -323,7 +380,8 @@ public class Menu {
                     List<Long> tofollowcreationlist = new List<Long>();
                     while (follow) {
                         System.out.println("Usuaris que seguira[Y/N]");
-                        if (sc.next().equals("Y")||sc.next().equals("y")) {
+                        yn = sc.next();
+                        if (yn.equals("Y")||yn.equals("y")) {
                             System.out.println("Nom:");
                             tofollownamelist.add(sc.next());
                             System.out.println("Data de creacio:");
@@ -367,7 +425,8 @@ public class Menu {
                     List<String> likednamelist = new List<String>();
                     while (liked) {
                         System.out.println("Usuaris a qui li ha agradat[Y/N]");
-                        if (sc.next().equals("Y")||sc.next().equals("y")) {
+                        yn = sc.next();
+                        if (yn.equals("Y")||yn.equals("y")) {
                             System.out.println("Nom:");
                             likednamelist.add(sc.next());
                         } else {
@@ -394,7 +453,8 @@ public class Menu {
                     List<String> tagnamelist = new List<String>();
                     while (tags) {
                         System.out.println("Tags del post[Y/N]");
-                        if (sc.next().equals("Y")||sc.next().equals("y")) {
+                        yn = sc.next();
+                        if (yn.equals("Y")||yn.equals("y")) {
                             System.out.println("HashTag:");
                             likednamelist.add(sc.next());
                         } else {
@@ -585,16 +645,15 @@ public class Menu {
         System.out.println("Especifiqui ruta del fitxer a importar corresponent a posts");
         postspath = sc.next();
 
-        long startTime = System.nanoTime();
+
         users = gson.fromJson(new FileReader(userspath), User[].class);
         posts = gson.fromJson(new FileReader(postspath), Post[].class);
-
+        long startTime = System.nanoTime();
         graph = insertUsersGraph(users);
         hashTable = insertHashTags(posts);
         avlTree = insertPostsAVL(posts);
         trieTree = insertUsersTrie(users);
         rTree = insertPostsRTree(posts);
-
         long endTime = System.nanoTime();
         int elements = users.length + posts.length;
         long time = (endTime - startTime);
@@ -658,7 +717,7 @@ public class Menu {
         for (User user : users) {
             trie.insert(user.username);
         }
-        return null;
+        return trie;
     }
 
     private RTree insertPostsRTree(Post[] posts) {

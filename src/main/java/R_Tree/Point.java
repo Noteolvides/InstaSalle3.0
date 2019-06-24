@@ -3,7 +3,7 @@ package R_Tree;
 public class Point {
     int x;
     int y;
-    Object data;
+    private Object data;
     boolean dontShow;
 
     public Point(int x,int y){
@@ -33,5 +33,9 @@ public class Point {
         double distancia1 = calculateDistanceFrom(new Point(RTree.WIDTH_SCREEN,RTree.HEIGHT_SCREEN));
         double distancia2 = point.calculateDistanceFrom(new Point(RTree.WIDTH_SCREEN,RTree.HEIGHT_SCREEN));
         return distancia1 < distancia2;
+    }
+
+    public Object getData() {
+        return data;
     }
 }
