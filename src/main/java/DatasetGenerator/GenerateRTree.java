@@ -2,6 +2,8 @@ package DatasetGenerator;
 
 import Data.Post;
 
+import R_Tree.Point;
+import R_Tree.RTree;
 import com.google.gson.Gson;
 
 import java.io.FileWriter;
@@ -17,7 +19,7 @@ public class GenerateRTree {
         System.out.println("Number of users: ");
         int numUsers = sc.nextInt();
 
-        //Tree rTree = new Tree();
+        RTree rTree = new RTree();
         Random rdm = new Random();
 
         for (int i = 0; i < numPosts; i++) {
@@ -35,14 +37,14 @@ public class GenerateRTree {
                 hashtags[j] = Utils.createName();
             }
             Post post = new Post(i, likedBy, rdm.nextLong(), Utils.createName(), (Double[]) location, hashtags);
-            //rTree.insertion(post);
-        }
+            Random rd = new Random();
+            rTree.insert(new Point(rd.nextInt(RTree.WIDTH_SCREEN), rd.nextInt(RTree.HEIGHT_SCREEN)));        }
 
         Gson gson = new Gson();
         String jsonString;
-        //jsonString = gson.toJson(rTree);
+        jsonString = gson.toJson(rTree);
         FileWriter fw = new FileWriter("datasets/generated/datasetRTree" + numPosts + ".json");
-        //fw.write(jsonString);
+        fw.write(jsonString);
         fw.close();
     }
 }
