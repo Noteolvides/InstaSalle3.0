@@ -373,7 +373,7 @@ public class Menu {
                     System.out.println("Opcio incorrecta!");
                 break;
             }
-        }while(option > 3);
+        }while(option > 2);
     }
 
     private void insertEstructures() {
