@@ -17,9 +17,6 @@ public class Post {
     public String[] hashtags;
 
     public Post() {
-        location = new Double[2];
-        location[0] = Double.MAX_VALUE;
-        location[1] = Double.MAX_VALUE;
     }
 
     public Post(int id, String[] likedBy, long publishedWhen, String publishedBy, Double[] location, String[] hashtags) {
