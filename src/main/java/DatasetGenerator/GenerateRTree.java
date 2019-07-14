@@ -36,9 +36,15 @@ public class GenerateRTree {
             for (int j = 0; j < arraysize; j++){
                 hashtags[j] = Utils.createName();
             }
+            int x = rdm.nextInt(RTree.WIDTH_SCREEN);
+            int y = rdm.nextInt(RTree.HEIGHT_SCREEN);
             Post post = new Post(i, likedBy, rdm.nextLong(), Utils.createName(), (Double[]) location, hashtags);
-            Random rd = new Random();
-            rTree.insert(new Point(rd.nextInt(RTree.WIDTH_SCREEN), rd.nextInt(RTree.HEIGHT_SCREEN)));        }
+            Point p = new Point(x,y,post);
+            try {
+                rTree.insert(p);
+            } catch (Exception e) {
+            }
+        }
 
         Gson gson = new Gson();
         String jsonString;
